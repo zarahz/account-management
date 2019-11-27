@@ -22,7 +22,7 @@ const isLocalhost = Boolean(
     )
 );
 
-export function register(config) {
+export function register (config) {
   if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
@@ -56,7 +56,7 @@ export function register(config) {
   }
 }
 
-function registerValidSW(swUrl, config) {
+function registerValidSW (swUrl, config) {
   navigator.serviceWorker
     .register(swUrl)
     .then(registration => {
@@ -100,8 +100,9 @@ function registerValidSW(swUrl, config) {
     });
 }
 
-function checkValidServiceWorker(swUrl, config) {
+function checkValidServiceWorker (swUrl, config) {
   // Check if the service worker can be found. If it can't reload the page.
+  // eslint-disable-next-line no-undef
   fetch(swUrl)
     .then(response => {
       // Ensure service worker exists, and that we really are getting a JS file.
@@ -128,7 +129,7 @@ function checkValidServiceWorker(swUrl, config) {
     });
 }
 
-export function unregister() {
+export function unregister () {
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.ready.then(registration => {
       registration.unregister();
