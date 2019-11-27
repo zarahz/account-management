@@ -16,6 +16,12 @@ You will also see any lint errors in the console.
 Starts the flow server and tests the application for flow errors.<br />
 If there are errors, they are displayed in the console.
 
+### `npm run lint`
+Starts the ESLint service, which runs through all files and alerts you to errors.
+
+### `npm run lint -- --fix`
+Fixes all lint bugs that can be fixed automatically
+
 ### `npm test`
 
 Launches the test runner in the interactive watch mode.<br />
