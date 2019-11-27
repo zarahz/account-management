@@ -1,0 +1,49 @@
+[ignore]
+; Ignore "BUCK" generated dirs
+<PROJECT_ROOT>/\.buckd/
+
+; Ignore unexpected extra "@providesModule"
+.*/node_modules/.*/node_modules/fbjs/.*
+
+; Ignore generated folders
+.*/node_modules/.*
+.*/android/.*
+.*/ios/.*
+
+; Ignore duplicate module providers
+; For RN Apps installed via npm, "Libraries" folder is inside
+; "node_modules/react-native" but in the source repo it is in the root
+.*/Libraries/react-native/React.js
+.*/Libraries/react-native/ReactNative.js
+
+[include]
+
+[libs]
+flow/
+./libdefs.js
+
+[options]
+module.system=haste
+
+experimental.strict_type_args=true
+
+munge_underscores=true
+
+module.name_mapper.extension='jpg'->'<PROJECT_ROOT>/stubs/JpgSourceStub.js.flow'
+module.name_mapper.extension='png'->'<PROJECT_ROOT>/stubs/PngSourceStub.js.flow'
+module.name_mapper.extension='json'->'<PROJECT_ROOT>/stubs/JsonSourceStub.js.flow'
+module.name_mapper.extension='svg'->'<PROJECT_ROOT>/stubs/SvgSourceStub.js.flow'
+
+module.file_ext=.js
+module.file_ext=.android.js
+module.file_ext=.ios.js
+
+suppress_type=$FlowIssue
+suppress_type=$FlowFixMe
+suppress_type=$FixMe
+
+unsafe.enable_getters_and_setters=true
+
+[version]
+0.49.1
+
