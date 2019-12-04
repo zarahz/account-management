@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from '../components/App';
+import App from '../App';
 
 // eslint-disable-next-line no-undef
 it('renders without crashing', () => {
