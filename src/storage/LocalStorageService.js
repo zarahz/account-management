@@ -31,7 +31,7 @@ class LocalStorageService {
         // eslint-disable-next-line no-undef
         localStorage.setItem('state', serializedState);
       } catch (e) {
-        // todo
+        console.log(e);
       }
     }
 }
