@@ -9,7 +9,7 @@ export const unsetLoading = () => ({
   type: types.UNSET_LOADING
 });
 
-export type GlobalUiActionsType = {
+export type globalUiActionsType = {
     setLoading: () => mixed,
     unsetLoading: () => mixed
 };
