@@ -9,7 +9,7 @@ import styles from './assets/stylesheets/styles';
 
 // material ui components
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@material-ui/core/Typography'; 
 
 // redux
 import { connect } from 'react-redux';
@@ -25,6 +25,11 @@ import type { I18nModel } from './models/I18nModel';
 
 // languages
 import I18nMap from './maps/I18nMap';
+
+// components 
+import { Startscreen } from './components/Startscreen';
+// import { Login } from './components/Login';
+
 
 class App extends Component {
     props: {
@@ -69,15 +74,16 @@ class App extends Component {
     render () {
       return (
         <div className="App">
-          <header className="App-header">
+          {/* <header className="App-header">
             <img src={logo} className="App-logo" alt="logo" />
             <p>
               {this.props.i18n.t.ui.TEST_STRING}
             </p>
-          </header>
+          </header> */}
           {
-            this.renderLoadingOverlay()
+            // this.renderLoadingOverlay()
           }
+          <Startscreen />
         </div>
       );
     }
