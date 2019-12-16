@@ -8,6 +8,10 @@ import { withStyles } from '@material-ui/core/styles';
 import styles from './assets/stylesheets/styles';
 
 // material ui components
+import Snackbar from '@material-ui/core/Snackbar';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
+import IconButton from '@material-ui/core/IconButton';
+// import CloseIcon from '@material-ui/icons/Close';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography'; 
 
@@ -16,12 +20,15 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as globalUiActions from './actions/globalUi';
 import * as i18nActions from './actions/i18n';
+import * as snackActions from './actions/snack';
 import type { globalUiActionsType } from './actions/globalUi';
 import type { i18nActionsType } from './actions/i18n';
+import type { SnackActionType } from './actions/snack';
 
 // models
-import type { GlobalUiState } from './models/GlobalUiState';
 import type { I18nModel } from './models/I18nModel';
+import type { SnackModel } from './models/SnackModel';
+import type { GlobalUiState } from './models/GlobalUiState';
 
 // languages
 import I18nMap from './maps/I18nMap';
@@ -38,11 +45,14 @@ class App extends Component {
         i18n: { code: string, t: I18nModel },
         globalUiActions: globalUiActionsType,
         i18nActions: i18nActionsType,
+        snack: SnackModel,
+        snackActions: SnackActionType
     };
 
     componentDidMount = async () => {
       this.setLanguage();
       await this.props.globalUiActions.setLoading();
+      await this.props.snackActions.setAndShowInfo(this.props.i18n.t.ui.SNACK.LOGIN_ERROR);
     };
 
     setLanguage = () => {
@@ -72,14 +82,34 @@ class App extends Component {
     };
 
     render () {
+      const { classes } = this.props;
       return (
         <div className="App">
-          {/* <header className="App-header">
+          {/* {<header className="App-header">
             <img src={logo} className="App-logo" alt="logo" />
             <p>
               {this.props.i18n.t.ui.TEST_STRING}
             </p>
-          </header> */}
+          </header>
+          <Snackbar autoHideDuration={5000}
+            onClose={ this.props.snackActions.clearSnack }
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            open={this.props.snack.show}>
+            <SnackbarContent className={this.props.snack.type === 'error' ? classes.snackError
+              : this.props.snack.type === 'warning' ? classes.snackWarning : classes.snackInfo}
+            action={[
+              <IconButton
+                key='close'
+                aria-label='Close'
+                color='inherit'
+                onClick={this.props.snackActions.clearSnack}
+              >
+                <CloseIcon/>
+              </IconButton>
+            ]}
+            message={this.props.snack.message}
+            />
+          </Snackbar> */}
           {
             // this.renderLoadingOverlay()
           }
@@ -92,14 +122,16 @@ class App extends Component {
 const mapStateToProps = (state) => {
   return {
     globalUi: state.globalUi,
-    i18n: state.i18n
+    i18n: state.i18n,
+    snack: state.snack
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     globalUiActions: bindActionCreators(globalUiActions, dispatch),
-    i18nActions: bindActionCreators(i18nActions, dispatch)
+    i18nActions: bindActionCreators(i18nActions, dispatch),
+    snackActions: bindActionCreators(snackActions, dispatch)
   };
 };
 
