@@ -11,9 +11,9 @@ import styles from './assets/stylesheets/styles';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
+// import CloseIcon from '@material-ui/icons/Close';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@material-ui/core/Typography'; 
 
 // redux
 import { connect } from 'react-redux';
@@ -32,6 +32,11 @@ import type { GlobalUiState } from './models/GlobalUiState';
 
 // languages
 import I18nMap from './maps/I18nMap';
+
+// components 
+import { Startscreen } from './components/Startscreen';
+// import { Login } from './components/Login';
+
 
 class App extends Component {
     props: {
@@ -80,7 +85,7 @@ class App extends Component {
       const { classes } = this.props;
       return (
         <div className="App">
-          <header className="App-header">
+          {/* {<header className="App-header">
             <img src={logo} className="App-logo" alt="logo" />
             <p>
               {this.props.i18n.t.ui.TEST_STRING}
@@ -104,10 +109,11 @@ class App extends Component {
             ]}
             message={this.props.snack.message}
             />
-          </Snackbar>
+          </Snackbar> */}
           {
-            this.renderLoadingOverlay()
+            // this.renderLoadingOverlay()
           }
+          <Startscreen />
         </div>
       );
     }
