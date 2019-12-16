@@ -1,24 +1,25 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+// import Selectbox from './Selectbox'
 
 export class SignUpForm extends React.Component {
   constructor () {
     super();
 
     this.state = {
-			username: '',
-			titel: '',
-			name: '',
+      username: '',
+      titel: '',
+      name: '',
       surname: '',
       gender: '',
       email: '',
-			password: '',
-			street: '',
-			zipCode: '',
+      password: '',
+      street: '',
+      zipCode: '',
       city: '',
       country: '',
-			organisation: '',
-			fieldOfActivity: '',
+      organisation: '',
+      fieldOfActivity: '',
       researchInterest: '',
       comment: ''
     //   hasAgreed: false
@@ -124,6 +125,14 @@ export class SignUpForm extends React.Component {
               <input className="FormField__Checkbox" type="checkbox" name="hasAgreed" value={this.state.hasAgreed} onChange={this.handleChange} /> I agree all statements in <a href="" className="FormField__TermsLink">terms of service</a>
             </label>
           </div> */}
+
+          {/* <Selectbox
+            items={[
+              { value: 'option 1', id: 1 },
+              { value: 'option 2', id: 2 },
+              { value: 'option 3', id: 3 }
+            ]}
+          /> */}
 
           <p>marked fields (*) are required.</p>
           <br></br>
