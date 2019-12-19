@@ -7,7 +7,10 @@ module.exports = {
     ],
     globals: {
         Atomics: 'readonly',
-        SharedArrayBuffer: 'readonly'
+        SharedArrayBuffer: 'readonly',
+        fetch: false,
+        Headers: false,
+        FormData: false
     },
     plugins: [
         'react',
