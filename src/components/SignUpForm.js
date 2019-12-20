@@ -5,6 +5,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 
 // redux
+import * as registrationActions from '../actions/registration/index';
 import * as snackActions from '../actions/snack/index';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -14,6 +15,7 @@ import { withStyles } from '@material-ui/core';
 import styles from '../assets/stylesheets/AppStyles';
 
 // models
+import type { RegistrationActionType } from '../actions/registration';
 import type { SnackActionType } from '../actions/snack';
 import type { I18nModel } from '../models/I18nModel';
 // import Selectbox from './Selectbox'
@@ -21,33 +23,30 @@ import type { I18nModel } from '../models/I18nModel';
 export class SignUpForm extends React.Component {
   props: {
     classes: Object,
+    registrationActions: RegistrationActionType,
     snackActions: SnackActionType,
     i18n: {code: string, t: I18nModel},
-    history: any
+    history: any,
+    title: string,
+    gender: string,
+    firstName: string,
+    lastName: string,
+    userName: string,
+    email: string,
+    password: string,
+    organisation: string,
+    address: string,
+    city: string,
+    country: string,
+    zipCode: number,
+    fieldOfActivity: string,
+    researchInterest: Array<string>,
+    securityQuestion: string,
+    securityAnswer: string
   };
 
   constructor () {
     super();
-
-    this.state = {
-      username: '',
-      titel: '',
-      name: '',
-      surname: '',
-      gender: '',
-      email: '',
-      password: '',
-      street: '',
-      zipCode: '',
-      city: '',
-      country: '',
-      organisation: '',
-      fieldOfActivity: '',
-      researchInterest: '',
-      comment: ''
-    //   hasAgreed: false
-    };
-
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -76,69 +75,70 @@ export class SignUpForm extends React.Component {
           <div className="FormField">
             <label className="FormField__Label" htmlFor="username">{this.props.i18n.t.ui.USERNAME} *</label>
             <input type="text" id="username" className="FormField__Input" placeholder={this.props.i18n.t.ui.USERNAME_PLACEHOLDER}
-              name="username" value={this.state.username} onChange={this.handleChange} required/>
+              name="username" value={this.props.userName} onChange={this.handleChange} required/>
           </div>
           <div className="FormField">
             <label className="FormField__Label" htmlFor="name">{this.props.i18n.t.ui.TITLE}</label>
             <input type="text" id="titel" className="FormField__Input" placeholder={this.props.i18n.t.ui.TITLE_PLACEHOLDER}
-              name="titel" value={this.state.titel} onChange={this.handleChange} />
+              name="titel" value={this.props.title} onChange={this.handleChange} />
           </div>
+          { /* hier sollte noch ein dropDown eingefügt werden für die geschlechterauswahl */ }
           <div className="FormField">
             <label className="FormField__Label" htmlFor="name">{this.props.i18n.t.ui.FIRST_NAME} *</label>
             <input type="text" id="name" className="FormField__Input" placeholder={this.props.i18n.t.ui.FIRST_NAME_PLACEHOLDER}
-              name="name" value={this.state.name} onChange={this.handleChange} required/>
+              name="name" value={this.props.firstName} onChange={this.handleChange} required/>
           </div>
           <div className="FormField">
             <label className="FormField__Label" htmlFor="name">{this.props.i18n.t.ui.LAST_NAME} *</label>
             <input type="text" id="surname" className="FormField__Input" placeholder={this.props.i18n.t.ui.LAST_NAME_PLACEHOLDER}
-              name="surname" value={this.state.surname} onChange={this.handleChange} required/>
+              name="surname" value={this.props.lastName} onChange={this.handleChange} required/>
           </div>
 
           <div className="FormField">
             <label className="FormField__Label" htmlFor="email">{this.props.i18n.t.ui.EMAIL} *</label>
             <input type="email" id="email" className="FormField__Input" placeholder={this.props.i18n.t.ui.EMAIL_PLACEHOLDER}
-              name="email" value={this.state.email} onChange={this.handleChange} required/>
+              name="email" value={this.props.email} onChange={this.handleChange} required/>
           </div>
           <div className="FormField">
             <label className="FormField__Label" htmlFor="password">{this.props.i18n.t.ui.PASSWORD} *</label>
             <input type="password" id="password" className="FormField__Input" placeholder={this.props.i18n.t.ui.PASSWORD_PLACEHOLDER}
-              name="password" value={this.state.password} onChange={this.handleChange} required/>
+              name="password" value={this.props.password} onChange={this.handleChange} required/>
           </div>
           <div className="FormField">
             <label className="FormField__Label" htmlFor="name">{this.props.i18n.t.ui.STREET}</label>
             <input type="text" id="street" className="FormField__Input" placeholder={this.props.i18n.t.ui.STREET_PLACEHOLDER}
-              name="street" value={this.state.street} onChange={this.handleChange} />
+              name="street" value={this.props.address} onChange={this.handleChange} />
           </div>
           <div className="FormField">
             <label className="FormField__Label" htmlFor="name">{this.props.i18n.t.ui.ZIP_CODE}</label>
-            <input type="text" id="zipCode" className="FormField__Input" placeholder={this.props.i18n.t.ui.ZIP_CODE_PLACEHOLDER}
-              name="zipCode" value={this.state.zipCode} onChange={this.handleChange} />
+            <input type="number" id="zipCode" className="FormField__Input" placeholder={this.props.i18n.t.ui.ZIP_CODE_PLACEHOLDER}
+              name="zipCode" value={this.props.zipCode} onChange={this.handleChange} />
           </div>
           <div className="FormField">
             <label className="FormField__Label" htmlFor="name">{this.props.i18n.t.ui.CITY}</label>
             <input type="text" id="city" className="FormField__Input" placeholder={this.props.i18n.t.ui.CITY_PLACEHOLDER}
-              name="city" value={this.state.city} onChange={this.handleChange} />
+              name="city" value={this.props.city} onChange={this.handleChange} />
           </div>
           <div className="FormField">
             <label className="FormField__Label" htmlFor="name">{this.props.i18n.t.ui.COUNTRY}</label>
             <input type="text" id="country" className="FormField__Input" placeholder={this.props.i18n.t.ui.COUNTRY_PLACEHOLDER}
-              name="country" value={this.state.country} onChange={this.handleChange} />
+              name="country" value={this.props.country} onChange={this.handleChange} />
           </div>
           <div className="FormField">
             <label className="FormField__Label" htmlFor="name">{this.props.i18n.t.ui.ORGANISATION} *</label>
             <input type="text" id="organisation" className="FormField__Input" placeholder={this.props.i18n.t.ui.ORGANISATION_PLACEHOLDER}
-              name="organisation" value={this.state.organisation} onChange={this.handleChange} required/>
+              name="organisation" value={this.props.organisation} onChange={this.handleChange} required/>
           </div>
           <div className="FormField">
             <label className="FormField__Label" htmlFor="name">{this.props.i18n.t.ui.FIELD_OF_ACTIVITY}</label>
             <input type="text" id="fieldOfActivity" className="FormField__Input" placeholder={this.props.i18n.t.ui.FIELD_OF_ACTIVITY_PLACEHOLDER}
-              name="fieldOfActivity" value={this.state.fieldOfActivity} onChange={this.handleChange} />
+              name="fieldOfActivity" value={this.props.fieldOfActivity} onChange={this.handleChange} />
           </div>
 
           <div className="FormField">
             <label className="FormField__Label" htmlFor="name">{this.props.i18n.t.ui.RESEARCH_INTEREST} *</label>
             <input type="text" id="researchInterest" className="FormField__Input" placeholder={this.props.i18n.t.ui.RESEARCH_INTEREST_PLACEHOLDER}
-              name="researchInterest" value={this.state.researchInterest} onChange={this.handleChange} required/>
+              name="researchInterest" value={this.props.researchInterest} onChange={this.handleChange} required/>
           </div>
 
           {/* <div className="FormField">
@@ -169,6 +169,22 @@ export class SignUpForm extends React.Component {
 // maps redux store data to props
 const mapStateToProps = (state: Object) => {
   return {
+    title: state.registration.title,
+    gender: state.registration.gender,
+    firstName: state.registration.firstName,
+    lastName: state.registration.lastName,
+    userName: state.registration.userName,
+    email: state.registration.email,
+    password: state.registration.password,
+    organisation: state.registration.organisation,
+    address: state.registration.address,
+    city: state.registration.city,
+    country: state.registration.country,
+    zipCode: state.registration.zipCode,
+    fieldOfActivity: state.registration.fieldOfActivity,
+    researchInterest: state.registration.researchInterest,
+    securityQuestion: state.registration.securityQuestion,
+    securityAnswer: state.registration.securityAnswer,
     i18n: state.i18n
   };
 };
@@ -176,6 +192,7 @@ const mapStateToProps = (state: Object) => {
 // maps props to redux store
 const mapDispatchToProps = dispatch => {
   return {
+    registrationActions: bindActionCreators(registrationActions, dispatch),
     snackActions: bindActionCreators(snackActions, dispatch)
   };
 };

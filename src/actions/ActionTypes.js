@@ -20,6 +20,7 @@ export const SET_PASSWORD = 'SET_PASSWORD';
 // registration
 
 export const SET_TITLE = 'SET_TITLE';
+export const SET_GENDER = 'SET_GENDER';
 export const SET_FIRST_NAME = 'SET_FIRST_NAME';
 export const SET_LAST_NAME = 'SET_LAST_NAME';
 export const SET_EMAIL = 'SET_EMAIL';

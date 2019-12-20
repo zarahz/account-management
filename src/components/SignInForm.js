@@ -18,7 +18,7 @@ import styles from '../assets/stylesheets/AppStyles';
 import LoginService from '../services/LoginService';
 
 // models
-import type { LoginActionsType } from '../actions/login';
+import type { LoginActionType } from '../actions/login';
 import type { SnackActionType } from '../actions/snack';
 import type { I18nModel } from '../models/I18nModel';
 
@@ -27,7 +27,7 @@ export class SignInForm extends React.Component {
     classes: Object,
     username: string,
     password: string,
-    loginActions: LoginActionsType,
+    loginActions: LoginActionType,
     snackActions: SnackActionType,
     i18n: {code: string, t: I18nModel},
     history: any
