@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 
 // styles
 import { withStyles } from '@material-ui/core';
-import styles from '../assets/stylesheets/styles';
+import styles from '../assets/stylesheets/AppStyles';
 
 // services
 import LoginService from '../services/LoginService';

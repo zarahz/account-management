@@ -2,10 +2,8 @@
 import React, { Component } from 'react';
 
 // style
-import logo from './assets/icons/logo.svg';
-import './assets/stylesheets/App.css';
 import { withStyles } from '@material-ui/core/styles';
-import styles from './assets/stylesheets/styles';
+import AppStyles from './assets/stylesheets/AppStyles';
 
 // material ui components
 import Snackbar from '@material-ui/core/Snackbar';
@@ -34,8 +32,7 @@ import type { GlobalUiState } from './models/GlobalUiState';
 import I18nMap from './maps/I18nMap';
 
 // components
-import { Startscreen } from './components/Startscreen';
-// import { Login } from './components/Login';
+import StartScreen from './components/StartScreen';
 
 class App extends Component {
     props: {
@@ -82,8 +79,8 @@ class App extends Component {
     render () {
       const { classes } = this.props;
       return (
-        <div className="App">
-          <Startscreen />
+        <div className={classes.app}>
+          <StartScreen />
           <Snackbar autoHideDuration={5000}
             onClose={ this.props.snackActions.clearSnack }
             anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
@@ -106,7 +103,6 @@ class App extends Component {
           {
             // this.renderLoadingOverlay()
           }
-          <Startscreen />
         </div>
       );
     }
@@ -128,4 +124,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(App));
+export default withStyles(AppStyles)(connect(mapStateToProps, mapDispatchToProps)(App));

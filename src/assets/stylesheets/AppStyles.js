@@ -1,4 +1,7 @@
-const styles = theme => ({
+const AppStyles = theme => ({
+  app: {
+    textAlign: 'center'
+  },
   snackError: {
     backgroundColor: '#d32f2f'
   },
@@ -23,4 +26,4 @@ const styles = theme => ({
   }
 });
 
-export default styles;
+export default AppStyles;

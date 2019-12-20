@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 
 // styles
 import { withStyles } from '@material-ui/core';
-import styles from '../assets/stylesheets/styles';
+import styles from '../assets/stylesheets/AppStyles';
 
 // models
 import type { SnackActionType } from '../actions/snack';
@@ -124,25 +124,21 @@ export class SignUpForm extends React.Component {
             <input type="text" id="country" className="FormField__Input" placeholder={this.props.i18n.t.ui.COUNTRY_PLACEHOLDER}
               name="country" value={this.state.country} onChange={this.handleChange} />
           </div>
-
           <div className="FormField">
-            <label className="FormField__Label" htmlFor="name">Organisation *</label>
-            <input type="text" id="organisation" className="FormField__Input" placeholder="Enter your organisation" name="organisation" value={this.state.organisation} onChange={this.handleChange} required/>
+            <label className="FormField__Label" htmlFor="name">{this.props.i18n.t.ui.ORGANISATION} *</label>
+            <input type="text" id="organisation" className="FormField__Input" placeholder={this.props.i18n.t.ui.ORGANISATION_PLACEHOLDER}
+              name="organisation" value={this.state.organisation} onChange={this.handleChange} required/>
+          </div>
+          <div className="FormField">
+            <label className="FormField__Label" htmlFor="name">{this.props.i18n.t.ui.FIELD_OF_ACTIVITY}</label>
+            <input type="text" id="fieldOfActivity" className="FormField__Input" placeholder={this.props.i18n.t.ui.FIELD_OF_ACTIVITY_PLACEHOLDER}
+              name="fieldOfActivity" value={this.state.fieldOfActivity} onChange={this.handleChange} />
           </div>
 
           <div className="FormField">
-            <label className="FormField__Label" htmlFor="name">Field of activity</label>
-            <input type="text" id="fieldOfActivity" className="FormField__Input" placeholder="Enter your field of activity" name="fieldOfActivity" value={this.state.fieldOfActivity} onChange={this.handleChange} />
-          </div>
-
-          <div className="FormField">
-            <label className="FormField__Label" htmlFor="name">Research interest *</label>
-            <input type="text" id="researchInterest" className="FormField__Input" placeholder="Enter your research interest" name="researchInterest" value={this.state.researchInterest} onChange={this.handleChange} required/>
-          </div>
-
-          <div className="FormField">
-            <label className="FormField__Label" htmlFor="name">Comment</label>
-            <input type="text" id="comment" className="FormField__Input" placeholder="Enter a comment" name="comment" value={this.state.comment} onChange={this.handleChange} />
+            <label className="FormField__Label" htmlFor="name">{this.props.i18n.t.ui.RESEARCH_INTEREST} *</label>
+            <input type="text" id="researchInterest" className="FormField__Input" placeholder={this.props.i18n.t.ui.RESEARCH_INTEREST_PLACEHOLDER}
+              name="researchInterest" value={this.state.researchInterest} onChange={this.handleChange} required/>
           </div>
 
           {/* <div className="FormField">
@@ -159,13 +155,11 @@ export class SignUpForm extends React.Component {
             ]}
           /> */}
 
-          <p>marked fields (*) are required.</p>
+          <p>{this.props.i18n.t.ui.FIELD_DESCRIPTION}</p>
           <br/>
-
           <div className="FormField">
-            <button className="FormField__Button mr-20">Sign Up</button>
+            <button className="FormField__Button mr-20">{this.props.i18n.t.ui.REGISTER}</button>
           </div>
-
         </form>
       </div>
     );
