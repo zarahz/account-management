@@ -38,10 +38,13 @@ export class SignInForm extends React.Component {
     if (this.props.username !== '') {
       if (this.props.password !== '') {
         try {
-          const data = await loginService.login(this.props.username, this.props.password, 'www.google.com');
+          const data = await loginService.login(this.props.username, this.props.password);
           console.log(data);
-          if (data) {
+          if (!data) {
             await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.LOGIN_ERROR);
+          } else {
+            console.log('success');
+            // TODO redirect
           }
         } catch (e) {
           if (e === 401) {
