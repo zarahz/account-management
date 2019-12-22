@@ -7,9 +7,15 @@ const en: I18nModel = {
     USERNAME_PLACEHOLDER: 'Enter your username',
     PASSWORD: 'Password',
     PASSWORD_PLACEHOLDER: 'Enter your password',
+    SECURITY_QUESTION: 'Security question',
+    SECURITY_QUESTION_PLACEHOLDER: 'Select a security question',
+    SECURITY_QUESTION_ANSWER: 'Answer security question',
+    SECURITY_QUESTION_ANSWER_PLACEHOLDER: 'Answer the security question',
     LOGIN: 'Sign in',
     TITLE: 'Title',
     TITLE_PLACEHOLDER: 'Enter your title',
+    GENDER: 'Gender',
+    GENDER_PLACEHOLDER: 'Choose your gender',
     FIRST_NAME: 'First name',
     FIRST_NAME_PLACEHOLDER: 'Enter your first name',
     LAST_NAME: 'Last name',
@@ -33,10 +39,17 @@ const en: I18nModel = {
     FIELD_DESCRIPTION: 'marked fields (*) are required',
     REGISTER: 'Register',
     OR: 'or',
+    MAN: 'Man',
+    WOMEN: 'Women',
     LOADING: 'Is loading ...',
     SNACK: {
       CHECK_INPUT: 'Username and/or password must not be empty!',
-      LOGIN_ERROR: 'Your email and password combination was not correct. Please try again.'
+      LOGIN_ERROR: 'Your combination of email and password was not correct. Please try again.',
+      LOGIN_COMPLETED: 'Login successful. Welcome!',
+      DEFAULT_ERROR: 'An error has occurred. Please try again later.',
+      SERVER_ERROR: 'An unexpected server error has occurred. Please try again later.',
+      NO_USER_FOUND: 'The username could not be found.',
+      UNAUTHORIZED: 'The specified password is not correct.'
     }
   }
 };

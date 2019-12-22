@@ -19,9 +19,11 @@ import { bindActionCreators } from 'redux';
 import * as globalUiActions from './actions/globalUi';
 import * as i18nActions from './actions/i18n';
 import * as snackActions from './actions/snack';
+import * as collectionActions from './actions/collections';
 import type { globalUiActionsType } from './actions/globalUi';
 import type { i18nActionsType } from './actions/i18n';
 import type { SnackActionType } from './actions/snack';
+import type { CollectionActionType } from './actions/collections';
 
 // models
 import type { I18nModel } from './models/I18nModel';
@@ -33,8 +35,11 @@ import I18nMap from './maps/I18nMap';
 
 // components
 import StartScreen from './components/StartScreen';
+import CollectionsService from './services/CollectionsService';
 
 class App extends Component {
+    collectionService: CollectionsService = new CollectionsService();
+
     props: {
         classes: Object,
         globalUi: GlobalUiState,
@@ -42,12 +47,19 @@ class App extends Component {
         globalUiActions: globalUiActionsType,
         i18nActions: i18nActionsType,
         snack: SnackModel,
-        snackActions: SnackActionType
+        snackActions: SnackActionType,
+        collectionActions: CollectionActionType,
+        researchInterestCollection: Array<string>,
+        securityQuestionCollection: Array<string>
     };
 
     componentDidMount = async () => {
       this.setLanguage();
       await this.props.globalUiActions.setLoading();
+      const researchInterestCollection = await this.collectionService.getResearchInterests();
+      const securityQuestionCollection = await this.collectionService.getSecurityQuestions();
+      await this.props.collectionActions.setResearchInterestCollection(researchInterestCollection);
+      await this.props.collectionActions.setSecurityQuestionCollection(securityQuestionCollection);
     };
 
     setLanguage = () => {
@@ -112,7 +124,9 @@ const mapStateToProps = (state) => {
   return {
     globalUi: state.globalUi,
     i18n: state.i18n,
-    snack: state.snack
+    snack: state.snack,
+    researchInterestCollection: state.collection.researchInterestCollection,
+    securityQuestionCollection: state.collection.securityQuestionCollection
   };
 };
 
@@ -120,7 +134,8 @@ const mapDispatchToProps = dispatch => {
   return {
     globalUiActions: bindActionCreators(globalUiActions, dispatch),
     i18nActions: bindActionCreators(i18nActions, dispatch),
-    snackActions: bindActionCreators(snackActions, dispatch)
+    snackActions: bindActionCreators(snackActions, dispatch),
+    collectionActions: bindActionCreators(collectionActions, dispatch)
   };
 };
 

@@ -17,7 +17,7 @@ const registration = (state: {
   address: '',
   city: '',
   country: '',
-  zipCode: 0,
+  zipCode: undefined,
   fieldOfActivity: '',
   researchInterest: [],
   securityQuestion: '',

@@ -12,15 +12,10 @@ export default class CollectionsService {
             'Content-Type': 'application/json'
           }
         });
-        console.log(response);
+        return response.json();
       } catch (e) {
         throw new Error(500);
       }
-      if (!response.ok) {
-        console.log(response.status);
-        throw response.status;
-      }
-      return response.json();
     };
 
     getResearchInterests = async () => {
@@ -33,14 +28,9 @@ export default class CollectionsService {
             'Content-Type': 'application/json'
           }
         });
-        console.log(response);
+        return response.json();
       } catch (e) {
         throw new Error(500);
       }
-      if (!response.ok) {
-        console.log(response.status);
-        throw response.status;
-      }
-      return response.json();
     };
 };

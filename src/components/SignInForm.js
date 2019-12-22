@@ -39,19 +39,17 @@ export class SignInForm extends React.Component {
       if (this.props.password !== '') {
         try {
           const data = await loginService.login(this.props.username, this.props.password);
-          console.log(data);
-          if (!data) {
-            await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.LOGIN_ERROR);
+          if (data.error === 'no user found') {
+            await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.NO_USER_FOUND);
+          } else if (data.error === 'Unauthorized!') {
+            await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.UNAUTHORIZED);
           } else {
-            console.log('success');
+            await this.props.snackActions.setAndShowInfo(this.props.i18n.t.ui.SNACK.LOGIN_COMPLETED);
+            this.props.history.push('/sign-up');
             // TODO redirect
           }
         } catch (e) {
-          if (e === 401) {
-            await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.LOGIN_ERROR);
-          } else {
-            await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.LOGIN_ERROR);
-          }
+          await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.SERVER_ERROR);
         }
       } else {
         await this.props.snackActions.setAndShowWarning(this.props.i18n.t.ui.SNACK.CHECK_INPUT);
