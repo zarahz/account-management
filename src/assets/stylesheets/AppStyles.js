@@ -9,7 +9,7 @@ const AppStyles = theme => ({
     backgroundColor: '#ffa000'
   },
   snackInfo: {
-    backgroundColor: '#3f51b5'
+    backgroundColor: '#52e322'
   },
   loadingContainer: {
     display: 'flex',

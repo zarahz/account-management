@@ -2,7 +2,7 @@
 import * as types from '../actions/ActionTypes';
 
 const registration = (state: {
-   title: string, gender: string, firstName: string, lastName: string, userName: string, email: string, password: string,
+   title: string, gender: string, firstName: string, lastName: string, username: string, email: string, password: string,
     organisation: string, address: string, city: string, country: string, zipCode: number, fieldOfActivity: string,
     researchInterest: Array<string>, securityQuestion: string, securityAnswer: string
 } = {
@@ -10,7 +10,7 @@ const registration = (state: {
   gender: '',
   firstName: '',
   lastName: '',
-  userName: '',
+  username: '',
   email: '',
   password: '',
   organisation: '',
@@ -23,11 +23,11 @@ const registration = (state: {
   securityQuestion: '',
   securityAnswer: ''
 }, action: {
-    type: string, title: string, gender: string, firstName: string, lastName: string, userName: string, email: string, password: string,
+    type: string, title: string, gender: string, firstName: string, lastName: string, username: string, email: string, password: string,
     organisation: string, address: string, city: string, country: string, zipCode: number, fieldOfActivity: string,
     researchInterest: Array<string>, securityQuestion: string, securityAnswer: string
 }): {
-    title: string, gender: string, firstName: string, lastName: string, userName: string, email: string, password: string,
+    title: string, gender: string, firstName: string, lastName: string, username: string, email: string, password: string,
     organisation: string, address: string, city: string, country: string, zipCode: number, fieldOfActivity: string,
     researchInterest: Array<string>, securityQuestion: string, securityAnswer: string
 } => {
@@ -46,7 +46,7 @@ const registration = (state: {
       newState.lastName = action.lastName;
       return newState;
     case types.SET_USER_NAME:
-      newState.userName = action.userName;
+      newState.username = action.username;
       return newState;
     case types.SET_EMAIL:
       newState.email = action.email;
