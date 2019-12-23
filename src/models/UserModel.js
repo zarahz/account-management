@@ -14,11 +14,11 @@ export type UserModel = {
     address?: string,
     city?: string,
     country?: string,
-    zipCode?: string,
+    zipCode?: number,
     fieldOfActivity: string,
     researchInterest: Array<string>,
     role?: string,
     securityQuestion: string,
     securityAnswer: string,
-    eventbasedRole?: Array
+    eventbasedRole?: Array<Object>
 }

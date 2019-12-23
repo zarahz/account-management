@@ -164,7 +164,7 @@ export class SignUpForm extends React.Component {
     }
   };
 
-  setResearchInterest = async (interests: Array) => {
+  setResearchInterest = async (interests: Array<Object>) => {
     const researchInterests = [];
     for (let a = 0; a < interests.length; a++) {
       researchInterests.push(interests[a].name);
