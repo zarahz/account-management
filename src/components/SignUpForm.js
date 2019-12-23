@@ -70,7 +70,7 @@ export class SignUpForm extends React.Component {
       await this.props.collectionActions.setResearchInterestCollection(researchInterest);
     }
     if (this.props.securityQuestionCollection.length === 0) {
-      const securityQuestions = await this.collectionService.getSecurityQuestions();
+      const securityQuestions = await this.collectionService.getSecurityQuestions(this.props.i18n.code);
       await this.props.collectionActions.setSecurityQuestionCollection(securityQuestions);
     }
     for (let a = 0; a < this.props.researchInterestCollection.length; a++) {
