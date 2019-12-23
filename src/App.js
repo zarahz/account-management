@@ -2,10 +2,8 @@
 import React, { Component } from 'react';
 
 // style
-import logo from './assets/icons/logo.svg';
-import './assets/stylesheets/App.css';
 import { withStyles } from '@material-ui/core/styles';
-import styles from './assets/stylesheets/styles';
+import AppStyles from './assets/stylesheets/AppStyles';
 
 // material ui components
 import Snackbar from '@material-ui/core/Snackbar';
@@ -21,9 +19,11 @@ import { bindActionCreators } from 'redux';
 import * as globalUiActions from './actions/globalUi';
 import * as i18nActions from './actions/i18n';
 import * as snackActions from './actions/snack';
+import * as collectionActions from './actions/collections';
 import type { globalUiActionsType } from './actions/globalUi';
 import type { i18nActionsType } from './actions/i18n';
 import type { SnackActionType } from './actions/snack';
+import type { CollectionActionType } from './actions/collections';
 
 // models
 import type { I18nModel } from './models/I18nModel';
@@ -34,10 +34,12 @@ import type { GlobalUiState } from './models/GlobalUiState';
 import I18nMap from './maps/I18nMap';
 
 // components
-import { Startscreen } from './components/Startscreen';
-// import { Login } from './components/Login';
+import StartScreen from './components/StartScreen';
+import CollectionsService from './services/CollectionsService';
 
 class App extends Component {
+    collectionService: CollectionsService = new CollectionsService();
+
     props: {
         classes: Object,
         globalUi: GlobalUiState,
@@ -45,12 +47,19 @@ class App extends Component {
         globalUiActions: globalUiActionsType,
         i18nActions: i18nActionsType,
         snack: SnackModel,
-        snackActions: SnackActionType
+        snackActions: SnackActionType,
+        collectionActions: CollectionActionType,
+        researchInterestCollection: Array<string>,
+        securityQuestionCollection: Array<string>
     };
 
     componentDidMount = async () => {
       this.setLanguage();
       await this.props.globalUiActions.setLoading();
+      const researchInterestCollection = await this.collectionService.getResearchInterests();
+      const securityQuestionCollection = await this.collectionService.getSecurityQuestions();
+      await this.props.collectionActions.setResearchInterestCollection(researchInterestCollection);
+      await this.props.collectionActions.setSecurityQuestionCollection(securityQuestionCollection);
     };
 
     setLanguage = () => {
@@ -82,8 +91,8 @@ class App extends Component {
     render () {
       const { classes } = this.props;
       return (
-        <div className="App">
-          <Startscreen />
+        <div className={classes.app}>
+          <StartScreen />
           <Snackbar autoHideDuration={5000}
             onClose={ this.props.snackActions.clearSnack }
             anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
@@ -106,7 +115,6 @@ class App extends Component {
           {
             // this.renderLoadingOverlay()
           }
-          <Startscreen />
         </div>
       );
     }
@@ -116,7 +124,9 @@ const mapStateToProps = (state) => {
   return {
     globalUi: state.globalUi,
     i18n: state.i18n,
-    snack: state.snack
+    snack: state.snack,
+    researchInterestCollection: state.collection.researchInterestCollection,
+    securityQuestionCollection: state.collection.securityQuestionCollection
   };
 };
 
@@ -124,8 +134,9 @@ const mapDispatchToProps = dispatch => {
   return {
     globalUiActions: bindActionCreators(globalUiActions, dispatch),
     i18nActions: bindActionCreators(i18nActions, dispatch),
-    snackActions: bindActionCreators(snackActions, dispatch)
+    snackActions: bindActionCreators(snackActions, dispatch),
+    collectionActions: bindActionCreators(collectionActions, dispatch)
   };
 };
 
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(App));
+export default withStyles(AppStyles)(connect(mapStateToProps, mapDispatchToProps)(App));

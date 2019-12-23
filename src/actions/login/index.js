@@ -11,7 +11,7 @@ export const setPassword = (password: string) => ({
   password: password
 });
 
-export type LoginActionsType = {
+export type LoginActionType = {
     setUserName: (username: string) => mixed,
     setPassword: (password: string) => mixed
 };

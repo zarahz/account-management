@@ -12,13 +12,13 @@ import { connect } from 'react-redux';
 
 // styles
 import { withStyles } from '@material-ui/core';
-import styles from '../assets/stylesheets/styles';
+import styles from '../assets/stylesheets/AppStyles';
 
 // services
 import LoginService from '../services/LoginService';
 
 // models
-import type { LoginActionsType } from '../actions/login';
+import type { LoginActionType } from '../actions/login';
 import type { SnackActionType } from '../actions/snack';
 import type { I18nModel } from '../models/I18nModel';
 
@@ -27,7 +27,7 @@ export class SignInForm extends React.Component {
     classes: Object,
     username: string,
     password: string,
-    loginActions: LoginActionsType,
+    loginActions: LoginActionType,
     snackActions: SnackActionType,
     i18n: {code: string, t: I18nModel},
     history: any
@@ -39,19 +39,17 @@ export class SignInForm extends React.Component {
       if (this.props.password !== '') {
         try {
           const data = await loginService.login(this.props.username, this.props.password);
-          console.log(data);
-          if (!data) {
-            await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.LOGIN_ERROR);
+          if (data.error === 'no user found') {
+            await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.NO_USER_FOUND);
+          } else if (data.error === 'Unauthorized!') {
+            await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.UNAUTHORIZED);
           } else {
-            console.log('success');
+            await this.props.snackActions.setAndShowInfo(this.props.i18n.t.ui.SNACK.LOGIN_COMPLETED);
+            this.props.history.push('/sign-up');
             // TODO redirect
           }
         } catch (e) {
-          if (e === 401) {
-            await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.LOGIN_ERROR);
-          } else {
-            await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.LOGIN_ERROR);
-          }
+          await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.SERVER_ERROR);
         }
       } else {
         await this.props.snackActions.setAndShowWarning(this.props.i18n.t.ui.SNACK.CHECK_INPUT);
