@@ -6,6 +6,7 @@ import globalUi from './globalUi';
 import login from './login';
 import registration from './registration';
 import snack from './snack';
+import user from './user';
 
 export default combineReducers({
   collection,
@@ -13,5 +14,6 @@ export default combineReducers({
   i18n,
   login,
   registration,
-  snack
+  snack,
+  user
 });

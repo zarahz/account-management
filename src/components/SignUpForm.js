@@ -5,9 +5,11 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 
 // redux
+import * as globalUiActions from '../actions/globalUi';
 import * as registrationActions from '../actions/registration/index';
 import * as snackActions from '../actions/snack/index';
 import * as collectionActions from '../actions/collections';
+import * as userActions from '../actions/user';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
@@ -20,6 +22,8 @@ import type { RegistrationActionType } from '../actions/registration';
 import type { SnackActionType } from '../actions/snack';
 import type { CollectionActionType } from '../actions/collections';
 import type { I18nModel } from '../models/I18nModel';
+import type { globalUiActionsType } from '../actions/globalUi';
+import type { UserActionsType } from '../actions/user';
 
 // services
 import CollectionsService from '../services/CollectionsService';
@@ -57,11 +61,14 @@ export class SignUpForm extends React.Component {
     securityQuestion: string,
     securityAnswer: string,
     researchInterestCollection: Array<string>,
-    securityQuestionCollection: Array<string>
+    securityQuestionCollection: Array<string>,
+    globalUiActions: globalUiActionsType,
+    userActions: UserActionsType,
   };
 
   componentDidMount = async () => {
     await this.loadAndManipulateCollections();
+    await this.props.globalUiActions.setLoginOrRegister();
   };
 
   loadAndManipulateCollections = async () => {
@@ -108,6 +115,7 @@ export class SignUpForm extends React.Component {
       } else if (data.error === 'this email is already used') {
         await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.SERVER_ERROR);
       } else {
+        await this.props.userActions.setActiveUser(data);
         await this.props.snackActions.setAndShowInfo(this.props.i18n.t.ui.SNACK.SERVER_ERROR);
         this.props.history.push('/');
       }
@@ -306,9 +314,11 @@ const mapStateToProps = (state: Object) => {
 // maps props to redux store
 const mapDispatchToProps = dispatch => {
   return {
+    globalUiActions: bindActionCreators(globalUiActions, dispatch),
     registrationActions: bindActionCreators(registrationActions, dispatch),
     snackActions: bindActionCreators(snackActions, dispatch),
-    collectionActions: bindActionCreators(collectionActions, dispatch)
+    collectionActions: bindActionCreators(collectionActions, dispatch),
+    userActions: bindActionCreators(userActions, dispatch)
   };
 };
 

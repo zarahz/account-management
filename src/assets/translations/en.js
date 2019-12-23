@@ -42,6 +42,11 @@ const en: I18nModel = {
     MAN: 'Man',
     WOMEN: 'Women',
     LOADING: 'Is loading ...',
+    NEXT: 'Next',
+    TO_LOGIN: 'To login',
+    FORGOT_PASSWORD: 'Password forgotten?',
+    PASSWORD_RESET_DES: 'Please enter the email address associated with your account. We will forward it to you so that' +
+        ' you can set a new password using your chosen security question.',
     SNACK: {
       CHECK_INPUT: 'Username and/or password must not be empty!',
       LOGIN_ERROR: 'Your combination of email and password was not correct. Please try again.',

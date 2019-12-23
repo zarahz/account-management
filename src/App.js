@@ -88,30 +88,38 @@ class App extends Component {
       }
     };
 
+    renderSnackBar = () => {
+      const { classes } = this.props;
+      return (
+        <Snackbar autoHideDuration={5000}
+          onClose={ this.props.snackActions.clearSnack }
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+          open={this.props.snack.show}>
+          <SnackbarContent className={this.props.snack.type === 'error' ? classes.snackError
+            : this.props.snack.type === 'warning' ? classes.snackWarning : classes.snackInfo}
+          action={[
+            <IconButton
+              key='close'
+              aria-label='Close'
+              color='inherit'
+              onClick={this.props.snackActions.clearSnack}>
+              <CloseIcon/>
+            </IconButton>
+          ]}
+          message={this.props.snack.message}
+          />
+        </Snackbar>
+      );
+    };
+
     render () {
       const { classes } = this.props;
       return (
         <div className={classes.app}>
           <StartScreen />
-          <Snackbar autoHideDuration={5000}
-            onClose={ this.props.snackActions.clearSnack }
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-            open={this.props.snack.show}>
-            <SnackbarContent className={this.props.snack.type === 'error' ? classes.snackError
-              : this.props.snack.type === 'warning' ? classes.snackWarning : classes.snackInfo}
-            action={[
-              <IconButton
-                key='close'
-                aria-label='Close'
-                color='inherit'
-                onClick={this.props.snackActions.clearSnack}
-              >
-                <CloseIcon/>
-              </IconButton>
-            ]}
-            message={this.props.snack.message}
-            />
-          </Snackbar>
+          {
+            this.renderSnackBar()
+          }
           {
             // this.renderLoadingOverlay()
           }
