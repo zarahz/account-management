@@ -47,6 +47,13 @@ const de: I18nModel = {
     FORGOT_PASSWORD: 'Password vergessen?',
     PASSWORD_RESET_DES: 'Bitte geben Sie die E-Mail-Adresse zu ihrem Account an. Wir leiten sie sie weiter, damit sie ' +
         'mithilfe ihrere gewählten Sicherheitsfrage ein neues Passwort festlegen können.',
+    SECURITY_QUESTION_Headline: 'Bitte beantworten Sie ihre Sicherheitsfrage',
+    SECURITY_QUESTION_DES: 'Diese Frage hilft uns dabei, ihre Identität zu verifizieren.',
+    NEW_PASSWORD_DES: 'Bitte wählen Sie ein neues Passwort',
+    NEW_PASSWORD: 'Neues Passwort',
+    NEW_PASSWORD_PLACEHOLDER: 'Geben sie ihr neues Passwort ein',
+    CHECK_PASSWORD: 'Neues Passwort bestätigen',
+    SAVE: 'Speichern',
     SNACK: {
       CHECK_INPUT: 'Username und/oder Passwort darf nicht leer sein!',
       LOGIN_ERROR: 'Deine Kombination aus E-Mail und Passwort war leider nicht korrekt. Bitte versuche es erneut.',
@@ -54,7 +61,11 @@ const de: I18nModel = {
       DEFAULT_ERROR: 'Es ist ein Fehler aufgetreten. Bitte versuche es später noch einmal.',
       SERVER_ERROR: 'Es ist ein unerwarteter Serverfehler aufgetreten. Bitte versuche es später noch einmal.',
       NO_USER_FOUND: 'Der Username konnte nicht gefunden werden.',
-      UNAUTHORIZED: 'Das angegebene Passwort ist nicht korrekt.'
+      UNAUTHORIZED: 'Das angegebene Passwort ist nicht korrekt.',
+      CHECK_EMAIL_INPUT: 'E-mail-Adresse darf nicht leer sein!',
+      WRONG_SECURITY_ANSWER: 'Die angegeben Antwort ist leider falsch!',
+      CHECK_INPUT_PASSWORD1: 'Es müssen alle Felder ausgefüllt sein',
+      CHECK_INPUT_PASSWORD2: '"Neues Password" und "Neues Passwort bestätigen stimmen nicht überein"'
     }
   }
 };

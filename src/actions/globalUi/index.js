@@ -17,9 +17,15 @@ export const unsetLoginOrRegister = () => ({
   type: types.UNSET_LOGIN_OR_REGISTER
 });
 
+export const setPasswordForgottenType = (pageType: string) => ({
+  type: types.SET_PASSWORD_FORGOTTEN_TYPE,
+  pageType: pageType
+});
+
 export type globalUiActionsType = {
     setLoading: () => mixed,
     unsetLoading: () => mixed,
     setLoginOrRegister: () => mixed,
-    unsetLoginOrRegister: () => mixed
+    unsetLoginOrRegister: () => mixed,
+    setPasswordForgottenType: (pageType: string) => mixed
 };

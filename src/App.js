@@ -28,7 +28,6 @@ import type { CollectionActionType } from './actions/collections';
 // models
 import type { I18nModel } from './models/I18nModel';
 import type { SnackModel } from './models/SnackModel';
-import type { GlobalUiState } from './models/GlobalUiState';
 
 // languages
 import I18nMap from './maps/I18nMap';
@@ -42,7 +41,7 @@ class App extends Component {
 
     props: {
         classes: Object,
-        globalUi: GlobalUiState,
+        isLoading: boolean,
         i18n: { code: string, t: I18nModel },
         globalUiActions: globalUiActionsType,
         i18nActions: i18nActionsType,
@@ -130,7 +129,7 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    globalUi: state.globalUi,
+    isLoading: state.globalUi.isLoading,
     i18n: state.i18n,
     snack: state.snack,
     researchInterestCollection: state.collection.researchInterestCollection,

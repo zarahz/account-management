@@ -11,7 +11,24 @@ export default class UserService {
       // TODO check how query to do
     };
 
-    checkSecurityAnswer = async (userId: string, answer: string) => {
+    getSecurityQuestion = async (email: string) => {
+      const url = ServiceConstants.API_URL + 'getSecurityQuestion';
+      let response = {};
+      try {
+        response = await fetch(url, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email })
+        });
+        return response.json();
+      } catch (e) {
+        throw new Error(500);
+      }
+    };
+
+    checkSecurityAnswer = async (id: string, securityAnswer: string) => {
       const url = ServiceConstants.API_URL + 'checkSecurityAnswer';
       let response = {};
       try {
@@ -20,7 +37,7 @@ export default class UserService {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ userId, answer })
+          body: JSON.stringify({ id, securityAnswer })
         });
         return response.json();
       } catch (e) {
