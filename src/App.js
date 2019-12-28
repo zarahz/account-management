@@ -54,9 +54,8 @@ class App extends Component {
 
     componentDidMount = async () => {
       this.setLanguage();
-      await this.props.globalUiActions.setLoading();
       const researchInterestCollection = await this.collectionService.getResearchInterests();
-      const securityQuestionCollection = await this.collectionService.getSecurityQuestions();
+      const securityQuestionCollection = await this.collectionService.getSecurityQuestions(this.props.i18n.code);
       await this.props.collectionActions.setResearchInterestCollection(researchInterestCollection);
       await this.props.collectionActions.setSecurityQuestionCollection(securityQuestionCollection);
     };

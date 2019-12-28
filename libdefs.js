@@ -1,6 +1,9 @@
 declare module 'react' {
     declare var exports: any;
 }
+declare module '@material-ui/core' {
+    declare var exports: any;
+}
 declare module '@material-ui/core/CircularProgress' {
     declare var exports: any;
 }
@@ -32,5 +35,13 @@ declare module 'react-redux' {
     declare var exports: any;
 }
 declare module 'redux-thunk' {
+    declare var exports: any;
+}
+
+declare module 'react-dropdown-select' {
+    declare var exports: any;
+}
+
+declare module 'react-router-dom' {
     declare var exports: any;
 }

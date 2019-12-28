@@ -45,8 +45,8 @@ export default class UserService {
       }
     };
 
-    updateUserData = async (updatedUser: UserModel) => {
-      const url = ServiceConstants.API_URL + 'updateUser/' + updatedUser.id;
+    updateUserData = async (userId: string, updatedUser: UserModel) => {
+      const url = ServiceConstants.API_URL + 'updateUser/' + userId;
       let response = {};
       try {
         response = await fetch(url, {
