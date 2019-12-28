@@ -72,7 +72,7 @@ class App extends Component {
 
     renderLoadingOverlay = () => {
       const { classes } = this.props;
-      if (this.props.globalUi.isLoading) {
+      if (this.props.isLoading) {
         return (
           <div className={classes.loadingContainer}>
             <CircularProgress style={{ color: '#ffffff', marginBottom: 15 }}/>

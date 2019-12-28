@@ -89,7 +89,7 @@ export class ResetPasswordForm extends React.Component {
       if (this.props.newPassword !== '' && this.props.checkPassword !== '') {
         if (this.props.newPassword === this.props.checkPassword) {
           try {
-            const status: Object = await this.userService.updatePassword(this.props.newPassword, this.props.userPwResetData.id);
+            const status = await this.userService.updatePassword(this.props.newPassword, this.props.userPwResetData.id);
             if (status.error === 'no user found') {
               await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.NO_USER_FOUND);
             } else if (status.error === 'password update failed' || status.error === 'password encryption failed') {
