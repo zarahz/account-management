@@ -2,7 +2,7 @@
 import ServiceConstants from '../constants/ServiceConstants';
 
 export default class CollectionsService {
-    getSecurityQuestions = async () => {
+    getSecurityQuestions = async (languageCode: string) => {
       const url = new URL(ServiceConstants.API_URL + 'securityQuestions');
       let response = {};
       try {
@@ -10,7 +10,8 @@ export default class CollectionsService {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json'
-          }
+          },
+          body: JSON.stringify({ languageCode })
         });
         return response.json();
       } catch (e) {

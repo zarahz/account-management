@@ -78,8 +78,8 @@ export class SignInForm extends React.Component {
     await this.props.loginActions.setPassword(event.target.value);
   };
 
-  handleSubmit = async (e) => {
-    e.preventDefault();
+  handleSubmit = async (event: Object) => {
+    event.preventDefault();
     await this.login();
   };
 
