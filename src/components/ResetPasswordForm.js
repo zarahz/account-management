@@ -51,12 +51,11 @@ export class ResetPasswordForm extends React.Component {
     getSecQuestion = async () => {
       if (this.props.email !== '') {
         try {
-          // const userData: Object = await this.userService.getSecurityQuestion(this.props.email);
-          const userData = { id: 'abc123abc123abc123abc123', securityQuestion: 'Welche Grundschule haben sie besucht' };
-          if (userData.error === 'no user found') {
+          const userData: Object = await this.userService.getSecurityQuestion(this.props.email);
+          if (userData.error === 'user not found') {
             await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.NO_USER_FOUND);
           } else {
-            await this.props.userActions.setPasswordResetObject(userData);
+            await this.props.userActions.setPasswordResetObject({ id: userData.userData.id, securityQuestion: userData.userData.securityQuestion });
             await this.props.globalUiActions.setPasswordForgottenType('checkSecAnswer');
           }
         } catch (e) {
@@ -70,8 +69,7 @@ export class ResetPasswordForm extends React.Component {
     checkSecurityAnswer = async () => {
       if (this.props.securityAnswer !== '') {
         try {
-          // const status = await this.userService.checkSecurityAnswer(this.props.userPwResetData.id, this.props.securityAnswer);
-          const status = 200;
+          const status = await this.userService.checkSecurityAnswer(this.props.userPwResetData.id, this.props.securityAnswer);
           if (status.error === 'user not found') {
             await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.NO_USER_FOUND);
           } else if (status.error === 'wrong security answer') {
@@ -91,7 +89,7 @@ export class ResetPasswordForm extends React.Component {
       if (this.props.newPassword !== '' && this.props.checkPassword !== '') {
         if (this.props.newPassword === this.props.checkPassword) {
           try {
-            const status: Object = await this.userService.updatePw(this.props.newPassword, this.props.userPwResetData.id);
+            const status: Object = await this.userService.updatePassword(this.props.newPassword, this.props.userPwResetData.id);
             if (status.error === 'no user found') {
               await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.NO_USER_FOUND);
             } else if (status.error === 'password update failed' || status.error === 'password encryption failed') {
@@ -274,7 +272,7 @@ export class ResetPasswordForm extends React.Component {
 const mapStateToProps = (state: Object) => {
   return {
     globalUi: state.globalUi,
-    email: state.passwordReset.email,
+    email: state.passwordReset.resetEmail,
     securityAnswer: state.passwordReset.answer,
     i18n: state.i18n,
     userPwResetData: state.passwordReset.passwordResetData,

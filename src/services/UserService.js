@@ -11,18 +11,38 @@ export default class UserService {
       // TODO check how query to do
     };
 
+  getSecurityQuestion = async (email: string) => {
+    const url = ServiceConstants.API_URL + 'getSecurityQuestion';
+    let response = {};
+    try {
+      response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email })
+      });
+      return response.json();
+    } catch (e) {
+      throw new Error(500);
+    }
+  };
+
     checkSecurityAnswer = async (id: string, securityAnswer: string) => {
       const url = ServiceConstants.API_URL + 'checkSecurityAnswer';
       let response = {};
       try {
         response = await fetch(url, {
-          method: 'GET',
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({ id, securityAnswer })
         });
-        return response.json();
+        if (response.status !== 200) {
+          return response.json();
+        }
+        return true;
       } catch (e) {
         throw new Error(500);
       }
@@ -45,7 +65,7 @@ export default class UserService {
       }
     };
 
-    updatePw = async (newPassword: string, userId: string) => {
+    updatePassword = async (newPassword: string, userId: string) => {
       const url = ServiceConstants.API_URL + 'updatePassword/' + userId;
       let response = {};
       try {
@@ -56,7 +76,10 @@ export default class UserService {
           },
           body: JSON.stringify({ newPassword })
         });
-        return response.json();
+        if (response.status !== 200) {
+          return response.json();
+        }
+        return true;
       } catch (e) {
         throw new Error(500);
       }
