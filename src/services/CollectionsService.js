@@ -3,11 +3,11 @@ import ServiceConstants from '../constants/ServiceConstants';
 
 export default class CollectionsService {
     getSecurityQuestions = async (languageCode: string) => {
-      const url = new URL(ServiceConstants.API_URL + 'securityQuestions');
+      const url = ServiceConstants.API_URL + 'securityQuestions';
       let response = {};
       try {
         response = await fetch(url, {
-          method: 'GET',
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
@@ -20,7 +20,7 @@ export default class CollectionsService {
     };
 
     getResearchInterests = async () => {
-      const url = new URL(ServiceConstants.API_URL + 'researchInterests');
+      const url = ServiceConstants.API_URL + 'researchInterests';
       let response = {};
       try {
         response = await fetch(url, {
