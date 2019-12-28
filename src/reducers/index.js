@@ -5,6 +5,7 @@ import i18n from './i18n';
 import globalUi from './globalUi';
 import login from './login';
 import registration from './registration';
+import passwordReset from './passwordReset';
 import snack from './snack';
 import user from './user';
 
@@ -14,6 +15,7 @@ export default combineReducers({
   i18n,
   login,
   registration,
+  passwordReset,
   snack,
   user
 });

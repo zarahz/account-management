@@ -17,7 +17,6 @@ import '../assets/stylesheets/Startscreen.css';
 
 // models
 import type { I18nModel } from '../models/I18nModel';
-import type { GlobalUiState } from '../models/GlobalUiState';
 import type { globalUiActionsType } from '../actions/globalUi';
 
 // components
@@ -28,13 +27,13 @@ import ResetPasswordForm from './ResetPasswordForm';
 export class StartScreen extends React.Component {
   props: {
     classes: Object,
-    globalUi: GlobalUiState,
+    isLoginOrRegister: boolean,
     i18n: {code: string, t: I18nModel},
     globalUiActions: globalUiActionsType,
   };
 
   renderPageSwitcher = () => {
-    if (this.props.globalUi.isLoginOrRegister) {
+    if (this.props.isLoginOrRegister) {
       return (
         <div>
           <div className="PageSwitcher">
@@ -81,7 +80,7 @@ export class StartScreen extends React.Component {
 // maps redux store data to props
 const mapStateToProps = (state: Object) => {
   return {
-    globalUi: state.globalUi,
+    isLoginOrRegister: state.globalUi.isLoginOrRegister,
     i18n: state.i18n
   };
 };

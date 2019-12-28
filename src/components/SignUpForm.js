@@ -36,6 +36,10 @@ export class SignUpForm extends React.Component {
   collectionService: CollectionsService = new CollectionsService();
   researchInterestCollection: Array<Object> = [];
   securityQuestionCollection: Array<Object> = [];
+  genderCollection: Array<Object> = [
+    { name: this.props.i18n.t.ui.MAN },
+    { name: this.props.i18n.t.ui.FEMALE },
+    { name: this.props.i18n.t.ui.DIVERS }];
 
   props: {
     classes: Object,
@@ -172,6 +176,10 @@ export class SignUpForm extends React.Component {
     }
   };
 
+  setGender = async (gender: Array<Object>) => {
+    await this.props.registrationActions.setGender(gender[0].name);
+  };
+
   setResearchInterest = async (interests: Array<Object>) => {
     const researchInterests = [];
     for (let a = 0; a < interests.length; a++) {
@@ -201,10 +209,10 @@ export class SignUpForm extends React.Component {
           </div>
           <div className="FormField">
             <label className="FormField__Label" htmlFor="gender">{this.props.i18n.t.ui.GENDER}</label>
-            <Select options={[{ name: this.props.i18n.t.ui.MAN }, { name: this.props.i18n.t.ui.WOMEN }]}
+            <Select options={this.genderCollection} multi={false}
               values={[]} dropdownPosition={'bottom'} labelField={'name'} color={'#000'}
               style={{ width: '85%', left: '25px', marginTop: '10px' }} placeholder={this.props.i18n.t.ui.GENDER_PLACEHOLDER}
-              onChange={async (value) => this.props.registrationActions.setGender(value[0].name)}/>
+              onChange={(value) => this.setGender(value)}/>
           </div>
           <div className="FormField">
             <label className="FormField__Label" htmlFor="name">{this.props.i18n.t.ui.FIRST_NAME} *</label>

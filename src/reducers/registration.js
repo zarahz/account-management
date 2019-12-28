@@ -2,9 +2,9 @@
 import * as types from '../actions/ActionTypes';
 
 const registration = (state: {
-   title: string, gender: string, firstName: string, lastName: string, username: string, email: string, password: string,
-    organisation: string, address: string, city: string, country: string, zipCode: number, fieldOfActivity: string,
-    researchInterest: Array<string>, securityQuestion: string, securityAnswer: string
+  title: string, gender: string, firstName: string, lastName: string, username: string, email: string, password: string,
+  organisation: string, address: string, city: string, country: string, zipCode?: number, fieldOfActivity: string,
+  researchInterest: Array<string>, securityQuestion: string, securityAnswer: string
 } = {
   title: '',
   gender: '',
@@ -23,13 +23,13 @@ const registration = (state: {
   securityQuestion: '',
   securityAnswer: ''
 }, action: {
-    type: string, title: string, gender: string, firstName: string, lastName: string, username: string, email: string, password: string,
-    organisation: string, address: string, city: string, country: string, zipCode: number, fieldOfActivity: string,
-    researchInterest: Array<string>, securityQuestion: string, securityAnswer: string
+  type: string, title: string, gender: string, firstName: string, lastName: string, username: string, email: string, password: string,
+  organisation: string, address: string, city: string, country: string, zipCode?: number, fieldOfActivity: string,
+  researchInterest: Array<string>, securityQuestion: string, securityAnswer: string
 }): {
-    title: string, gender: string, firstName: string, lastName: string, username: string, email: string, password: string,
-    organisation: string, address: string, city: string, country: string, zipCode: number, fieldOfActivity: string,
-    researchInterest: Array<string>, securityQuestion: string, securityAnswer: string
+  title: string, gender: string, firstName: string, lastName: string, username: string, email: string, password: string,
+  organisation: string, address: string, city: string, country: string, zipCode?: number, fieldOfActivity: string,
+  researchInterest: Array<string>, securityQuestion: string, securityAnswer: string
 } => {
   const newState = JSON.parse(JSON.stringify(state));
   switch (action.type) {

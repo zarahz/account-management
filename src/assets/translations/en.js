@@ -40,13 +40,21 @@ const en: I18nModel = {
     REGISTER: 'Register',
     OR: 'or',
     MAN: 'Man',
-    WOMEN: 'Women',
+    FEMALE: 'Female',
+    DIVERS: 'Divers',
     LOADING: 'Is loading ...',
     NEXT: 'Next',
     TO_LOGIN: 'To login',
     FORGOT_PASSWORD: 'Password forgotten?',
     PASSWORD_RESET_DES: 'Please enter the email address associated with your account. We will forward it to you so that' +
         ' you can set a new password using your chosen security question.',
+    SECURITY_QUESTION_Headline: 'Please answer your security question',
+    SECURITY_QUESTION_DES: 'This question helps us to verify their identity.',
+    NEW_PASSWORD_DES: 'Please select a new password',
+    NEW_PASSWORD: 'New password',
+    NEW_PASSWORD_PLACEHOLDER: 'Enter your new password',
+    CHECK_PASSWORD: 'Confirm new password',
+    SAVE: 'Save',
     SNACK: {
       CHECK_INPUT: 'Username and/or password must not be empty!',
       LOGIN_ERROR: 'Your combination of email and password was not correct. Please try again.',
@@ -54,7 +62,11 @@ const en: I18nModel = {
       DEFAULT_ERROR: 'An error has occurred. Please try again later.',
       SERVER_ERROR: 'An unexpected server error has occurred. Please try again later.',
       NO_USER_FOUND: 'The username could not be found.',
-      UNAUTHORIZED: 'The specified password is not correct.'
+      UNAUTHORIZED: 'The specified password is not correct.',
+      CHECK_EMAIL_INPUT: 'E-mail address must not be empty!',
+      WRONG_SECURITY_ANSWER: 'The answer given is unfortunately wrong!',
+      CHECK_INPUT_PASSWORD1: 'All fields must be filled in',
+      CHECK_INPUT_PASSWORD2: '"New password" and "Confirm new password do not match'
     }
   }
 };
