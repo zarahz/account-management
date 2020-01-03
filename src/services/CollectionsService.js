@@ -3,15 +3,14 @@ import ServiceConstants from '../constants/ServiceConstants';
 
 export default class CollectionsService {
     getSecurityQuestions = async (languageCode: string) => {
-      const url = ServiceConstants.API_URL + 'securityQuestions';
+      const url = ServiceConstants.API_URL + 'securityQuestions?languageCode=' + languageCode;
       let response = {};
       try {
         response = await fetch(url, {
-          method: 'POST',
+          method: 'GET',
           headers: {
             'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ languageCode })
+          }
         });
         return response.json();
       } catch (e) {

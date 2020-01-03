@@ -12,7 +12,7 @@ export default class UserService {
     };
 
   getSecurityQuestion = async (email: string) => {
-    const url = ServiceConstants.API_URL + 'getSecurityQuestion';
+    const url = ServiceConstants.API_URL + 'securityQuestion';
     let response = {};
     try {
       response = await fetch(url, {

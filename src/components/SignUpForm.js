@@ -31,6 +31,7 @@ import RegistrationService from '../services/RegistrationService';
 import type { UserModel } from '../models/UserModel';
 
 import Select from 'react-dropdown-select';
+import DecoderService from '../services/DecoderService';
 
 export class SignUpForm extends React.Component {
   collectionService: CollectionsService = new CollectionsService();
@@ -95,6 +96,7 @@ export class SignUpForm extends React.Component {
   registration = async () => {
     try {
       const registrationService: RegistrationService = new RegistrationService();
+      const decoderService: DecoderService = new DecoderService();
       const user: UserModel = {
         title: this.props.title,
         gender: this.props.gender,
@@ -113,14 +115,20 @@ export class SignUpForm extends React.Component {
         securityQuestion: this.props.securityQuestion,
         securityAnswer: this.props.securityAnswer
       };
-      const data = await registrationService.register(user);
+      const token = await registrationService.register(user);
+      if (!token) {
+        return await this.props.snackActions.setAndShowWarning(this.props.i18n.t.ui.SNACK.DEFAULT_ERROR);
+      }
+      console.log(token);
+      const data = await decoderService.decode(token);
+      console.log(data);
       if (data.error === 'username already exists') {
         await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.SERVER_ERROR);
       } else if (data.error === 'this email is already used') {
         await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.SERVER_ERROR);
       } else {
         await this.props.userActions.setActiveUser(data);
-        await this.props.snackActions.setAndShowInfo(this.props.i18n.t.ui.SNACK.SERVER_ERROR);
+        await this.props.snackActions.setAndShowInfo(this.props.i18n.t.ui.SNACK.LOGIN_COMPLETED);
         this.props.history.push('/');
       }
     } catch (e) {
