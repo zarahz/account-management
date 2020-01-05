@@ -117,15 +117,13 @@ export class SignUpForm extends React.Component {
       };
       const token = await registrationService.register(user);
       if (!token) {
-        return await this.props.snackActions.setAndShowWarning(this.props.i18n.t.ui.SNACK.DEFAULT_ERROR);
+        await this.props.snackActions.setAndShowWarning(this.props.i18n.t.ui.SNACK.DEFAULT_ERROR);
       }
-      console.log(token);
       const data = await decoderService.decode(token);
-      console.log(data);
       if (data.error === 'username already exists') {
-        await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.SERVER_ERROR);
+        await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.USERNAME_IN_USE);
       } else if (data.error === 'this email is already used') {
-        await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.SERVER_ERROR);
+        await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.EMAIL_IN_USE);
       } else {
         await this.props.userActions.setActiveUser(data);
         await this.props.snackActions.setAndShowInfo(this.props.i18n.t.ui.SNACK.LOGIN_COMPLETED);

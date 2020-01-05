@@ -66,7 +66,9 @@ const de: I18nModel = {
       CHECK_EMAIL_INPUT: 'E-mail-Adresse darf nicht leer sein!',
       WRONG_SECURITY_ANSWER: 'Die angegeben Antwort ist leider falsch!',
       CHECK_INPUT_PASSWORD1: 'Es müssen alle Felder ausgefüllt sein',
-      CHECK_INPUT_PASSWORD2: '"Neues Password" und "Neues Passwort bestätigen stimmen nicht überein"'
+      CHECK_INPUT_PASSWORD2: '"Neues Password" und "Neues Passwort bestätigen stimmen nicht überein"',
+      USERNAME_IN_USE: 'This username is already in use. Please choose another username.',
+      EMAIL_IN_USE: 'This email is already in use. Please select another email.'
     }
   }
 };

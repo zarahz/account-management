@@ -9,8 +9,7 @@ module.exports = {
         Atomics: 'readonly',
         SharedArrayBuffer: 'readonly',
         fetch: false,
-        Headers: false,
-        FormData: false
+        localStorage: true
     },
     plugins: [
         'react',

@@ -6,7 +6,6 @@ import I18nMap from '../maps/I18nMap';
 class LocalStorageService {
     loadState = () => {
       try {
-        // eslint-disable-next-line no-undef
         const serializedState = CryptoJS.AES.decrypt(localStorage.getItem('state'), ServiceConstants.LOCAL_STORAGE_SALT).toString(CryptoJS.enc.Utf8);
         if (serializedState) {
           const state = JSON.parse(serializedState);
@@ -28,7 +27,6 @@ class LocalStorageService {
       try {
         const stateToSerialize = { i18n: state.i18n, user: state.user };
         const serializedState = CryptoJS.AES.encrypt(JSON.stringify(stateToSerialize), ServiceConstants.LOCAL_STORAGE_SALT);
-        // eslint-disable-next-line no-undef
         localStorage.setItem('state', serializedState);
       } catch (e) {
         console.log(e);

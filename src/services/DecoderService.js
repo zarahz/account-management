@@ -2,7 +2,7 @@
 import ServiceConstants from '../constants/ServiceConstants';
 
 export default class DecoderService {
-   decode = async (token: String) => {
+   decode = async (token: {token: string}) => {
      const url = ServiceConstants.API_URL + 'token?token=' + token.token;
      let response = {};
      try {
