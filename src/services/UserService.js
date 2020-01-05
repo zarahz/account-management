@@ -3,12 +3,36 @@ import ServiceConstants from '../constants/ServiceConstants';
 import type { UserModel } from '../models/UserModel';
 
 export default class UserService {
-    isUniqueUsername = async () => {
-      // TODO check how query to do
+    isUniqueUsername = async (username: string) => {
+      const url = ServiceConstants.API_URL + 'uniqueUsername?username=' + username;
+      let response = {};
+      try {
+        response = await fetch(url, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        return response.json();
+      } catch (e) {
+        throw new Error(500);
+      }
     };
 
-    isUniqueEmail = async () => {
-      // TODO check how query to do
+    isUniqueEmail = async (email: string) => {
+      const url = ServiceConstants.API_URL + 'uniqueEmail?email=' + email;
+      let response = {};
+      try {
+        response = await fetch(url, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        return response.json();
+      } catch (e) {
+        throw new Error(500);
+      }
     };
 
   getSecurityQuestion = async (email: string) => {
