@@ -42,7 +42,6 @@ export default class UserService {
     try {
       response = await fetch(url, {
         method: 'POST',
-        credentials: 'include',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -55,11 +54,12 @@ export default class UserService {
   };
 
     checkSecurityAnswer = async (id: string, securityAnswer: string) => {
-      const url = ServiceConstants.API_URL + 'checkSecurityAnswer?token=' + cookie.load('token');
+      const url = ServiceConstants.API_URL + 'checkSecurityAnswer';
       let response = {};
       try {
         response = await fetch(url, {
           method: 'POST',
+          credentials: 'include',
           headers: {
             'Content-Type': 'application/json'
           },
