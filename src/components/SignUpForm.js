@@ -196,7 +196,11 @@ export class SignUpForm extends React.Component {
 
   handleSubmit = async (event: Object) => {
     event.preventDefault();
-    await this.registration();
+    if (!this.props.researchInterest || !this.props.securityQuestion) {
+      await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.REQUIRED_FIELDS_INCOMPLETE);
+    } else {
+      await this.registration();
+    }
   };
 
   render () {
@@ -245,12 +249,12 @@ export class SignUpForm extends React.Component {
             <Select options={this.securityQuestionCollection}
               values={[]} dropdownPosition={'bottom'} labelField={'name'} color={'#000'} multi={false}
               style={{ width: '85%', left: '25px', marginTop: '10px' }} placeholder={this.props.i18n.t.ui.SECURITY_QUESTION_PLACEHOLDER}
-              valueField={'name'} onChange={(value) => this.props.registrationActions.setSecurityQuestion(value[0].name)}/>
+              valueField={'name'} onChange={(value) => this.props.registrationActions.setSecurityQuestion(value[0].name)} required/>
           </div>
           <div className="FormField">
-            <label className="FormField__Label" htmlFor="name">{this.props.i18n.t.ui.SECURITY_QUESTION_ANSWER}</label>
+            <label className="FormField__Label" htmlFor="name">{this.props.i18n.t.ui.SECURITY_QUESTION_ANSWER} *</label>
             <input type="text" id="securityAnswer" className="FormField__Input" placeholder={this.props.i18n.t.ui.SECURITY_QUESTION_ANSWER_PLACEHOLDER}
-              name="securityAnswer" value={this.props.securityAnswer} onChange={this.handleChange} />
+              name="securityAnswer" value={this.props.securityAnswer} onChange={this.handleChange} required/>
           </div>
           <div className="FormField">
             <label className="FormField__Label" htmlFor="name">{this.props.i18n.t.ui.STREET}</label>
@@ -278,9 +282,9 @@ export class SignUpForm extends React.Component {
               name="organisation" value={this.props.organisation} onChange={this.handleChange} required/>
           </div>
           <div className="FormField">
-            <label className="FormField__Label" htmlFor="name">{this.props.i18n.t.ui.FIELD_OF_ACTIVITY}</label>
+            <label className="FormField__Label" htmlFor="name">{this.props.i18n.t.ui.FIELD_OF_ACTIVITY} *</label>
             <input type="text" id="fieldOfActivity" className="FormField__Input" placeholder={this.props.i18n.t.ui.FIELD_OF_ACTIVITY_PLACEHOLDER}
-              name="fieldOfActivity" value={this.props.fieldOfActivity} onChange={this.handleChange} />
+              name="fieldOfActivity" value={this.props.fieldOfActivity} onChange={this.handleChange} required/>
           </div>
           <div className="FormField">
             <label className="FormField__Label" htmlFor="name">{this.props.i18n.t.ui.RESEARCH_INTEREST} *</label>
