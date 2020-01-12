@@ -37,11 +37,12 @@ declare module 'react-redux' {
 declare module 'redux-thunk' {
     declare var exports: any;
 }
-
 declare module 'react-dropdown-select' {
     declare var exports: any;
 }
-
 declare module 'react-router-dom' {
     declare var exports: any;
+}
+declare module 'react-cookies' {
+    declare var exports: any
 }

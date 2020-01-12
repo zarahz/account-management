@@ -6,8 +6,8 @@ import { withRouter } from 'react-router-dom';
 
 // redux
 import * as globalUiActions from '../actions/globalUi';
-import * as registrationActions from '../actions/registration/index';
-import * as snackActions from '../actions/snack/index';
+import * as registrationActions from '../actions/registration';
+import * as snackActions from '../actions/snack';
 import * as collectionActions from '../actions/collections';
 import * as userActions from '../actions/user';
 import { bindActionCreators } from 'redux';

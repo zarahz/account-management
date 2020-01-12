@@ -5,10 +5,10 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 
 // redux
-import * as globalUiActions from '../actions/globalUi/index';
-import * as loginActions from '../actions/login/index';
-import * as snackActions from '../actions/snack/index';
-import * as userActions from '../actions/user/index';
+import * as globalUiActions from '../actions/globalUi';
+import * as loginActions from '../actions/login';
+import * as snackActions from '../actions/snack';
+import * as userActions from '../actions/user';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 

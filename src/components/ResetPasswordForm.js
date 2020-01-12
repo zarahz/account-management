@@ -5,10 +5,10 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 
 // redux
-import * as passwordResetActions from '../actions/passwordReset/index';
+import * as passwordResetActions from '../actions/passwordReset';
 import * as globalUiActions from '../actions/globalUi';
-import * as snackActions from '../actions/snack/index';
-import * as userActions from '../actions/user/index';
+import * as snackActions from '../actions/snack';
+import * as userActions from '../actions/user';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
@@ -24,7 +24,7 @@ import type { SnackActionType } from '../actions/snack';
 import type { I18nModel } from '../models/I18nModel';
 import type { globalUiActionsType } from '../actions/globalUi';
 import type { UserActionsType } from '../actions/user';
-import type { PasswordResetActionsType } from '../actions/passwordReset/index';
+import type { PasswordResetActionsType } from '../actions/passwordReset';
 
 export class ResetPasswordForm extends React.Component {
     userService: UserService = new UserService();
