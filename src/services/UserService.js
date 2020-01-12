@@ -1,6 +1,7 @@
 // @flow
 import ServiceConstants from '../constants/ServiceConstants';
 import type { UserModel } from '../models/UserModel';
+import cookie from 'react-cookies';
 
 export default class UserService {
     isUniqueUsername = async (username: string) => {
@@ -41,6 +42,7 @@ export default class UserService {
     try {
       response = await fetch(url, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -53,7 +55,7 @@ export default class UserService {
   };
 
     checkSecurityAnswer = async (id: string, securityAnswer: string) => {
-      const url = ServiceConstants.API_URL + 'checkSecurityAnswer';
+      const url = ServiceConstants.API_URL + 'checkSecurityAnswer?token=' + cookie.load('token');
       let response = {};
       try {
         response = await fetch(url, {
@@ -73,7 +75,7 @@ export default class UserService {
     };
 
     updateUserData = async (userId: string, updatedUser: UserModel) => {
-      const url = ServiceConstants.API_URL + 'updateUser/' + userId;
+      const url = ServiceConstants.API_URL + 'updateUser/' + userId + '?token=' + cookie.load('token');
       let response = {};
       try {
         response = await fetch(url, {
@@ -90,7 +92,7 @@ export default class UserService {
     };
 
     updatePassword = async (newPassword: string, userId: string) => {
-      const url = ServiceConstants.API_URL + 'updatePassword/' + userId;
+      const url = ServiceConstants.API_URL + 'updatePassword/' + userId + '?token=' + cookie.load('token');
       let response = {};
       try {
         response = await fetch(url, {
@@ -110,7 +112,7 @@ export default class UserService {
     };
 
     deleteUser = async (username: string, password: string) => {
-      const url = ServiceConstants.API_URL + 'deleteUser';
+      const url = ServiceConstants.API_URL + 'deleteUser?token=' + cookie.load('token');
       let response = {};
       try {
         response = await fetch(url, {

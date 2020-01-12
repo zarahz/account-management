@@ -8,6 +8,7 @@ export default class LoginService {
      try {
        response = await fetch(url, {
          method: 'POST',
+         credentials: 'include',
          headers: {
            'Content-Type': 'application/json'
          },

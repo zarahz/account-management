@@ -8,6 +8,7 @@ export default class DecoderService {
      try {
        response = await fetch(url, {
          method: 'GET',
+         credentials: 'include',
          headers: {
            'Content-Type': 'application/json'
          }
