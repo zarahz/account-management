@@ -249,7 +249,7 @@ export class SignUpForm extends React.Component {
             <Select options={this.securityQuestionCollection}
               values={[]} dropdownPosition={'bottom'} labelField={'name'} color={'#000'} multi={false}
               style={{ width: '85%', left: '25px', marginTop: '10px' }} placeholder={this.props.i18n.t.ui.SECURITY_QUESTION_PLACEHOLDER}
-              valueField={'name'} onChange={(value) => this.props.registrationActions.setSecurityQuestion(value[0].name)} required/>
+              valueField={'name'} onChange={(value) => this.props.registrationActions.setSecurityQuestion(value[0].name)}/>
           </div>
           <div className="FormField">
             <label className="FormField__Label" htmlFor="name">{this.props.i18n.t.ui.SECURITY_QUESTION_ANSWER} *</label>
