@@ -219,10 +219,9 @@ export class SignUpForm extends React.Component {
           </div>
           <div className="FormField">
             <label className="FormField__Label" htmlFor="gender">{this.props.i18n.t.ui.GENDER}</label>
-            <Select options={this.genderCollection} multi={false}
-              values={[]} dropdownPosition={'bottom'} labelField={'name'} color={'#000'}
+            <Select options={this.genderCollection} values={[]} dropdownPosition={'bottom'} labelField={'name'} color={'#000'} multi={false}
               style={{ width: '85%', left: '25px', marginTop: '10px' }} placeholder={this.props.i18n.t.ui.GENDER_PLACEHOLDER}
-              onChange={(value) => this.setGender(value)}/>
+              valueField={'name'} onChange={(value) => this.setGender(value)}/>
           </div>
           <div className="FormField">
             <label className="FormField__Label" htmlFor="name">{this.props.i18n.t.ui.FIRST_NAME} *</label>
@@ -249,7 +248,7 @@ export class SignUpForm extends React.Component {
             <Select options={this.securityQuestionCollection}
               values={[]} dropdownPosition={'bottom'} labelField={'name'} color={'#000'} multi={false}
               style={{ width: '85%', left: '25px', marginTop: '10px' }} placeholder={this.props.i18n.t.ui.SECURITY_QUESTION_PLACEHOLDER}
-              valueField={'name'} onChange={(value) => this.props.registrationActions.setSecurityQuestion(value[0].name)}/>
+              valueField={'name'} onChange={(value) => this.props.registrationActions.setSecurityQuestion(value[0].name)} required={true}/>
           </div>
           <div className="FormField">
             <label className="FormField__Label" htmlFor="name">{this.props.i18n.t.ui.SECURITY_QUESTION_ANSWER} *</label>
@@ -291,7 +290,7 @@ export class SignUpForm extends React.Component {
             <Select options={this.researchInterestCollection}
               values={[]} dropdownPosition={'bottom'} labelField={'name'} color={'#000'} multi={true}
               style={{ width: '85%', left: '25px', marginTop: '10px' }} placeholder={this.props.i18n.t.ui.RESEARCH_INTEREST_PLACEHOLDER}
-              valueField={'name'} onChange={(value) => this.setResearchInterest(value)}/>
+              valueField={'name'} onChange={(value) => this.setResearchInterest(value)} required={true}/>
           </div>
           <p>{this.props.i18n.t.ui.FIELD_DESCRIPTION}</p>
           <br/>
