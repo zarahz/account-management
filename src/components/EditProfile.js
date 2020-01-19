@@ -6,19 +6,18 @@ import { withRouter } from 'react-router-dom';
 
 // redux
 import * as globalUiActions from '../actions/globalUi';
-import * as registrationActions from '../actions/registration';
 import * as snackActions from '../actions/snack';
 import * as collectionActions from '../actions/collections';
 import * as userActions from '../actions/user';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import * as profileActions from '../actions/profile';
 
 // styles
 import { withStyles } from '@material-ui/core';
 import styles from '../assets/stylesheets/AppStyles';
 
 // models
-import type { RegistrationActionType } from '../actions/registration';
 import type { SnackActionType } from '../actions/snack';
 import type { CollectionActionType } from '../actions/collections';
 import type { I18nModel } from '../models/I18nModel';
@@ -27,16 +26,15 @@ import type { UserActionsType } from '../actions/user';
 
 // services
 import CollectionsService from '../services/CollectionsService';
-import RegistrationService from '../services/RegistrationService';
+import UpdateUserService from '../services/UpdateUserService';
 import type { UserModel } from '../models/UserModel';
 
 import Select from 'react-dropdown-select';
 import DecoderService from '../services/DecoderService';
 
-export class SignUpForm extends React.Component {
+export class EditProfile extends React.Component {
   collectionService: CollectionsService = new CollectionsService();
   researchInterestCollection: Array<Object> = [];
-  securityQuestionCollection: Array<Object> = [];
   genderCollection: Array<Object> = [
     { name: this.props.i18n.t.ui.MAN },
     { name: this.props.i18n.t.ui.FEMALE },
@@ -44,18 +42,18 @@ export class SignUpForm extends React.Component {
 
   props: {
     classes: Object,
-    registrationActions: RegistrationActionType,
+    profileActions: ProfileActionType,
     snackActions: SnackActionType,
     collectionActions: CollectionActionType,
     i18n: {code: string, t: I18nModel},
     history: any,
+    id: string,
     title: string,
     gender: string,
     firstName: string,
     lastName: string,
     username: string,
     email: string,
-    password: string,
     organisation: string,
     address: string,
     city: string,
@@ -63,17 +61,14 @@ export class SignUpForm extends React.Component {
     zipCode: number,
     fieldOfActivity: string,
     researchInterest: Array<string>,
-    securityQuestion: string,
-    securityAnswer: string,
     researchInterestCollection: Array<string>,
-    securityQuestionCollection: Array<string>,
     globalUiActions: globalUiActionsType,
     userActions: UserActionsType,
   };
 
   componentDidMount = async () => {
+    await this.getUser();
     await this.loadAndManipulateCollections();
-    await this.props.globalUiActions.setLoginOrRegister();
   };
 
   loadAndManipulateCollections = async () => {
@@ -81,41 +76,33 @@ export class SignUpForm extends React.Component {
       const researchInterest = await this.collectionService.getResearchInterests();
       await this.props.collectionActions.setResearchInterestCollection(researchInterest);
     }
-    if (this.props.securityQuestionCollection.length === 0) {
-      const securityQuestions = await this.collectionService.getSecurityQuestions(this.props.i18n.code);
-      await this.props.collectionActions.setSecurityQuestionCollection(securityQuestions);
-    }
     for (let a = 0; a < this.props.researchInterestCollection.length; a++) {
       this.researchInterestCollection.push({ name: this.props.researchInterestCollection[a] });
     }
-    for (let b = 0; b < this.props.securityQuestionCollection.length; b++) {
-      this.securityQuestionCollection.push({ name: this.props.securityQuestionCollection[b] });
-    }
   };
 
-  registration = async () => {
+  updateUser = async () => {
     try {
-      const registrationService: RegistrationService = new RegistrationService();
+      const updateUserService: UpdateUserService = new UpdateUserService();
       const decoderService: DecoderService = new DecoderService();
       const user: UserModel = {
+        id: this.props.id,
         title: this.props.title,
         gender: this.props.gender,
         firstname: this.props.firstName,
         lastname: this.props.lastName,
         username: this.props.username,
         email: this.props.email,
-        password: this.props.password,
         organisation: this.props.organisation,
         address: this.props.address,
         city: this.props.city,
         country: this.props.country,
         zipCode: this.props.zipCode,
         fieldOfActivity: this.props.fieldOfActivity,
-        researchInterest: this.props.researchInterest,
-        securityQuestion: this.props.securityQuestion,
-        securityAnswer: this.props.securityAnswer
+        researchInterest: this.props.researchInterest
       };
-      const token = await registrationService.register(user);
+      let token = 'eyJhbGciOiJIUzI1NiJ9.NWUxYzQ0OWNiMWQ1YjFjOTk0ZjRjZTlj.7VJTPSVG_9ENW_bW-Pv9p2D3vQlMr5OO31HhK1BJD4o';
+      token = await updateUserService.updateUser(user, token);
       if (!token) {
         await this.props.snackActions.setAndShowWarning(this.props.i18n.t.ui.SNACK.DEFAULT_ERROR);
       }
@@ -125,8 +112,7 @@ export class SignUpForm extends React.Component {
       } else if (data.error === 'this email is already used') {
         await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.EMAIL_IN_USE);
       } else {
-        await this.props.userActions.setActiveUser(data);
-        await this.props.snackActions.setAndShowInfo(this.props.i18n.t.ui.SNACK.LOGIN_COMPLETED);
+        await this.props.snackActions.setAndShowInfo(this.props.i18n.t.ui.SNACK.SUCCESSFUL_UPDATE);
         this.props.history.push('/profile-overview');
       }
     } catch (e) {
@@ -140,50 +126,44 @@ export class SignUpForm extends React.Component {
     const name = target.name;
     switch (name) {
       case 'username':
-        await this.props.registrationActions.setUserName(value);
+        await this.props.profileActions.setUserName(value);
         break;
       case 'title':
-        await this.props.registrationActions.setTitle(value);
+        await this.props.profileActions.setTitle(value);
         break;
       case 'name':
-        await this.props.registrationActions.setFirstName(value);
+        await this.props.profileActions.setFirstName(value);
         break;
       case 'surname':
-        await this.props.registrationActions.setLastName(value);
+        await this.props.profileActions.setLastName(value);
         break;
       case 'email':
-        await this.props.registrationActions.setEMail(value);
-        break;
-      case 'password':
-        await this.props.registrationActions.setPassword(value);
+        await this.props.profileActions.setEMail(value);
         break;
       case 'street':
-        await this.props.registrationActions.setAddress(value);
+        await this.props.profileActions.setAddress(value);
         break;
       case 'zipCode':
-        await this.props.registrationActions.setZipCode(value);
+        await this.props.profileActions.setZipCode(value);
         break;
       case 'city':
-        await this.props.registrationActions.setCity(value);
+        await this.props.profileActions.setCity(value);
         break;
       case 'country':
-        await this.props.registrationActions.setCountry(value);
+        await this.props.profileActions.setCountry(value);
         break;
       case 'organisation':
-        await this.props.registrationActions.setOrganisation(value);
+        await this.props.profileActions.setOrganisation(value);
         break;
       case 'fieldOfActivity':
-        await this.props.registrationActions.setFieldOfActivity(value);
-        break;
-      case 'securityAnswer':
-        await this.props.registrationActions.setSecurityAnswer(value);
+        await this.props.profileActions.setFieldOfActivity(value);
         break;
       default: break;
     }
   };
 
   setGender = async (gender: Array<Object>) => {
-    await this.props.registrationActions.setGender(gender[0].name);
+    await this.props.profileActions.setGender(gender[0].name);
   };
 
   setResearchInterest = async (interests: Array<Object>) => {
@@ -191,15 +171,56 @@ export class SignUpForm extends React.Component {
     for (let a = 0; a < interests.length; a++) {
       researchInterests.push(interests[a].name);
     }
-    await this.props.registrationActions.setResearchInterest(researchInterests);
+    await this.props.profileActions.setResearchInterest(researchInterests);
   };
 
   handleSubmit = async (event: Object) => {
     event.preventDefault();
-    if (!this.props.researchInterest || !this.props.securityQuestion) {
+    if (!this.props.researchInterest) {
       await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.REQUIRED_FIELDS_INCOMPLETE);
     } else {
-      await this.registration();
+      await this.updateUser();
+    }
+  };
+
+  getUser = async () => {
+    const token: {token: string} = 'eyJhbGciOiJIUzI1NiJ9.NWUxYzQ0OWNiMWQ1YjFjOTk0ZjRjZTlj.7VJTPSVG_9ENW_bW-Pv9p2D3vQlMr5OO31HhK1BJD4o';
+    try {
+      const user = await this.decodeToken(token);
+      if (user) {
+        // geht irgendwie nicht deswegen so müsahm gelöst
+        // await this.props.profileActions.setUserProfile(user);
+        await this.props.profileActions.setUserName(user.username);
+        await this.props.profileActions.setFieldOfActivity(user.fieldOfActivity);
+        await this.props.profileActions.setOrganisation(user.organisation);
+        await this.props.profileActions.setCountry(user.country);
+        await this.props.profileActions.setCity(user.city);
+        await this.props.profileActions.setZipCode(user.zipCode);
+        await this.props.profileActions.setAddress(user.adress);
+        await this.props.profileActions.setEMail(user.email);
+        await this.props.profileActions.setLastName(user.lastname);
+        await this.props.profileActions.setFirstName(user.firstname);
+        await this.props.profileActions.setTitle(user.title);
+        await this.props.profileActions.setID(user.id);
+      }
+    } catch (e) {
+      await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.SERVER_ERROR);
+    }
+  }
+
+  decodeToken = async (token: {token: string}) => {
+    const decoderService: DecoderService = new DecoderService();
+    let user = null;
+    if (!Object.prototype.hasOwnProperty.call(token, 'error')) {
+      user = await decoderService.decode(token);
+    } else {
+      await this.showErrors(token);
+    }
+    if (user && Object.prototype.hasOwnProperty.call(user, 'error')) {
+      return this.showErrors(user);
+    } else if (user) {
+      return user;
+      // this.props.history.push('/profile-overview');
     }
   };
 
@@ -238,23 +259,6 @@ export class SignUpForm extends React.Component {
             <label className="FormField__Label" htmlFor="email">{this.props.i18n.t.ui.EMAIL} *</label>
             <input type="email" id="email" className="FormField__Input" placeholder={this.props.i18n.t.ui.EMAIL_PLACEHOLDER}
               name="email" value={this.props.email} onChange={this.handleChange} required/>
-          </div>
-          <div className="FormField">
-            <label className="FormField__Label" htmlFor="password">{this.props.i18n.t.ui.PASSWORD} *</label>
-            <input type="password" id="password" className="FormField__Input" placeholder={this.props.i18n.t.ui.PASSWORD_PLACEHOLDER}
-              name="password" value={this.props.password} onChange={this.handleChange} required/>
-          </div>
-          <div className="FormField">
-            <label className="FormField__Label" htmlFor="securityQuestion">{this.props.i18n.t.ui.SECURITY_QUESTION} *</label>
-            <Select options={this.securityQuestionCollection}
-              values={[]} dropdownPosition={'bottom'} labelField={'name'} color={'#000'} multi={false}
-              style={{ width: '85%', left: '25px', marginTop: '10px' }} placeholder={this.props.i18n.t.ui.SECURITY_QUESTION_PLACEHOLDER}
-              valueField={'name'} onChange={(value) => this.props.registrationActions.setSecurityQuestion(value[0].name)}/>
-          </div>
-          <div className="FormField">
-            <label className="FormField__Label" htmlFor="name">{this.props.i18n.t.ui.SECURITY_QUESTION_ANSWER} *</label>
-            <input type="text" id="securityAnswer" className="FormField__Input" placeholder={this.props.i18n.t.ui.SECURITY_QUESTION_ANSWER_PLACEHOLDER}
-              name="securityAnswer" value={this.props.securityAnswer} onChange={this.handleChange} required/>
           </div>
           <div className="FormField">
             <label className="FormField__Label" htmlFor="name">{this.props.i18n.t.ui.STREET}</label>
@@ -296,7 +300,7 @@ export class SignUpForm extends React.Component {
           <p>{this.props.i18n.t.ui.FIELD_DESCRIPTION}</p>
           <br/>
           <div className="FormField">
-            <button className="FormField__Button mr-20">{this.props.i18n.t.ui.REGISTER}</button>
+            <button className="FormField__Button mr-20">{this.props.i18n.t.ui.SAVE}</button>
           </div>
         </form>
       </div>
@@ -313,7 +317,6 @@ const mapStateToProps = (state: Object) => {
     lastName: state.registration.lastName,
     username: state.registration.username,
     email: state.registration.email,
-    password: state.registration.password,
     organisation: state.registration.organisation,
     address: state.registration.address,
     city: state.registration.city,
@@ -321,11 +324,9 @@ const mapStateToProps = (state: Object) => {
     zipCode: state.registration.zipCode,
     fieldOfActivity: state.registration.fieldOfActivity,
     researchInterest: state.registration.researchInterest,
-    securityQuestion: state.registration.securityQuestion,
-    securityAnswer: state.registration.securityAnswer,
+    id: state.registration.id,
     i18n: state.i18n,
-    researchInterestCollection: state.collection.researchInterestCollection,
-    securityQuestionCollection: state.collection.securityQuestionCollection
+    researchInterestCollection: state.collection.researchInterestCollection
   };
 };
 
@@ -333,11 +334,11 @@ const mapStateToProps = (state: Object) => {
 const mapDispatchToProps = dispatch => {
   return {
     globalUiActions: bindActionCreators(globalUiActions, dispatch),
-    registrationActions: bindActionCreators(registrationActions, dispatch),
     snackActions: bindActionCreators(snackActions, dispatch),
     collectionActions: bindActionCreators(collectionActions, dispatch),
-    userActions: bindActionCreators(userActions, dispatch)
+    userActions: bindActionCreators(userActions, dispatch),
+    profileActions: bindActionCreators(profileActions, dispatch)
   };
 };
 
-export default withRouter(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(SignUpForm)));
+export default withRouter(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(EditProfile)));

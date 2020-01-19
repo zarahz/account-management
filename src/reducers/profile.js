@@ -1,10 +1,10 @@
 // @flow
 import * as types from '../actions/ActionTypes';
 
-const registration = (state: {
-  id: string, title: string, gender: string, firstName: string, lastName: string, username: string, email: string, password: string,
+const profile = (state: {
+  id: string, title: string, gender: string, firstName: string, lastName: string, username: string, email: string,
   organisation: string, address: string, city: string, country: string, zipCode?: number, fieldOfActivity: string,
-  researchInterest: Array<string>, securityQuestion: string, securityAnswer: string
+  researchInterest: Array<string>
 } = {
   id: '',
   title: '',
@@ -13,24 +13,21 @@ const registration = (state: {
   lastName: '',
   username: '',
   email: '',
-  password: '',
   organisation: '',
   address: '',
   city: '',
   country: '',
   zipCode: undefined,
   fieldOfActivity: '',
-  researchInterest: [],
-  securityQuestion: '',
-  securityAnswer: ''
+  researchInterest: []
 }, action: {
-  type: string, id: string, title: string, gender: string, firstName: string, lastName: string, username: string, email: string, password: string,
+  type: string, id: string, title: string, gender: string, firstName: string, lastName: string, username: string, email: string,
   organisation: string, address: string, city: string, country: string, zipCode?: number, fieldOfActivity: string,
-  researchInterest: Array<string>, securityQuestion: string, securityAnswer: string
+  researchInterest: Array<string>
 }): {
-  id: string, title: string, gender: string, firstName: string, lastName: string, username: string, email: string, password: string,
+  id: string, title: string, gender: string, firstName: string, lastName: string, username: string, email: string,
   organisation: string, address: string, city: string, country: string, zipCode?: number, fieldOfActivity: string,
-  researchInterest: Array<string>, securityQuestion: string, securityAnswer: string
+  researchInterest: Array<string>
 } => {
   const newState = JSON.parse(JSON.stringify(state));
   switch (action.type) {
@@ -55,9 +52,6 @@ const registration = (state: {
     case types.SET_EMAIL:
       newState.email = action.email;
       return newState;
-    case types.SET_PASSWORD:
-      newState.password = action.password;
-      return newState;
     case types.SET_ORGANISATION:
       newState.organisation = action.organisation;
       return newState;
@@ -79,15 +73,9 @@ const registration = (state: {
     case types.SET_RESEARCH_INTERESTS:
       newState.researchInterest = action.researchInterest;
       return newState;
-    case types.SET_SECURITY_QUESTION:
-      newState.securityQuestion = action.securityQuestion;
-      return newState;
-    case types.SET_SECURITY_ANSWER:
-      newState.securityAnswer = action.securityAnswer;
-      return newState;
     default:
       return state;
   }
 };
 
-export default registration;
+export default profile;

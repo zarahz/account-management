@@ -55,6 +55,9 @@ const en: I18nModel = {
     NEW_PASSWORD_PLACEHOLDER: 'Enter your new password',
     CHECK_PASSWORD: 'Confirm new password',
     SAVE: 'Save',
+    EDIT_PROFILE: 'Edit',
+    PROFILE_OVERVIEW_HEADING: 'The information about you',
+    PROFILE_OVERVIEW: 'Profile Overview',
     SNACK: {
       CHECK_INPUT: 'Username and/or password must not be empty!',
       LOGIN_ERROR: 'Your combination of email and password was not correct. Please try again.',
@@ -69,7 +72,8 @@ const en: I18nModel = {
       CHECK_INPUT_PASSWORD2: '"New password" and "Confirm new password do not match',
       REQUIRED_FIELDS_INCOMPLETE: 'All Fields labeled with * need to be filled out',
       USERNAME_IN_USE: 'This username is already in use. Please choose another username.',
-      EMAIL_IN_USE: 'This email is already in use. Please select another email.'
+      EMAIL_IN_USE: 'This email is already in use. Please select another email.',
+      SUCCESSFUL_UPDATE: 'The profile has been successfully updated'
     }
   }
 };
