@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import cookie from 'react-cookies';
 
 // routing
 import { withRouter, HashRouter as Router, Route, NavLink } from 'react-router-dom';
@@ -71,7 +72,7 @@ export class Profile extends React.Component {
   };
 
   getUser = async () => {
-    const token: {token: string} = 'eyJhbGciOiJIUzI1NiJ9.NWUxYzQ0OWNiMWQ1YjFjOTk0ZjRjZTlj.7VJTPSVG_9ENW_bW-Pv9p2D3vQlMr5OO31HhK1BJD4o';
+    const token: {token: string} = cookie.load('token');
     try {
       const user = await this.decodeToken(token);
       if (user) {
