@@ -4,8 +4,8 @@ import type { UserModel } from '../models/UserModel';
 
 const profile = (state: {
   id: string, title: string, gender: string, firstName: string, lastName: string, username: string, email: string,
-  organisation: string, address: string, city: string, country: string, zipCode?: number, fieldOfActivity: string,
-  researchInterest: Array<string>, userProfile: UserModel, interestString: string
+  password: string, organisation: string, address: string, city: string, country: string, zipCode?: number,
+  fieldOfActivity: string, researchInterest: Array<string>, userProfile: UserModel, interestString: string
 } = {
   id: '',
   title: '',
@@ -14,6 +14,7 @@ const profile = (state: {
   lastName: '',
   username: '',
   email: '',
+  password: '',
   organisation: '',
   address: '',
   city: '',
@@ -25,6 +26,7 @@ const profile = (state: {
   interestString: ''
 }, action: {
   type: string, id: string, title: string, gender: string, firstName: string, lastName: string, username: string, email: string,
+  password: string,
   organisation: string, address: string, city: string, country: string, zipCode?: number, fieldOfActivity: string,
   researchInterest: Array<string>, userProfile: UserModel, interestString: string
 }): {
@@ -54,6 +56,9 @@ const profile = (state: {
       return newState;
     case types.SET_EMAIL:
       newState.email = action.email;
+      return newState;
+    case types.SET_PASSWORD:
+      newState.password = action.password;
       return newState;
     case types.SET_ORGANISATION:
       newState.organisation = action.organisation;

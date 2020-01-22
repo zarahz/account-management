@@ -58,6 +58,11 @@ const de: I18nModel = {
     EDIT_PROFILE: 'bearbeiten',
     PROFILE_OVERVIEW: 'Profil Übersicht',
     PROFILE_OVERVIEW_HEADING: 'Die Informationen über dich',
+    DELETE_USER_DES: 'Hier kannst du dein Userprofil löschen, sodass all deine Daten vernichtet werden.',
+    DELETE: 'löschen',
+    BACK: 'zurück',
+    DELETE_USER_DES_2: "Mit der Eingabe deines Username's und deines Passwort's erklärst du dich damit einverstanden, dass " +
+      'dein Profil gelöscht wird',
     SNACK: {
       CHECK_INPUT: 'Username und/oder Passwort darf nicht leer sein!',
       LOGIN_ERROR: 'Deine Kombination aus E-Mail und Passwort war leider nicht korrekt. Bitte versuche es erneut.',

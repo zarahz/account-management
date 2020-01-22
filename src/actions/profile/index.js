@@ -36,6 +36,11 @@ export const setEMail = (email: string) => ({
   email: email
 });
 
+export const setPassword = (password: string) => ({
+  type: types.SET_PASSWORD,
+  password: password
+});
+
 export const setOrganisation = (organisation: string) => ({
   type: types.SET_ORGANISATION,
   organisation: organisation
@@ -89,6 +94,7 @@ export type ProfileActionType = {
     setLastName: (lastName: string) => mixed,
     setUserName: (username: string) => mixed,
     setEMail: (email: string) => mixed,
+    setPassword: (password: string) => mixed,
     setOrganisation: (organisation: string) => mixed,
     setAddress: (address: string) => mixed,
     setCity: (city: string) => mixed,

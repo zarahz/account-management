@@ -5,7 +5,6 @@ import type { UserModel } from '../models/UserModel';
 export default class UpdateUserService {
     updateUser = async (user: UserModel, token: String) => {
       const url = ServiceConstants.API_URL + 'updateUser/' + user.id + '?token=' + token;
-      console.log(url);
       let response = {};
       try {
         response = await fetch(url, {

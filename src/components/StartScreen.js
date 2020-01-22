@@ -11,8 +11,6 @@ import * as globalUiActions from '../actions/globalUi';
 import { connect } from 'react-redux';
 
 // styles
-import { withStyles } from '@material-ui/core';
-import styles from '../assets/stylesheets/AppStyles';
 import '../assets/stylesheets/Startscreen.css';
 
 // models
@@ -25,6 +23,7 @@ import SignInForm from './SignInForm';
 import ResetPasswordForm from './ResetPasswordForm';
 import Profile from './Profile';
 import EditProfile from './EditProfile';
+import DeleteProfile from './DeleteProfile';
 
 export class StartScreen extends React.Component {
   props: {
@@ -91,6 +90,8 @@ export class StartScreen extends React.Component {
             </Route>
             <Route path="/edit-profile" component={EditProfile}>
             </Route>
+            <Route path="/delete-user-profile" component={DeleteProfile}>
+            </Route>
           </div>
         </div>
       </Router>
@@ -115,4 +116,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(StartScreen));
+export default (connect(mapStateToProps, mapDispatchToProps)(StartScreen));

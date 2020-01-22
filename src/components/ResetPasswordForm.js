@@ -4,6 +4,9 @@ import React from 'react';
 // routing
 import { withRouter } from 'react-router-dom';
 
+// styles
+import '../assets/stylesheets/Startscreen.css';
+
 // redux
 import * as passwordResetActions from '../actions/passwordReset';
 import * as globalUiActions from '../actions/globalUi';
@@ -11,10 +14,6 @@ import * as snackActions from '../actions/snack';
 import * as userActions from '../actions/user';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-
-// styles
-import { withStyles } from '@material-ui/core';
-import styles from '../assets/stylesheets/RouterScreenStyles';
 
 // services
 import UserService from '../services/UserService';
@@ -29,7 +28,6 @@ import type { PasswordResetActionsType } from '../actions/passwordReset';
 export class ResetPasswordForm extends React.Component {
     userService: UserService = new UserService();
     props: {
-        classes: Object,
         email: string,
         securityAnswer: string,
         newPassword: string,
@@ -145,10 +143,9 @@ export class ResetPasswordForm extends React.Component {
     };
 
     renderGetSecurityQuestion = () => {
-      const { classes } = this.props;
       return (
         <div className="FormCenter">
-          <p className={classes.descriptionText}>
+          <p className="Description_Text">
             {
               this.props.i18n.t.ui.PASSWORD_RESET_DES
             }
@@ -159,9 +156,9 @@ export class ResetPasswordForm extends React.Component {
               <input type="email" id="email" className="FormField__Input" placeholder={this.props.i18n.t.ui.EMAIL}
                 name="email" value={this.props.email} onChange={this.handleChange} />
             </div>
-            <div className={classes.linkFormField}>
-              <p className={classes.linkText}><a href={'#/'}
-                className={classes.linkTextLink}>{this.props.i18n.t.ui.TO_LOGIN}</a>
+            <div className="LinkFormField">
+              <p className="LinkText"><a href={'#/'}
+                className="LinkTextLink">{this.props.i18n.t.ui.TO_LOGIN}</a>
               </p>
             </div>
             <div className="FormField">
@@ -173,7 +170,6 @@ export class ResetPasswordForm extends React.Component {
     };
 
     renderCheckSecurityAnswer = () => {
-      const { classes } = this.props;
       return (
         <div className="FormCenter">
           <h2>
@@ -181,13 +177,13 @@ export class ResetPasswordForm extends React.Component {
               this.props.i18n.t.ui.SECURITY_QUESTION_Headline
             }
           </h2>
-          <p className={classes.descriptionText}>
+          <p className="Description_Text">
             {
               this.props.i18n.t.ui.SECURITY_QUESTION_DES
             }
           </p>
           <br/>
-          <p className={classes.descriptionText}>
+          <p className="Description_Text">
             {
               this.props.userPwResetData.securityQuestion
             }
@@ -208,10 +204,9 @@ export class ResetPasswordForm extends React.Component {
     };
 
     renderSetNewPassword = () => {
-      const { classes } = this.props;
       return (
         <div className="FormCenter">
-          <p className={classes.descriptionText}>
+          <p className="Description_Text">
             {
               this.props.i18n.t.ui.NEW_PASSWORD_DES
             }
@@ -291,4 +286,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default withRouter(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(ResetPasswordForm)));
+export default withRouter((connect(mapStateToProps, mapDispatchToProps)(ResetPasswordForm)));

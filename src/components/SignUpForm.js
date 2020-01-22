@@ -14,8 +14,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 // styles
-import { withStyles } from '@material-ui/core';
-import styles from '../assets/stylesheets/AppStyles';
+import '../assets/stylesheets/Startscreen.css';
 
 // models
 import type { RegistrationActionType } from '../actions/registration';
@@ -43,7 +42,6 @@ export class SignUpForm extends React.Component {
     { name: this.props.i18n.t.ui.DIVERS }];
 
   props: {
-    classes: Object,
     registrationActions: RegistrationActionType,
     snackActions: SnackActionType,
     collectionActions: CollectionActionType,
@@ -337,4 +335,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default withRouter(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(SignUpForm)));
+export default withRouter((connect(mapStateToProps, mapDispatchToProps)(SignUpForm)));

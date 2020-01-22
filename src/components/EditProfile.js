@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import Select from 'react-dropdown-select';
 
 // routing
 import { withRouter } from 'react-router-dom';
@@ -14,8 +15,7 @@ import { connect } from 'react-redux';
 import * as profileActions from '../actions/profile';
 
 // styles
-import { withStyles } from '@material-ui/core';
-import styles from '../assets/stylesheets/AppStyles';
+import '../assets/stylesheets/Startscreen.css';
 
 // models
 import type { SnackActionType } from '../actions/snack';
@@ -29,8 +29,6 @@ import type { ProfileActionType } from '../actions/profile';
 import CollectionsService from '../services/CollectionsService';
 import UpdateUserService from '../services/UpdateUserService';
 import type { UserModel } from '../models/UserModel';
-
-import Select from 'react-dropdown-select';
 import DecoderService from '../services/DecoderService';
 
 export class EditProfile extends React.Component {
@@ -43,7 +41,7 @@ export class EditProfile extends React.Component {
     { name: this.props.i18n.t.ui.DIVERS }];
 
   props: {
-    classes: Object,
+    globalUi: Object,
     profileActions: ProfileActionType,
     snackActions: SnackActionType,
     collectionActions: CollectionActionType,
@@ -66,9 +64,11 @@ export class EditProfile extends React.Component {
     researchInterestCollection: Array<string>,
     globalUiActions: globalUiActionsType,
     userActions: UserActionsType,
+    history: any
   };
 
   componentDidMount = async () => {
+    await this.props.globalUiActions.setProfileEdit();
     await this.props.globalUiActions.unsetLoginOrRegister();
     await this.getUser();
     await this.loadAndManipulateCollections();
@@ -185,6 +185,11 @@ export class EditProfile extends React.Component {
       await this.props.globalUiActions.unsetProfileEdit();
       await this.updateUser();
     }
+  };
+
+  handleDeleteSubmit = async (event: Object) => {
+    event.preventDefault();
+    this.props.history.push('/delete-user-profile');
   };
 
   getUser = async () => {
@@ -315,6 +320,16 @@ export class EditProfile extends React.Component {
             <button className="FormField__Button mr-20">{this.props.i18n.t.ui.SAVE}</button>
           </div>
         </form>
+        <form onSubmit={this.handleDeleteSubmit} className="FormFields">
+          <p className="Description_Text">
+            {
+              this.props.i18n.t.ui.DELETE_USER_DES
+            }
+          </p>
+          <div className="FormField">
+            <button className="FormField__Button mr-20">{this.props.i18n.t.ui.DELETE}</button>
+          </div>
+        </form>
       </div>
     );
   }
@@ -353,4 +368,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default withRouter(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(EditProfile)));
+export default withRouter((connect(mapStateToProps, mapDispatchToProps)(EditProfile)));

@@ -15,8 +15,7 @@ import { connect } from 'react-redux';
 import * as profileActions from '../actions/profile';
 
 // styles
-import { withStyles } from '@material-ui/core';
-import styles from '../assets/stylesheets/AppStyles';
+import '../assets/stylesheets/Startscreen.css';
 
 // models
 import type { SnackActionType } from '../actions/snack';
@@ -193,4 +192,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default withRouter(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Profile)));
+export default withRouter((connect(mapStateToProps, mapDispatchToProps)(Profile)));
