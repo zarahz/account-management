@@ -96,6 +96,15 @@
     color: #000;
     margin-left: 7%;
   }
+  .FormField__Label_Overview {
+    display: flex;
+    justify-content: flex-start;
+    text-transform: uppercase;
+    font-size: .9em;
+    color: #000;
+    margin-left: 7%;
+    font-weight: 700;
+  }
   .FormField__Input {
     width: 85%;
     background-color: transparent;

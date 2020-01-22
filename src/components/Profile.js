@@ -3,7 +3,7 @@ import React from 'react';
 import cookie from 'react-cookies';
 
 // routing
-import { withRouter, HashRouter as Router, Route, NavLink } from 'react-router-dom';
+import { withRouter, NavLink } from 'react-router-dom';
 
 // redux
 import * as globalUiActions from '../actions/globalUi';
@@ -27,14 +27,13 @@ import type { UserActionsType } from '../actions/user';
 
 // services
 import DecoderService from '../services/DecoderService';
+
 export class Profile extends React.Component {
   props: {
     profileActions: ProfileActionType,
-    classes: Object,
     snackActions: SnackActionType,
     collectionActions: CollectionActionType,
     i18n: {code: string, t: I18nModel},
-    history: any,
     globalUiActions: globalUiActionsType,
     userActions: UserActionsType,
     title: String,
@@ -44,7 +43,7 @@ export class Profile extends React.Component {
     username: String,
     email: String,
     organisation: String,
-    adress: String,
+    address: String,
     city: String,
     country: String,
     zipCode: Number,
@@ -58,7 +57,7 @@ export class Profile extends React.Component {
       username: String,
       email: String,
       organisation: String,
-      adress: String,
+      address: String,
       city: String,
       country: String,
       zipCode: Number,
@@ -68,6 +67,8 @@ export class Profile extends React.Component {
   };
 
   componentDidMount = async () => {
+    await this.props.globalUiActions.unsetLoginOrRegister();
+    await this.props.globalUiActions.setProfileEdit();
     await this.getUser();
   };
 
@@ -77,6 +78,7 @@ export class Profile extends React.Component {
     try {
       const user = await this.decodeToken(token);
       if (user) {
+        console.log(user)
         // geht irgendwie nicht deswegen so müsahm gelöst
         // await this.props.profileActions.setUserProfile(user);
         await this.props.profileActions.setUserName(user.username);
@@ -85,7 +87,7 @@ export class Profile extends React.Component {
         await this.props.profileActions.setCountry(user.country);
         await this.props.profileActions.setCity(user.city);
         await this.props.profileActions.setZipCode(user.zipCode);
-        await this.props.profileActions.setAddress(user.adress);
+        await this.props.profileActions.setAddress(user.address);
         await this.props.profileActions.setEMail(user.email);
         await this.props.profileActions.setLastName(user.lastname);
         await this.props.profileActions.setFirstName(user.firstname);
@@ -108,7 +110,6 @@ export class Profile extends React.Component {
       return this.showErrors(user);
     } else if (user) {
       return user;
-      // this.props.history.push('/profile-overview');
     }
   };
 
@@ -131,55 +132,55 @@ export class Profile extends React.Component {
         <br/>
         <form className="FormFields">
           <div className="FormField">
-            <label className="FormField__Label" htmlFor="username">{this.props.i18n.t.ui.USERNAME}</label>
+            <label className="FormField__Label_Overview" htmlFor="username">{this.props.i18n.t.ui.USERNAME}</label>
             <p>{this.props.username}</p>
           </div>
           <div className="FormField">
-            <label className="FormField__Label" htmlFor="title">{this.props.i18n.t.ui.TITLE}</label>
+            <label className="FormField__Label_Overview" htmlFor="title">{this.props.i18n.t.ui.TITLE}</label>
             <p>{this.props.title}</p>
           </div>
           <div className="FormField">
-            <label className="FormField__Label" htmlFor="gender">{this.props.i18n.t.ui.GENDER}</label>
+            <label className="FormField__Label_Overview" htmlFor="gender">{this.props.i18n.t.ui.GENDER}</label>
             <p>{this.props.gender}</p>
           </div>
           <div className="FormField">
-            <label className="FormField__Label" htmlFor="name">{this.props.i18n.t.ui.FIRST_NAME}</label>
+            <label className="FormField__Label_Overview" htmlFor="name">{this.props.i18n.t.ui.FIRST_NAME}</label>
             <p>{this.props.firstname}</p>
           </div>
           <div className="FormField">
-            <label className="FormField__Label" htmlFor="name">{this.props.i18n.t.ui.LAST_NAME}</label>
+            <label className="FormField__Label_Overview" htmlFor="name">{this.props.i18n.t.ui.LAST_NAME}</label>
             <p>{this.props.lastname}</p>
           </div>
           <div className="FormField">
-            <label className="FormField__Label" htmlFor="email">{this.props.i18n.t.ui.EMAIL}</label>
+            <label className="FormField__Label_Overview" htmlFor="email">{this.props.i18n.t.ui.EMAIL}</label>
             <p>{this.props.email}</p>
           </div>
           <div className="FormField">
-            <label className="FormField__Label" htmlFor="name">{this.props.i18n.t.ui.STREET}</label>
-            <p>{this.props.adress}</p>
+            <label className="FormField__Label_Overview" htmlFor="name">{this.props.i18n.t.ui.STREET}</label>
+            <p>{this.props.address}</p>
           </div>
           <div className="FormField">
-            <label className="FormField__Label" htmlFor="name">{this.props.i18n.t.ui.ZIP_CODE}</label>
+            <label className="FormField__Label_Overview" htmlFor="name">{this.props.i18n.t.ui.ZIP_CODE}</label>
             <p>{this.props.zipCode}</p>
           </div>
           <div className="FormField">
-            <label className="FormField__Label" htmlFor="name">{this.props.i18n.t.ui.CITY}</label>
+            <label className="FormField__Label_Overview" htmlFor="name">{this.props.i18n.t.ui.CITY}</label>
             <p>{this.props.city}</p>
           </div>
           <div className="FormField">
-            <label className="FormField__Label" htmlFor="name">{this.props.i18n.t.ui.COUNTRY}</label>
+            <label className="FormField__Label_Overview" htmlFor="name">{this.props.i18n.t.ui.COUNTRY}</label>
             <p>{this.props.country}</p>
           </div>
           <div className="FormField">
-            <label className="FormField__Label" htmlFor="name">{this.props.i18n.t.ui.ORGANISATION}</label>
+            <label className="FormField__Label_Overview" htmlFor="name">{this.props.i18n.t.ui.ORGANISATION}</label>
             <p>{this.props.organisation}</p>
           </div>
           <div className="FormField">
-            <label className="FormField__Label" htmlFor="name">{this.props.i18n.t.ui.FIELD_OF_ACTIVITY}</label>
+            <label className="FormField__Label_Overview" htmlFor="name">{this.props.i18n.t.ui.FIELD_OF_ACTIVITY}</label>
             <p>{this.props.fieldOfActivity}</p>
           </div>
           <div className="FormField">
-            <label className="FormField__Label" htmlFor="name">{this.props.i18n.t.ui.RESEARCH_INTEREST}</label>
+            <label className="FormField__Label_Overview" htmlFor="name">{this.props.i18n.t.ui.RESEARCH_INTEREST}</label>
             <p>{this.props.researchInterest}</p>
           </div>
           <br/>

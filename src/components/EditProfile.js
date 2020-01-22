@@ -113,7 +113,7 @@ export class EditProfile extends React.Component {
         await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.EMAIL_IN_USE);
       } else {
         await this.props.snackActions.setAndShowInfo(this.props.i18n.t.ui.SNACK.SUCCESSFUL_UPDATE);
-        this.props.history.push('/profile-overview');
+        this.props.history.push('/profile');
       }
     } catch (e) {
       await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.SERVER_ERROR);
@@ -179,6 +179,7 @@ export class EditProfile extends React.Component {
     if (!this.props.researchInterest) {
       await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.REQUIRED_FIELDS_INCOMPLETE);
     } else {
+      await this.props.globalUiActions.unsetProfileEdit();
       await this.updateUser();
     }
   };
@@ -220,7 +221,6 @@ export class EditProfile extends React.Component {
       return this.showErrors(user);
     } else if (user) {
       return user;
-      // this.props.history.push('/profile-overview');
     }
   };
 

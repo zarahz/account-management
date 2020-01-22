@@ -1,6 +1,5 @@
 // @flow
 import ServiceConstants from '../constants/ServiceConstants';
-import type { UserModel } from '../models/UserModel';
 import cookie from 'react-cookies';
 
 export default class UserService {
