@@ -93,7 +93,7 @@ export class Profile extends React.Component {
     } catch (e) {
       await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.SERVER_ERROR);
     }
-  }
+  };
 
   decodeToken = async (token: {token: string}) => {
     const decoderService: DecoderService = new DecoderService();

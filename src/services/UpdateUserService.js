@@ -1,5 +1,6 @@
 // @flow
 import ServiceConstants from '../constants/ServiceConstants';
+import type { UserModel } from '../models/UserModel';
 
 export default class UpdateUserService {
     updateUser = async (user: UserModel, token: String) => {
