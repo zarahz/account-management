@@ -34,6 +34,7 @@ import I18nMap from './maps/I18nMap';
 
 // components
 import StartScreen from './components/StartScreen';
+import ProfileOverview from './components/ProfileOverview';
 import CollectionsService from './services/CollectionsService';
 
 class App extends Component {
@@ -114,7 +115,7 @@ class App extends Component {
       const { classes } = this.props;
       return (
         <div className={classes.app}>
-          <StartScreen />
+          <ProfileOverview />
           {
             this.renderSnackBar()
           }
