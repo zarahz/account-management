@@ -1,10 +1,11 @@
 // @flow
 import * as types from '../actions/ActionTypes';
+import type { UserModel } from '../models/UserModel';
 
 const profile = (state: {
   id: string, title: string, gender: string, firstName: string, lastName: string, username: string, email: string,
   organisation: string, address: string, city: string, country: string, zipCode?: number, fieldOfActivity: string,
-  researchInterest: Array<string>
+  researchInterest: Array<string>, userProfile: UserModel, interestString: string
 } = {
   id: '',
   title: '',
@@ -19,15 +20,17 @@ const profile = (state: {
   country: '',
   zipCode: undefined,
   fieldOfActivity: '',
-  researchInterest: []
+  researchInterest: [],
+  userProfile: {},
+  interestString: ''
 }, action: {
   type: string, id: string, title: string, gender: string, firstName: string, lastName: string, username: string, email: string,
   organisation: string, address: string, city: string, country: string, zipCode?: number, fieldOfActivity: string,
-  researchInterest: Array<string>
+  researchInterest: Array<string>, userProfile: UserModel, interestString: string
 }): {
   id: string, title: string, gender: string, firstName: string, lastName: string, username: string, email: string,
   organisation: string, address: string, city: string, country: string, zipCode?: number, fieldOfActivity: string,
-  researchInterest: Array<string>
+  researchInterest: Array<string>, userProfile: UserModel, interestString: string
 } => {
   const newState = JSON.parse(JSON.stringify(state));
   switch (action.type) {
@@ -72,6 +75,12 @@ const profile = (state: {
       return newState;
     case types.SET_RESEARCH_INTERESTS:
       newState.researchInterest = action.researchInterest;
+      return newState;
+    case types.SET_USER_PROFILE:
+      newState.userProfile = action.userProfile;
+      return newState;
+    case types.SET_RESEARCH_INTEREST_STRING:
+      newState.interestString = action.interestString;
       return newState;
     default:
       return state;

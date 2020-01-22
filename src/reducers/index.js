@@ -6,6 +6,7 @@ import globalUi from './globalUi';
 import login from './login';
 import registration from './registration';
 import passwordReset from './passwordReset';
+import profile from './profile';
 import snack from './snack';
 import user from './user';
 
@@ -16,6 +17,7 @@ export default combineReducers({
   login,
   registration,
   passwordReset,
+  profile,
   snack,
   user
 });

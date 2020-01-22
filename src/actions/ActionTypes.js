@@ -55,3 +55,4 @@ export const SET_CHECK_PASSWORD = 'SET_CHECK_PASSWORD';
 // profileview
 export const SET_USER_PROFILE = 'SET_USER_PROFILE';
 export const SET_ID = 'SET_ID';
+export const SET_RESEARCH_INTEREST_STRING = 'SET_RESEARCH_INTEREST_STRING';

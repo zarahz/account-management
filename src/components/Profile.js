@@ -24,6 +24,8 @@ import type { CollectionActionType } from '../actions/collections';
 import type { I18nModel } from '../models/I18nModel';
 import type { globalUiActionsType } from '../actions/globalUi';
 import type { UserActionsType } from '../actions/user';
+import type { UserModel } from '../models/UserModel';
+import type { ProfileActionType } from '../actions/profile';
 
 // services
 import DecoderService from '../services/DecoderService';
@@ -36,34 +38,8 @@ export class Profile extends React.Component {
     i18n: {code: string, t: I18nModel},
     globalUiActions: globalUiActionsType,
     userActions: UserActionsType,
-    title: String,
-    gender: String,
-    firstname: String,
-    lastname: String,
-    username: String,
-    email: String,
-    organisation: String,
-    address: String,
-    city: String,
-    country: String,
-    zipCode: Number,
-    fieldOfActivity: String,
-    researchInterest: Array,
-    userProfile: {
-      title: String,
-      gender: String,
-      firstname: String,
-      lastname: String,
-      username: String,
-      email: String,
-      organisation: String,
-      address: String,
-      city: String,
-      country: String,
-      zipCode: Number,
-      fieldOfActivity: String,
-      researchInterest: Array
-    },
+    userProfile: UserModel,
+    interestString: string
   };
 
   componentDidMount = async () => {
@@ -78,24 +54,26 @@ export class Profile extends React.Component {
     try {
       const user = await this.decodeToken(token);
       if (user) {
-        console.log(user)
-        // geht irgendwie nicht deswegen so müsahm gelöst
-        // await this.props.profileActions.setUserProfile(user);
-        await this.props.profileActions.setUserName(user.username);
-        await this.props.profileActions.setFieldOfActivity(user.fieldOfActivity);
-        await this.props.profileActions.setOrganisation(user.organisation);
-        await this.props.profileActions.setCountry(user.country);
-        await this.props.profileActions.setCity(user.city);
-        await this.props.profileActions.setZipCode(user.zipCode);
-        await this.props.profileActions.setAddress(user.address);
-        await this.props.profileActions.setEMail(user.email);
-        await this.props.profileActions.setLastName(user.lastname);
-        await this.props.profileActions.setFirstName(user.firstname);
-        await this.props.profileActions.setTitle(user.title);
+        await this.props.profileActions.setUserProfile(user);
+        await this.setResearchInterest(user.researchInterest);
       }
     } catch (e) {
       await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.SERVER_ERROR);
     }
+  };
+
+  setResearchInterest = async (researchInterest: Array) => {
+    let interestString: string = '';
+    if (researchInterest !== []) {
+      for (let a = 0; a < researchInterest.length; a++) {
+        if (interestString === '') {
+          interestString = researchInterest[a];
+        } else {
+          interestString = interestString + ', ' + researchInterest[a];
+        }
+      }
+    }
+    await this.props.profileActions.setResearchInterestString(interestString);
   };
 
   decodeToken = async (token: {token: string}) => {
@@ -133,55 +111,55 @@ export class Profile extends React.Component {
         <form className="FormFields">
           <div className="FormField">
             <label className="FormField__Label_Overview" htmlFor="username">{this.props.i18n.t.ui.USERNAME}</label>
-            <p>{this.props.username}</p>
+            <p>{this.props.userProfile.username}</p>
           </div>
           <div className="FormField">
             <label className="FormField__Label_Overview" htmlFor="title">{this.props.i18n.t.ui.TITLE}</label>
-            <p>{this.props.title}</p>
+            <p>{this.props.userProfile.title}</p>
           </div>
           <div className="FormField">
             <label className="FormField__Label_Overview" htmlFor="gender">{this.props.i18n.t.ui.GENDER}</label>
-            <p>{this.props.gender}</p>
+            <p>{this.props.userProfile.gender}</p>
           </div>
           <div className="FormField">
             <label className="FormField__Label_Overview" htmlFor="name">{this.props.i18n.t.ui.FIRST_NAME}</label>
-            <p>{this.props.firstname}</p>
+            <p>{this.props.userProfile.firstname}</p>
           </div>
           <div className="FormField">
             <label className="FormField__Label_Overview" htmlFor="name">{this.props.i18n.t.ui.LAST_NAME}</label>
-            <p>{this.props.lastname}</p>
+            <p>{this.props.userProfile.lastname}</p>
           </div>
           <div className="FormField">
             <label className="FormField__Label_Overview" htmlFor="email">{this.props.i18n.t.ui.EMAIL}</label>
-            <p>{this.props.email}</p>
+            <p>{this.props.userProfile.email}</p>
           </div>
           <div className="FormField">
             <label className="FormField__Label_Overview" htmlFor="name">{this.props.i18n.t.ui.STREET}</label>
-            <p>{this.props.address}</p>
+            <p>{this.props.userProfile.address}</p>
           </div>
           <div className="FormField">
             <label className="FormField__Label_Overview" htmlFor="name">{this.props.i18n.t.ui.ZIP_CODE}</label>
-            <p>{this.props.zipCode}</p>
+            <p>{this.props.userProfile.zipCode}</p>
           </div>
           <div className="FormField">
             <label className="FormField__Label_Overview" htmlFor="name">{this.props.i18n.t.ui.CITY}</label>
-            <p>{this.props.city}</p>
+            <p>{this.props.userProfile.city}</p>
           </div>
           <div className="FormField">
             <label className="FormField__Label_Overview" htmlFor="name">{this.props.i18n.t.ui.COUNTRY}</label>
-            <p>{this.props.country}</p>
+            <p>{this.props.userProfile.country}</p>
           </div>
           <div className="FormField">
             <label className="FormField__Label_Overview" htmlFor="name">{this.props.i18n.t.ui.ORGANISATION}</label>
-            <p>{this.props.organisation}</p>
+            <p>{this.props.userProfile.organisation}</p>
           </div>
           <div className="FormField">
             <label className="FormField__Label_Overview" htmlFor="name">{this.props.i18n.t.ui.FIELD_OF_ACTIVITY}</label>
-            <p>{this.props.fieldOfActivity}</p>
+            <p>{this.props.userProfile.fieldOfActivity}</p>
           </div>
           <div className="FormField">
             <label className="FormField__Label_Overview" htmlFor="name">{this.props.i18n.t.ui.RESEARCH_INTEREST}</label>
-            <p>{this.props.researchInterest}</p>
+            <p>{this.props.interestString}</p>
           </div>
           <br/>
           <div className="FormField">
@@ -198,20 +176,8 @@ export class Profile extends React.Component {
 // maps redux store data to props
 const mapStateToProps = (state: Object) => {
   return {
-    userProfile: state.userProfile,
-    title: state.registration.title,
-    gender: state.registration.gender,
-    firstName: state.registration.firstName,
-    lastName: state.registration.lastName,
-    username: state.registration.username,
-    email: state.registration.email,
-    organisation: state.registration.organisation,
-    address: state.registration.address,
-    city: state.registration.city,
-    country: state.registration.country,
-    zipCode: state.registration.zipCode,
-    fieldOfActivity: state.registration.fieldOfActivity,
-    researchInterest: state.registration.researchInterest,
+    userProfile: state.profile.userProfile,
+    interestString: state.profile.interestString,
     i18n: state.i18n
   };
 };

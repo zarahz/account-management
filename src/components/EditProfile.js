@@ -23,6 +23,7 @@ import type { CollectionActionType } from '../actions/collections';
 import type { I18nModel } from '../models/I18nModel';
 import type { globalUiActionsType } from '../actions/globalUi';
 import type { UserActionsType } from '../actions/user';
+import type { ProfileActionType } from '../actions/profile';
 
 // services
 import CollectionsService from '../services/CollectionsService';
@@ -35,6 +36,7 @@ import DecoderService from '../services/DecoderService';
 export class EditProfile extends React.Component {
   collectionService: CollectionsService = new CollectionsService();
   researchInterestCollection: Array<Object> = [];
+  researchInterest: Array<Object> = [];
   genderCollection: Array<Object> = [
     { name: this.props.i18n.t.ui.MAN },
     { name: this.props.i18n.t.ui.FEMALE },
@@ -67,6 +69,7 @@ export class EditProfile extends React.Component {
   };
 
   componentDidMount = async () => {
+    await this.props.globalUiActions.unsetLoginOrRegister();
     await this.getUser();
     await this.loadAndManipulateCollections();
   };
@@ -189,23 +192,32 @@ export class EditProfile extends React.Component {
     try {
       const user = await this.decodeToken(token);
       if (user) {
-        // geht irgendwie nicht deswegen so müsahm gelöst
-        // await this.props.profileActions.setUserProfile(user);
-        await this.props.profileActions.setUserName(user.username);
-        await this.props.profileActions.setFieldOfActivity(user.fieldOfActivity);
-        await this.props.profileActions.setOrganisation(user.organisation);
-        await this.props.profileActions.setCountry(user.country);
-        await this.props.profileActions.setCity(user.city);
-        await this.props.profileActions.setZipCode(user.zipCode);
-        await this.props.profileActions.setAddress(user.adress);
-        await this.props.profileActions.setEMail(user.email);
-        await this.props.profileActions.setLastName(user.lastname);
-        await this.props.profileActions.setFirstName(user.firstname);
-        await this.props.profileActions.setTitle(user.title);
+        this.loadResearchInterests(user.researchInterest);
         await this.props.profileActions.setID(user.id);
+        await this.props.profileActions.setTitle(user.title);
+        await this.props.profileActions.setGender(user.gender);
+        await this.props.profileActions.setFirstName(user.firstname);
+        await this.props.profileActions.setLastName(user.lastname);
+        await this.props.profileActions.setUserName(user.username);
+        await this.props.profileActions.setEMail(user.email);
+        await this.props.profileActions.setOrganisation(user.organisation);
+        await this.props.profileActions.setAddress(user.address);
+        await this.props.profileActions.setCity(user.city);
+        await this.props.profileActions.setCountry(user.country);
+        await this.props.profileActions.setZipCode(user.zipCode);
+        await this.props.profileActions.setFieldOfActivity(user.fieldOfActivity);
+        await this.props.profileActions.setResearchInterest(user.researchInterest);
       }
     } catch (e) {
       await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.SERVER_ERROR);
+    }
+  };
+
+  loadResearchInterests = (researchInterest: Array) => {
+    if (researchInterest !== []) {
+      for (let a = 0; a < researchInterest.length; a++) {
+        this.researchInterest.push({ name: researchInterest[a] });
+      }
     }
   };
 
@@ -240,10 +252,10 @@ export class EditProfile extends React.Component {
           </div>
           <div className="FormField">
             <label className="FormField__Label" htmlFor="gender">{this.props.i18n.t.ui.GENDER}</label>
-            <Select options={this.genderCollection} multi={false}
-              values={[]} dropdownPosition={'bottom'} labelField={'name'} color={'#000'}
+            <Select options={this.genderCollection} dropdownPosition={'bottom'} labelField={'name'}
+              values={this.props.gender !== '' ? [{ name: this.props.gender }] : []} color={'#000'} multi={false}
               style={{ width: '85%', left: '25px', marginTop: '10px' }} placeholder={this.props.i18n.t.ui.GENDER_PLACEHOLDER}
-              onChange={(value) => this.setGender(value)}/>
+              valueField={'name'} onChange={(value) => this.setGender(value)}/>
           </div>
           <div className="FormField">
             <label className="FormField__Label" htmlFor="name">{this.props.i18n.t.ui.FIRST_NAME} *</label>
@@ -293,7 +305,7 @@ export class EditProfile extends React.Component {
           <div className="FormField">
             <label className="FormField__Label" htmlFor="name">{this.props.i18n.t.ui.RESEARCH_INTEREST} *</label>
             <Select options={this.researchInterestCollection}
-              values={[]} dropdownPosition={'bottom'} labelField={'name'} color={'#000'} multi={true}
+              values={ this.researchInterest } dropdownPosition={'bottom'} labelField={'name'} color={'#000'} multi={true}
               style={{ width: '85%', left: '25px', marginTop: '10px' }} placeholder={this.props.i18n.t.ui.RESEARCH_INTEREST_PLACEHOLDER}
               valueField={'name'} onChange={(value) => this.setResearchInterest(value)}/>
           </div>
@@ -311,20 +323,20 @@ export class EditProfile extends React.Component {
 // maps redux store data to props
 const mapStateToProps = (state: Object) => {
   return {
-    title: state.registration.title,
-    gender: state.registration.gender,
-    firstName: state.registration.firstName,
-    lastName: state.registration.lastName,
-    username: state.registration.username,
-    email: state.registration.email,
-    organisation: state.registration.organisation,
-    address: state.registration.address,
-    city: state.registration.city,
-    country: state.registration.country,
-    zipCode: state.registration.zipCode,
-    fieldOfActivity: state.registration.fieldOfActivity,
-    researchInterest: state.registration.researchInterest,
-    id: state.registration.id,
+    title: state.profile.title,
+    gender: state.profile.gender,
+    firstName: state.profile.firstName,
+    lastName: state.profile.lastName,
+    username: state.profile.username,
+    email: state.profile.email,
+    organisation: state.profile.organisation,
+    address: state.profile.address,
+    city: state.profile.city,
+    country: state.profile.country,
+    zipCode: state.profile.zipCode,
+    fieldOfActivity: state.profile.fieldOfActivity,
+    researchInterest: state.profile.researchInterest,
+    id: state.profile.id,
     i18n: state.i18n,
     researchInterestCollection: state.collection.researchInterestCollection
   };

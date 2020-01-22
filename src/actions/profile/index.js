@@ -71,6 +71,11 @@ export const setResearchInterest = (interest: Array<string>) => ({
   researchInterest: interest
 });
 
+export const setResearchInterestString = (interest: string) => ({
+  type: types.SET_RESEARCH_INTEREST_STRING,
+  interestString: interest
+});
+
 export const setID = (id: string) => ({
   type: types.SET_ID,
   id: id
@@ -91,5 +96,6 @@ export type ProfileActionType = {
     setZipCode: (zipCode: number) => mixed,
     setFieldOfActivity: (fieldOfActivity: string) => mixed,
     setResearchInterest: (interest: Array<string>) => mixed,
+    setResearchInterestString: (interest: string) => mixed,
     setID: (id: string) => mixed,
 };
