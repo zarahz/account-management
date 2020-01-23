@@ -55,7 +55,10 @@ export class DeleteProfile extends React.Component {
             const user = await this.decodeToken(token);
             if (user) {
               try {
-                await userService.deleteUser(this.props.username, this.props.password);
+                const deletion = await userService.deleteUser(this.props.username, this.props.password);
+                if (deletion) {
+                  this.props.history.push('/sign-up');
+                }
               } catch (e) {
                 await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.SERVER_ERROR);
               }

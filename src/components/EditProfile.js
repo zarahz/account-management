@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import Select from 'react-dropdown-select';
+import cookie from 'react-cookies';
 
 // routing
 import { withRouter } from 'react-router-dom';
@@ -104,7 +105,7 @@ export class EditProfile extends React.Component {
         fieldOfActivity: this.props.fieldOfActivity,
         researchInterest: this.props.researchInterest
       };
-      let token = 'eyJhbGciOiJIUzI1NiJ9.NWUxYzQ0OWNiMWQ1YjFjOTk0ZjRjZTlj.7VJTPSVG_9ENW_bW-Pv9p2D3vQlMr5OO31HhK1BJD4o';
+      let token: {token: string} = cookie.load('token');
       token = await updateUserService.updateUser(user, token);
       if (!token) {
         await this.props.snackActions.setAndShowWarning(this.props.i18n.t.ui.SNACK.DEFAULT_ERROR);
@@ -193,7 +194,7 @@ export class EditProfile extends React.Component {
   };
 
   getUser = async () => {
-    const token: {token: string} = 'eyJhbGciOiJIUzI1NiJ9.NWUxYzQ0OWNiMWQ1YjFjOTk0ZjRjZTlj.7VJTPSVG_9ENW_bW-Pv9p2D3vQlMr5OO31HhK1BJD4o';
+    const token: {token: string} = 'eyJhbGciOiJIUzI1NiJ9.NWUyOWM4N2IzMjI4YzFjOWRmZWFkMGQ3.YNYvoAcYKIlPoYgY-UeDTjg77wgeOS4ME_m8iAmGRu0';
     try {
       const user = await this.decodeToken(token);
       if (user) {

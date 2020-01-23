@@ -104,7 +104,10 @@ export default class UserService {
           },
           body: JSON.stringify({ username, password })
         });
-        return response.json();
+        if (response.status !== 200) {
+          return response.json();
+        }
+        return true;
       } catch (e) {
         throw new Error(500);
       }
