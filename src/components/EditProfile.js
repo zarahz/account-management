@@ -116,12 +116,21 @@ export class EditProfile extends React.Component {
       } else if (data.error === 'this email is already used') {
         await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.EMAIL_IN_USE);
       } else {
+        await this.props.globalUiActions.setLoading();
+        await this.wait(2000);
+        await this.props.globalUiActions.unsetLoading();
         await this.props.snackActions.setAndShowInfo(this.props.i18n.t.ui.SNACK.SUCCESSFUL_UPDATE);
         window.location.href = 'https://www.pwp.um.ifi.lmu.de/g11';
       }
     } catch (e) {
       await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.SERVER_ERROR);
     }
+  };
+
+  wait = async (ms: number) => {
+    return new Promise(resolve => {
+      setTimeout(resolve, ms);
+    });
   };
 
   handleChange = async (event: Object) => {

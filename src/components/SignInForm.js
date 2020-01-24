@@ -25,6 +25,7 @@ import type { SnackActionType } from '../actions/snack';
 import type { I18nModel } from '../models/I18nModel';
 import type { globalUiActionsType } from '../actions/globalUi';
 import type { UserActionsType } from '../actions/user';
+import cookie from "react-cookies";
 
 export class SignInForm extends React.Component {
   props: {
@@ -74,10 +75,19 @@ export class SignInForm extends React.Component {
      if (user && Object.prototype.hasOwnProperty.call(user, 'error')) {
        return this.showErrors(user);
      } else if (user) {
+       await this.props.globalUiActions.setLoading();
+       await this.wait(2000);
+       await this.props.globalUiActions.unsetLoading();
        await this.props.userActions.setActiveUser(user);
        await this.props.snackActions.setAndShowInfo(this.props.i18n.t.ui.SNACK.LOGIN_COMPLETED);
        window.location.href = 'https://www.pwp.um.ifi.lmu.de/g11';
      }
+   };
+
+   wait = async (ms: number) => {
+     return new Promise(resolve => {
+       setTimeout(resolve, ms);
+     });
    };
 
     showErrors = async (errorObject: Object) => {
