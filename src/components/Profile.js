@@ -30,6 +30,7 @@ import type { ProfileActionType } from '../actions/profile';
 import DecoderService from '../services/DecoderService';
 
 export class Profile extends React.Component {
+  gender: String = '';
   props: {
     profileActions: ProfileActionType,
     snackActions: SnackActionType,
@@ -54,6 +55,11 @@ export class Profile extends React.Component {
       if (user) {
         await this.props.profileActions.setUserProfile(user);
         await this.setResearchInterest(user.researchInterest);
+        if (user.gender && (user.gender === 'Mann' || 'Man')) {
+          this.gender = this.props.i18n.t.ui.MAN;
+        } else if (user.gender && (user.gender === 'Frau' || 'Female')) {
+          this.gender = this.props.i18n.t.ui.FEMALE;
+        } else { this.gender = this.props.i18n.t.ui.DIVERS; }
       }
     } catch (e) {
       await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.SERVER_ERROR);
@@ -117,7 +123,7 @@ export class Profile extends React.Component {
           </div>
           <div className="FormField">
             <label className="FormField__Label_Overview" htmlFor="gender">{this.props.i18n.t.ui.GENDER}</label>
-            <p>{this.props.userProfile.gender}</p>
+            <p>{this.gender}</p>
           </div>
           <div className="FormField">
             <label className="FormField__Label_Overview" htmlFor="name">{this.props.i18n.t.ui.FIRST_NAME}</label>
