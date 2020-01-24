@@ -194,7 +194,7 @@ export class EditProfile extends React.Component {
   };
 
   getUser = async () => {
-    const token: {token: string} = 'eyJhbGciOiJIUzI1NiJ9.NWUyOWM4N2IzMjI4YzFjOWRmZWFkMGQ3.YNYvoAcYKIlPoYgY-UeDTjg77wgeOS4ME_m8iAmGRu0';
+    const token: {token: string} = cookie.load('token');
     try {
       const user = await this.decodeToken(token);
       if (user) {
