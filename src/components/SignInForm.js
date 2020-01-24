@@ -79,7 +79,7 @@ export class SignInForm extends React.Component {
        await this.props.globalUiActions.unsetLoading();
        await this.props.userActions.setActiveUser(user);
        await this.props.snackActions.setAndShowInfo(this.props.i18n.t.ui.SNACK.LOGIN_COMPLETED);
-       window.location.assign('https://www.pwp.um.ifi.lmu.de/g11');
+       window.location.replace('https://www.pwp.um.ifi.lmu.de/g11');
      }
    };
 
