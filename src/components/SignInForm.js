@@ -63,11 +63,11 @@ export class SignInForm extends React.Component {
     }
   };
 
-   decodeToken = async (token: {token: string}) => {
+   decodeToken = async (token) => {
      const decoderService: DecoderService = new DecoderService();
      let user = null;
      if (!Object.prototype.hasOwnProperty.call(token, 'error')) {
-       user = await decoderService.decode(token);
+       user = await decoderService.decode(token.token);
      } else {
        await this.showErrors(token);
      }

@@ -48,7 +48,7 @@ export class DeleteProfile extends React.Component {
       if (this.props.username !== '') {
         if (this.props.password !== '') {
           try {
-            const token: {token: string} = await loginService.login(this.props.username, this.props.password);
+            const token = await loginService.login(this.props.username, this.props.password);
             if (!token) {
               return await this.props.snackActions.setAndShowWarning(this.props.i18n.t.ui.SNACK.DEFAULT_ERROR);
             }
@@ -74,11 +74,11 @@ export class DeleteProfile extends React.Component {
       }
     };
 
-    decodeToken = async (token: {token: string}) => {
+    decodeToken = async (token) => {
       const decoderService: DecoderService = new DecoderService();
       let user = null;
       if (!Object.prototype.hasOwnProperty.call(token, 'error')) {
-        user = await decoderService.decode(token);
+        user = await decoderService.decode(token.token);
       } else {
         await this.showErrors(token);
       }

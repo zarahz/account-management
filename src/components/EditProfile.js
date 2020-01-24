@@ -110,7 +110,7 @@ export class EditProfile extends React.Component {
       if (!token) {
         await this.props.snackActions.setAndShowWarning(this.props.i18n.t.ui.SNACK.DEFAULT_ERROR);
       }
-      const data = await decoderService.decode(token);
+      const data = await decoderService.decode(token.token);
       if (data.error === 'username already exists') {
         await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.USERNAME_IN_USE);
       } else if (data.error === 'this email is already used') {

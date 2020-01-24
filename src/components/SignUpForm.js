@@ -121,7 +121,7 @@ export class SignUpForm extends React.Component {
       } else {
         await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.SERVER_ERROR);
       }
-      const data = await decoderService.decode(token);
+      const data = await decoderService.decode(token.token);
       await this.props.userActions.setActiveUser(data);
       await this.props.globalUiActions.setLoading();
       await this.wait(2000);
