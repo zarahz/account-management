@@ -96,6 +96,15 @@
     color: #000;
     margin-left: 7%;
   }
+  .FormField__Label_Overview {
+    display: flex;
+    justify-content: flex-start;
+    text-transform: uppercase;
+    font-size: .9em;
+    color: #000;
+    margin-left: 7%;
+    font-weight: 700;
+  }
   .FormField__Input {
     width: 85%;
     background-color: transparent;
@@ -117,7 +126,7 @@
   }
   
   .FormField__Input::placeholder {
-    color: #616E7F;
+    color: #000;
   }
   
   .FormField__Button {
@@ -126,8 +135,9 @@
     border: none;
     outline: none;
     cursor: pointer;
-    border-radius: 25px;
-    padding: 15px 70px;
+    text-transform: uppercase;
+    width: 120px;
+    height: 50px;
     font-size: .9em;
     font-weight: bold;
   }
@@ -139,7 +149,7 @@
   }
   
   .FormField__Link {
-    color: #66707D;
+    color: #000;
     text-decoration: none;
     display: inline-block;
     border-bottom: 1.5px solid #000;
@@ -147,7 +157,7 @@
   }
   
   .FormField__CheckboxLabel {
-    color: #646F7D;
+    color: #000;
     font-size: .9em;
   }
   
@@ -158,9 +168,57 @@
   
   .FormField__TermsLink {
     color: white;
-    border-bottom: 1px solid #199087;
+    border-bottom: 1px solid #000;
     text-decoration: none;
     display: inline-block;
     padding-bottom: 2px;
     margin-left: 5px;
   }
+
+  .Description_Text {
+    width: 85%;
+    background-color: transparent;
+    color: #000;
+    outline: none;
+    font-size: 1em;
+    font-weight: 300;
+    padding-bottom: 10px;
+    margin-top: 10px;
+    margin-left: 7%;
+    text-align: left
+  }
+
+  .LinkFormField {
+    margin-bottom: 20px
+  }
+
+  .LinkText {
+    font-size: 1em;
+    margin-top: 0;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 7%
+  }
+
+  .LinkTextLink {
+    color: #000 !important
+  }
+
+  .App {
+    text-align: center
+  }
+
+  .LoadingContainer {
+    display: flex;
+    align-Items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.6);
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+}

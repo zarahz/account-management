@@ -13,8 +13,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 // styles
-import { withStyles } from '@material-ui/core';
-import styles from '../assets/stylesheets/RouterScreenStyles';
+import '../assets/stylesheets/Startscreen.css';
 
 // services
 import LoginService from '../services/LoginService';
@@ -29,7 +28,6 @@ import type { UserActionsType } from '../actions/user';
 
 export class SignInForm extends React.Component {
   props: {
-    classes: Object,
     username: string,
     password: string,
     loginActions: LoginActionType,
@@ -78,7 +76,7 @@ export class SignInForm extends React.Component {
      } else if (user) {
        await this.props.userActions.setActiveUser(user);
        await this.props.snackActions.setAndShowInfo(this.props.i18n.t.ui.SNACK.LOGIN_COMPLETED);
-       this.props.history.push('/sign-up');
+       this.props.history.push('/profile');
      }
    };
 
@@ -108,7 +106,6 @@ export class SignInForm extends React.Component {
   };
 
   render () {
-    const { classes } = this.props;
     return (
       <div className="FormCenter">
         <form onSubmit={this.handleSubmit} className="FormFields">
@@ -122,9 +119,9 @@ export class SignInForm extends React.Component {
             <input type="password" id="password" className="FormField__Input" placeholder={this.props.i18n.t.ui.PASSWORD_PLACEHOLDER}
               name="password" value={this.props.password} onChange={this.handlePasswordChange} />
           </div>
-          <div className={classes.linkFormField}>
-            <p className={classes.linkText}><a href={'#/password-reset'}
-              className={classes.linkTextLink}>{this.props.i18n.t.ui.FORGOT_PASSWORD}</a>
+          <div className="LinkFormField">
+            <p className="LinkText"><a href={'#/password-reset'}
+              className="LinkTextLink">{this.props.i18n.t.ui.FORGOT_PASSWORD}</a>
             </p>
           </div>
           <div className="FormField">
@@ -155,4 +152,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default withRouter(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(SignInForm)));
+export default withRouter((connect(mapStateToProps, mapDispatchToProps)(SignInForm)));

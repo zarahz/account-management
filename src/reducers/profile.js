@@ -1,10 +1,11 @@
 // @flow
 import * as types from '../actions/ActionTypes';
+import type { UserModel } from '../models/UserModel';
 
-const registration = (state: {
-  id: string, title: string, gender: string, firstName: string, lastName: string, username: string, email: string, password: string,
-  organisation: string, address: string, city: string, country: string, zipCode?: number, fieldOfActivity: string,
-  researchInterest: Array<string>, securityQuestion: string, securityAnswer: string
+const profile = (state: {
+  id: string, title: string, gender: string, firstName: string, lastName: string, username: string, email: string,
+  password: string, organisation: string, address: string, city: string, country: string, zipCode?: number,
+  fieldOfActivity: string, researchInterest: Array<string>, userProfile: UserModel, interestString: string
 } = {
   id: '',
   title: '',
@@ -21,16 +22,17 @@ const registration = (state: {
   zipCode: undefined,
   fieldOfActivity: '',
   researchInterest: [],
-  securityQuestion: '',
-  securityAnswer: ''
+  userProfile: {},
+  interestString: ''
 }, action: {
-  type: string, id: string, title: string, gender: string, firstName: string, lastName: string, username: string, email: string, password: string,
+  type: string, id: string, title: string, gender: string, firstName: string, lastName: string, username: string, email: string,
+  password: string,
   organisation: string, address: string, city: string, country: string, zipCode?: number, fieldOfActivity: string,
-  researchInterest: Array<string>, securityQuestion: string, securityAnswer: string
+  researchInterest: Array<string>, userProfile: UserModel, interestString: string
 }): {
-  id: string, title: string, gender: string, firstName: string, lastName: string, username: string, email: string, password: string,
+  id: string, title: string, gender: string, firstName: string, lastName: string, username: string, email: string,
   organisation: string, address: string, city: string, country: string, zipCode?: number, fieldOfActivity: string,
-  researchInterest: Array<string>, securityQuestion: string, securityAnswer: string
+  researchInterest: Array<string>, userProfile: UserModel, interestString: string
 } => {
   const newState = JSON.parse(JSON.stringify(state));
   switch (action.type) {
@@ -79,15 +81,15 @@ const registration = (state: {
     case types.SET_RESEARCH_INTERESTS:
       newState.researchInterest = action.researchInterest;
       return newState;
-    case types.SET_SECURITY_QUESTION:
-      newState.securityQuestion = action.securityQuestion;
+    case types.SET_USER_PROFILE:
+      newState.userProfile = action.userProfile;
       return newState;
-    case types.SET_SECURITY_ANSWER:
-      newState.securityAnswer = action.securityAnswer;
+    case types.SET_RESEARCH_INTEREST_STRING:
+      newState.interestString = action.interestString;
       return newState;
     default:
       return state;
   }
 };
 
-export default registration;
+export default profile;

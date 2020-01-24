@@ -1,9 +1,8 @@
 // @flow
 import React, { Component } from 'react';
 
-// style
-import { withStyles } from '@material-ui/core/styles';
-import AppStyles from './assets/stylesheets/AppStyles';
+// styles
+import './assets/stylesheets/Startscreen.css';
 
 // material ui components
 import Snackbar from '@material-ui/core/Snackbar';
@@ -40,7 +39,6 @@ class App extends Component {
     collectionService: CollectionsService = new CollectionsService();
 
     props: {
-        classes: Object,
         isLoading: boolean,
         i18n: { code: string, t: I18nModel },
         globalUiActions: globalUiActionsType,
@@ -71,10 +69,9 @@ class App extends Component {
     };
 
     renderLoadingOverlay = () => {
-      const { classes } = this.props;
       if (this.props.isLoading) {
         return (
-          <div className={classes.loadingContainer}>
+          <div className="LoadingContainer">
             <CircularProgress style={{ color: '#ffffff', marginBottom: 15 }}/>
             <Typography variant='body1' style={{ color: '#ffffff' }}>
               {
@@ -86,40 +83,77 @@ class App extends Component {
       }
     };
 
+    renderSnackBarContent = () => {
+      if (this.props.snack.type === 'error') {
+        return (
+          <SnackbarContent style={{ backgroundColor: '#d32f2f' }}
+            action={[
+              <IconButton
+                key='close'
+                aria-label='Close'
+                color='inherit'
+                onClick={this.props.snackActions.clearSnack}>
+                <CloseIcon/>
+              </IconButton>
+            ]}
+            message={this.props.snack.message}
+          />
+        );
+      } else if (this.props.snack.type === 'warning') {
+        return (
+          <SnackbarContent style={{ backgroundColor: '#ffa000' }}
+            action={[
+              <IconButton
+                key='close'
+                aria-label='Close'
+                color='inherit'
+                onClick={this.props.snackActions.clearSnack}>
+                <CloseIcon/>
+              </IconButton>
+            ]}
+            message={this.props.snack.message}
+          />
+        );
+      } else {
+        return (
+          <SnackbarContent style={{ backgroundColor: '#52e322' }}
+            action={[
+              <IconButton
+                key='close'
+                aria-label='Close'
+                color='inherit'
+                onClick={this.props.snackActions.clearSnack}>
+                <CloseIcon/>
+              </IconButton>
+            ]}
+            message={this.props.snack.message}
+          />
+        );
+      }
+    };
+
     renderSnackBar = () => {
-      const { classes } = this.props;
       return (
         <Snackbar autoHideDuration={5000}
           onClose={ this.props.snackActions.clearSnack }
           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
           open={this.props.snack.show}>
-          <SnackbarContent className={this.props.snack.type === 'error' ? classes.snackError
-            : this.props.snack.type === 'warning' ? classes.snackWarning : classes.snackInfo}
-          action={[
-            <IconButton
-              key='close'
-              aria-label='Close'
-              color='inherit'
-              onClick={this.props.snackActions.clearSnack}>
-              <CloseIcon/>
-            </IconButton>
-          ]}
-          message={this.props.snack.message}
-          />
+          {
+            this.renderSnackBarContent()
+          }
         </Snackbar>
       );
     };
 
     render () {
-      const { classes } = this.props;
       return (
-        <div className={classes.app}>
-          <StartScreen />
+        <div className="App">
+          <StartScreen/>
           {
             this.renderSnackBar()
           }
           {
-            // this.renderLoadingOverlay()
+            this.renderLoadingOverlay()
           }
         </div>
       );
@@ -145,4 +179,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default withStyles(AppStyles)(connect(mapStateToProps, mapDispatchToProps)(App));
+export default (connect(mapStateToProps, mapDispatchToProps)(App));

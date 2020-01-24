@@ -22,10 +22,20 @@ export const setPasswordForgottenType = (pageType: string) => ({
   pageType: pageType
 });
 
+export const setProfileEdit = () => ({
+  type: types.SET_EDIT_PROFILE
+});
+
+export const unsetProfileEdit = () => ({
+  type: types.UNSET_EDIT_PROFILE
+});
+
 export type globalUiActionsType = {
     setLoading: () => mixed,
     unsetLoading: () => mixed,
     setLoginOrRegister: () => mixed,
     unsetLoginOrRegister: () => mixed,
-    setPasswordForgottenType: (pageType: string) => mixed
+    setPasswordForgottenType: (pageType: string) => mixed,
+    setProfileEdit: () => mixed,
+    unsetProfileEdit: () => mixed
 };

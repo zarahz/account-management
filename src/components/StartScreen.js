@@ -11,8 +11,6 @@ import * as globalUiActions from '../actions/globalUi';
 import { connect } from 'react-redux';
 
 // styles
-import { withStyles } from '@material-ui/core';
-import styles from '../assets/stylesheets/AppStyles';
 import '../assets/stylesheets/Startscreen.css';
 
 // models
@@ -23,11 +21,15 @@ import type { globalUiActionsType } from '../actions/globalUi';
 import SignUpForm from './SignUpForm';
 import SignInForm from './SignInForm';
 import ResetPasswordForm from './ResetPasswordForm';
+import Profile from './Profile';
+import EditProfile from './EditProfile';
+import DeleteProfile from './DeleteProfile';
 
 export class StartScreen extends React.Component {
   props: {
     classes: Object,
     isLoginOrRegister: boolean,
+    isEditProfile: boolean,
     i18n: {code: string, t: I18nModel},
     globalUiActions: globalUiActionsType,
   };
@@ -53,12 +55,26 @@ export class StartScreen extends React.Component {
     }
   };
 
+  renderStartScreenAside = () => {
+    if (this.props.isEditProfile) {
+      return (
+        <h1>PWP Conference Tool <br/> {this.props.i18n.t.ui.PROFILE_OVERVIEW}</h1>
+      );
+    } else {
+      return (
+        <h1>PWP Conference Tool</h1>
+      );
+    }
+  };
+
   render () {
     return (
       <Router basename="/">
         <div className="Startscreen">
           <div className="Startscreen__Aside">
-            <h1>PWP Conference Tool</h1>
+            {
+              this.renderStartScreenAside()
+            }
           </div>
           <div className="Startscreen__Form">
             {
@@ -69,6 +85,12 @@ export class StartScreen extends React.Component {
             <Route path="/sign-up" component={SignUpForm}>
             </Route>
             <Route path="/password-reset" component={ResetPasswordForm}>
+            </Route>
+            <Route path="/profile" component={Profile}>
+            </Route>
+            <Route path="/edit-profile" component={EditProfile}>
+            </Route>
+            <Route path="/delete-user-profile" component={DeleteProfile}>
             </Route>
           </div>
         </div>
@@ -81,6 +103,7 @@ export class StartScreen extends React.Component {
 const mapStateToProps = (state: Object) => {
   return {
     isLoginOrRegister: state.globalUi.isLoginOrRegister,
+    isEditProfile: state.globalUi.isEditProfile,
     i18n: state.i18n
   };
 };
@@ -93,4 +116,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(StartScreen));
+export default (connect(mapStateToProps, mapDispatchToProps)(StartScreen));
