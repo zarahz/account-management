@@ -117,7 +117,7 @@ export class EditProfile extends React.Component {
         await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.EMAIL_IN_USE);
       } else {
         await this.props.snackActions.setAndShowInfo(this.props.i18n.t.ui.SNACK.SUCCESSFUL_UPDATE);
-        this.props.history.push('/profile');
+        window.location.href = 'https://www.pwp.um.ifi.lmu.de/g11';
       }
     } catch (e) {
       await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.SERVER_ERROR);

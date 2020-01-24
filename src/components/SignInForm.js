@@ -76,7 +76,7 @@ export class SignInForm extends React.Component {
      } else if (user) {
        await this.props.userActions.setActiveUser(user);
        await this.props.snackActions.setAndShowInfo(this.props.i18n.t.ui.SNACK.LOGIN_COMPLETED);
-       this.props.history.push('/profile');
+       window.location.href = 'https://www.pwp.um.ifi.lmu.de/g11';
      }
    };
 

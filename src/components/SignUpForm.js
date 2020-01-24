@@ -124,7 +124,7 @@ export class SignUpForm extends React.Component {
       const data = await decoderService.decode(token);
       await this.props.userActions.setActiveUser(data);
       await this.props.snackActions.setAndShowInfo(this.props.i18n.t.ui.SNACK.LOGIN_COMPLETED);
-      this.props.history.push('/profile-overview');
+      window.location.href = 'https://www.pwp.um.ifi.lmu.de/g11';
     } catch (e) {
       await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.SERVER_ERROR);
     }
