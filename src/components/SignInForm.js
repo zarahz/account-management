@@ -75,7 +75,7 @@ export class SignInForm extends React.Component {
        return this.showErrors(user);
      } else if (user) {
        await this.props.globalUiActions.setLoading();
-       await this.wait(5000);
+       await this.wait(2000);
        await this.props.globalUiActions.unsetLoading();
        await this.props.userActions.setActiveUser(user);
        await this.props.snackActions.setAndShowInfo(this.props.i18n.t.ui.SNACK.LOGIN_COMPLETED);
