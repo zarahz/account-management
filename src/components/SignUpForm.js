@@ -118,8 +118,6 @@ export class SignUpForm extends React.Component {
         await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.USERNAME_IN_USE);
       } else if (token === 'this email is already used') {
         await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.EMAIL_IN_USE);
-      } else {
-        await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.SERVER_ERROR);
       }
       const data = await decoderService.decode(token.token);
       await this.props.userActions.setActiveUser(data);
