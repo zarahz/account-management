@@ -48,7 +48,7 @@ export class Profile extends React.Component {
   };
 
   getUser = async () => {
-    const token: {token: string} = cookie.load('token');
+    const token = cookie.load('token');
     try {
       const user = await this.decodeToken(token);
       if (user) {
