@@ -114,18 +114,19 @@ export class SignUpForm extends React.Component {
         securityAnswer: this.props.securityAnswer
       };
       const token = await registrationService.register(user);
-      if (token === 'username already exists') {
+      if (token.error === 'username already exists') {
         await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.USERNAME_IN_USE);
-      } else if (token === 'this email is already used') {
+      } else if (token.error === 'this email is already used') {
         await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.EMAIL_IN_USE);
+      } else if (Object.prototype.hasOwnProperty.call(token, 'token')) {
+        const data = await decoderService.decode(token.token);
+        await this.props.userActions.setActiveUser(data);
+        await this.props.globalUiActions.setLoading();
+        await this.wait(2000);
+        await this.props.globalUiActions.unsetLoading();
+        await this.props.snackActions.setAndShowInfo(this.props.i18n.t.ui.SNACK.LOGIN_COMPLETED);
+        this.props.history.push('/external');
       }
-      const data = await decoderService.decode(token.token);
-      await this.props.userActions.setActiveUser(data);
-      await this.props.globalUiActions.setLoading();
-      await this.wait(2000);
-      await this.props.globalUiActions.unsetLoading();
-      await this.props.snackActions.setAndShowInfo(this.props.i18n.t.ui.SNACK.LOGIN_COMPLETED);
-      this.props.history.push('/external');
     } catch (e) {
       await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.SERVER_ERROR);
     }

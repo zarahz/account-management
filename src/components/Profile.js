@@ -39,7 +39,8 @@ export class Profile extends React.Component {
     globalUiActions: globalUiActionsType,
     userActions: UserActionsType,
     userProfile: UserModel,
-    interestString: string
+    interestString: string,
+    gender: string
   };
 
   componentDidMount = async () => {
@@ -55,11 +56,13 @@ export class Profile extends React.Component {
       if (user) {
         await this.props.profileActions.setUserProfile(user);
         await this.setResearchInterest(user.researchInterest);
-        if (user.gender && (user.gender === 'Mann' || 'Man')) {
-          this.gender = this.props.i18n.t.ui.MAN;
-        } else if (user.gender && (user.gender === 'Frau' || 'Female')) {
-          this.gender = this.props.i18n.t.ui.FEMALE;
-        } else { this.gender = this.props.i18n.t.ui.DIVERS; }
+        if (user.gender === 'Mann' || user.gender === 'Man') {
+          this.props.profileActions.setGender(this.props.i18n.t.ui.MAN);
+        } else if (user.gender === 'Frau' || user.gender === 'Female') {
+          this.props.profileActions.setGender(this.props.i18n.t.ui.FEMALE);
+        } else {
+          this.props.profileActions.setGender(this.props.i18n.t.ui.DIVERS);
+        }
       }
     } catch (e) {
       await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.SERVER_ERROR);
@@ -123,7 +126,7 @@ export class Profile extends React.Component {
           </div>
           <div className="FormField">
             <label className="FormField__Label_Overview" htmlFor="gender">{this.props.i18n.t.ui.GENDER}</label>
-            <p>{this.gender}</p>
+            <p>{this.props.gender}</p>
           </div>
           <div className="FormField">
             <label className="FormField__Label_Overview" htmlFor="name">{this.props.i18n.t.ui.FIRST_NAME}</label>
@@ -182,6 +185,7 @@ const mapStateToProps = (state: Object) => {
   return {
     userProfile: state.profile.userProfile,
     interestString: state.profile.interestString,
+    gender: state.profile.gender,
     i18n: state.i18n
   };
 };
