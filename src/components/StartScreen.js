@@ -92,6 +92,7 @@ export class StartScreen extends React.Component {
             </Route>
             <Route path="/delete-user-profile" component={DeleteProfile}>
             </Route>
+            <Route path='/external' component={() => { window.location = 'https://pwp.um.ifi.lmu.de/g11'; return null; } }/>
           </div>
         </div>
       </Router>
