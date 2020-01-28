@@ -105,17 +105,15 @@ export class EditProfile extends React.Component {
         fieldOfActivity: this.props.fieldOfActivity,
         researchInterest: this.props.researchInterest
       };
-      let token: {token: string} = cookie.load('token');
+      let token = cookie.load('token');
       token = await updateUserService.updateUser(user, token);
-      if (!token) {
-        await this.props.snackActions.setAndShowWarning(this.props.i18n.t.ui.SNACK.DEFAULT_ERROR);
-      }
-      const data = await decoderService.decode(token.token);
-      if (data.error === 'username already exists') {
+      if (token.error === 'username already exists') {
         await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.USERNAME_IN_USE);
-      } else if (data.error === 'this email is already used') {
+      } else if (token.error === 'this email is already used') {
         await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.EMAIL_IN_USE);
-      } else {
+      } else if (Object.prototype.hasOwnProperty.call(token, 'token')) {
+        const data = await decoderService.decode(token.token);
+        await this.props.userActions.setActiveUser(data);
         await this.props.globalUiActions.setLoading();
         await this.wait(2000);
         await this.props.globalUiActions.unsetLoading();
