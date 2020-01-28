@@ -30,7 +30,6 @@ import type { ProfileActionType } from '../actions/profile';
 import DecoderService from '../services/DecoderService';
 
 export class Profile extends React.Component {
-  gender: String = '';
   props: {
     profileActions: ProfileActionType,
     snackActions: SnackActionType,
