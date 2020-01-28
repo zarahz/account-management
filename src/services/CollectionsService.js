@@ -2,6 +2,11 @@
 import ServiceConstants from '../constants/ServiceConstants';
 
 export default class CollectionsService {
+  /**
+   * loads the security questions, in the respective language of the browser, from the API
+   * @param languageCode
+   * @returns {Promise<*>}
+   */
   getSecurityQuestions = async (languageCode: string) => {
     const url = ServiceConstants.API_URL + 'securityQuestions?languageCode=' + languageCode;
     let response = {};
@@ -18,6 +23,10 @@ export default class CollectionsService {
     }
   };
 
+  /**
+   * loads the research interests from the API
+   * @returns {Promise<*>}
+   */
   getResearchInterests = async () => {
     const url = ServiceConstants.API_URL + 'researchInterests';
     let response = {};

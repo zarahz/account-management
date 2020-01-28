@@ -3,6 +3,11 @@ import ServiceConstants from '../constants/ServiceConstants';
 import cookie from 'react-cookies';
 
 export default class UserService {
+  /**
+   * with the email address should be returned to an existing user, his chosen security question
+   * @param email
+   * @returns {Promise<*>}
+   */
   getSecurityQuestion = async (email: string) => {
     const url = ServiceConstants.API_URL + 'securityQuestion';
     let response = {};
@@ -20,6 +25,13 @@ export default class UserService {
     }
   };
 
+  /**
+   * the api is passed the user id and an answer to the security question. The API checks if the given answer is correct
+   * and returns true if yes, otherwise false
+   * @param id
+   * @param securityAnswer
+   * @returns {Promise<*|boolean>}
+   */
   checkSecurityAnswer = async (id: string, securityAnswer: string) => {
     const url = ServiceConstants.API_URL + 'checkSecurityAnswer';
     let response = {};
@@ -41,6 +53,13 @@ export default class UserService {
     }
   };
 
+  /**
+   * the api will pass the user id and a new password and the token will be loaded from the cookies. if everything
+   * works, status code 200 will be returned by the API, otherwise an error message
+   * @param newPassword
+   * @param userId
+   * @returns {Promise<*|boolean>}
+   */
   updatePassword = async (newPassword: string, userId: string) => {
     const url = ServiceConstants.API_URL + 'updatePassword/' + userId + '?token=' + cookie.load('token');
     let response = {};
@@ -61,6 +80,13 @@ export default class UserService {
     }
   };
 
+  /**
+   * the api is given the username and password and the token is loaded from the cookies. if the user could be deleted,
+   * the status code 200 is returned, otherwise an error message
+   * @param username
+   * @param password
+   * @returns {Promise<*|boolean>}
+   */
   deleteUser = async (username: string, password: string) => {
     const url = ServiceConstants.API_URL + 'deleteUser?token=' + cookie.load('token');
     let response = {};

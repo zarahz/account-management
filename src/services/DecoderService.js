@@ -2,7 +2,12 @@
 import ServiceConstants from '../constants/ServiceConstants';
 
 export default class DecoderService {
-  decode = async (token) => {
+  /**
+   * a token is passed, which is checked by the API and if successful, a user is returned, otherwise an error
+   * @param token
+   * @returns {Promise<*>}
+   */
+  decode = async (token: string) => {
     const url = ServiceConstants.API_URL + 'token?token=' + token;
     let response = {};
     try {
