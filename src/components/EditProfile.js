@@ -249,6 +249,18 @@ export class EditProfile extends React.Component {
     }
   };
 
+  showErrors = async (errorObject: Object) => {
+    if (errorObject) {
+      if (errorObject.error === 'no user found') {
+        await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.NO_USER_FOUND);
+      } else if (errorObject.error === 'Unauthorized!' || errorObject.error === 'Failed to authenticate token.') {
+        await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.UNAUTHORIZED);
+      }
+    } else {
+      await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.DEFAULT_ERROR);
+    }
+  };
+
   render () {
     return (
       <div className="FormCenter">
