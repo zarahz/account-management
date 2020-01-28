@@ -63,43 +63,43 @@ export class SignInForm extends React.Component {
     }
   };
 
-   decodeToken = async (token) => {
-     const decoderService: DecoderService = new DecoderService();
-     let user = null;
-     if (!Object.prototype.hasOwnProperty.call(token, 'error')) {
-       user = await decoderService.decode(token.token);
-     } else {
-       await this.showErrors(token);
-     }
-     if (user && Object.prototype.hasOwnProperty.call(user, 'error')) {
-       return this.showErrors(user);
-     } else if (user) {
-       await this.props.globalUiActions.setLoading();
-       await this.wait(2000);
-       await this.props.globalUiActions.unsetLoading();
-       await this.props.userActions.setActiveUser(user);
-       await this.props.snackActions.setAndShowInfo(this.props.i18n.t.ui.SNACK.LOGIN_COMPLETED);
-       this.props.history.push('/external');
-     }
-   };
+  decodeToken = async (token) => {
+    const decoderService: DecoderService = new DecoderService();
+    let user = null;
+    if (!Object.prototype.hasOwnProperty.call(token, 'error')) {
+      user = await decoderService.decode(token.token);
+    } else {
+      await this.showErrors(token);
+    }
+    if (user && Object.prototype.hasOwnProperty.call(user, 'error')) {
+      return this.showErrors(user);
+    } else if (user) {
+      await this.props.globalUiActions.setLoading();
+      await this.wait(2000);
+      await this.props.globalUiActions.unsetLoading();
+      await this.props.userActions.setActiveUser(user);
+      await this.props.snackActions.setAndShowInfo(this.props.i18n.t.ui.SNACK.LOGIN_COMPLETED);
+      this.props.history.push('/external');
+    }
+  };
 
-   wait = async (ms: number) => {
-     return new Promise(resolve => {
-       setTimeout(resolve, ms);
-     });
-   };
+  wait = async (ms: number) => {
+    return new Promise(resolve => {
+      setTimeout(resolve, ms);
+    });
+  };
 
-    showErrors = async (errorObject: Object) => {
-      if (errorObject) {
-        if (errorObject.error === 'no user found') {
-          await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.NO_USER_FOUND);
-        } else if (errorObject.error === 'Unauthorized!' || errorObject.error === 'Failed to authenticate token.') {
-          await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.UNAUTHORIZED);
-        }
-      } else {
-        await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.DEFAULT_ERROR);
+  showErrors = async (errorObject: Object) => {
+    if (errorObject) {
+      if (errorObject.error === 'no user found') {
+        await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.NO_USER_FOUND);
+      } else if (errorObject.error === 'Unauthorized!' || errorObject.error === 'Failed to authenticate token.') {
+        await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.UNAUTHORIZED);
       }
-    };
+    } else {
+      await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.DEFAULT_ERROR);
+    }
+  };
 
   handleUserChange = async (event: Object) => {
     await this.props.loginActions.setUserName(event.target.value);

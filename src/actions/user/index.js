@@ -13,6 +13,6 @@ export const setPasswordResetObject = (passwordResetData: {id: string, securityQ
 });
 
 export type UserActionsType = {
-    setActiveUser: (user: ?UserModel) => mixed,
-    setPasswordResetObject: (dataObject: {id: string, securityQuestion: string}) => mixed
+  setActiveUser: (user: ?UserModel) => mixed,
+  setPasswordResetObject: (dataObject: {id: string, securityQuestion: string}) => mixed
 };

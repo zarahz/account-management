@@ -31,11 +31,11 @@ export const unsetProfileEdit = () => ({
 });
 
 export type globalUiActionsType = {
-    setLoading: () => mixed,
-    unsetLoading: () => mixed,
-    setLoginOrRegister: () => mixed,
-    unsetLoginOrRegister: () => mixed,
-    setPasswordForgottenType: (pageType: string) => mixed,
-    setProfileEdit: () => mixed,
-    unsetProfileEdit: () => mixed
+  setLoading: () => mixed,
+  unsetLoading: () => mixed,
+  setLoginOrRegister: () => mixed,
+  unsetLoginOrRegister: () => mixed,
+  setPasswordForgottenType: (pageType: string) => mixed,
+  setProfileEdit: () => mixed,
+  unsetProfileEdit: () => mixed
 };

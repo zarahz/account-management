@@ -27,9 +27,9 @@ export const setCheckPassword = (checkPassword: string) => ({
 });
 
 export type PasswordResetActionsType = {
-    setResetEmail: (email: string) => mixed,
-    setPasswordResetObject: (dataObject: {id: string, securityQuestion: string}) => mixed,
-    setSecurityAnswer: (answer: string) => mixed,
-    setTheNewPassword: (newPassword: string) => mixed,
-    setCheckPassword: (checkPassword: string) => mixed
+  setResetEmail: (email: string) => mixed,
+  setPasswordResetObject: (dataObject: {id: string, securityQuestion: string}) => mixed,
+  setSecurityAnswer: (answer: string) => mixed,
+  setTheNewPassword: (newPassword: string) => mixed,
+  setCheckPassword: (checkPassword: string) => mixed
 };

@@ -2,11 +2,11 @@
 import * as types from '../actions/ActionTypes';
 
 const passwordReset = (state: {
-    resetEmail: string,
-    passwordResetData: ?{id: string, securityQuestion: string},
-    answer: string,
-    newPassword: string,
-    checkPassword: string
+  resetEmail: string,
+  passwordResetData: ?{id: string, securityQuestion: string},
+  answer: string,
+  newPassword: string,
+  checkPassword: string
 } = {
   resetEmail: '',
   passwordResetData: null,
@@ -14,14 +14,14 @@ const passwordReset = (state: {
   newPassword: '',
   checkPassword: ''
 }, action: {
-    type: string, resetEmail: string, passwordResetData: ?{id: string, securityQuestion: string},
-    answer: string, newPassword: string, checkPassword: string
+  type: string, resetEmail: string, passwordResetData: ?{id: string, securityQuestion: string},
+  answer: string, newPassword: string, checkPassword: string
 }): {
-    resetEmail: string,
-    passwordResetData: ?{id: string, securityQuestion: string},
-    answer: string,
-    newPassword: string,
-    checkPassword: string
+  resetEmail: string,
+  passwordResetData: ?{id: string, securityQuestion: string},
+  answer: string,
+  newPassword: string,
+  checkPassword: string
 } => {
   const newState = JSON.parse(JSON.stringify(state));
   switch (action.type) {

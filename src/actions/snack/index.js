@@ -26,9 +26,9 @@ export const clearSnack = () => ({
 });
 
 export type SnackActionType = {
-    setAndShowError: (message: string) => mixed,
-    setAndShowWarning: (message: string) => mixed,
-    setAndShowInfo: (message: string) => mixed,
-    setAndShowServerError: (message: string) => mixed,
-    clearSnack: () => mixed
+  setAndShowError: (message: string) => mixed,
+  setAndShowWarning: (message: string) => mixed,
+  setAndShowInfo: (message: string) => mixed,
+  setAndShowServerError: (message: string) => mixed,
+  clearSnack: () => mixed
 };

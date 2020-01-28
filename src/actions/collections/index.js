@@ -12,6 +12,6 @@ export const setResearchInterestCollection = (researchInterestCollection: Array<
 });
 
 export type CollectionActionType = {
-    setSecurityQuestionCollection: (securityQuestionCollection: Array<string>) => mixed,
-    setResearchInterestCollection: (researchInterestCollection: Array<string>) => mixed
+  setSecurityQuestionCollection: (securityQuestionCollection: Array<string>) => mixed,
+  setResearchInterestCollection: (researchInterestCollection: Array<string>) => mixed
 };

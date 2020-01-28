@@ -12,6 +12,6 @@ export const setPassword = (password: string) => ({
 });
 
 export type LoginActionType = {
-    setUserName: (username: string) => mixed,
-    setPassword: (password: string) => mixed
+  setUserName: (username: string) => mixed,
+  setPassword: (password: string) => mixed
 };

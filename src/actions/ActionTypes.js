@@ -1,4 +1,5 @@
 // @flow
+
 // i18n
 export const SET_I18N = 'SET_I18N';
 
@@ -52,7 +53,7 @@ export const SET_SECURITY_QUESTION_ANSWER = 'SET_SECURITY_QUESTION_ANSWER';
 export const SET_NEW_PASSWORD = 'SET_NEW_PASSWORD';
 export const SET_CHECK_PASSWORD = 'SET_CHECK_PASSWORD';
 
-// profileview
+// profileView
 export const SET_USER_PROFILE = 'SET_USER_PROFILE';
 export const SET_ID = 'SET_ID';
 export const SET_RESEARCH_INTEREST_STRING = 'SET_RESEARCH_INTEREST_STRING';

@@ -1,4 +1,4 @@
 const stub = {
-    uri: 'stub.svg'
+  uri: 'stub.svg'
 };
 module.exports = stub;

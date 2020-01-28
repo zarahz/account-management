@@ -2,13 +2,13 @@
 import * as types from '../actions/ActionTypes';
 
 const login = (state: {
-    username: string, password: string
+  username: string, password: string
 } = {
   username: '', password: ''
 }, action: {
-    type: string, username: string, password: string
+  type: string, username: string, password: string
 }): {
-    username: string, password: string
+  username: string, password: string
 } => {
   const newState = JSON.parse(JSON.stringify(state));
   switch (action.type) {

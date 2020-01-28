@@ -82,20 +82,20 @@ export const setSecurityAnswer = (answer: string) => ({
 });
 
 export type RegistrationActionType = {
-    setTitle: (title: string) => mixed,
-    setGender: (gender: string) => mixed,
-    setFirstName: (firstName: string) => mixed,
-    setLastName: (lastName: string) => mixed,
-    setUserName: (username: string) => mixed,
-    setEMail: (email: string) => mixed,
-    setPassword: (password: string) => mixed,
-    setOrganisation: (organisation: string) => mixed,
-    setAddress: (address: string) => mixed,
-    setCity: (city: string) => mixed,
-    setCountry: (country: string) => mixed,
-    setZipCode: (zipCode: number) => mixed,
-    setFieldOfActivity: (fieldOfActivity: string) => mixed,
-    setResearchInterest: (interest: Array<string>) => mixed,
-    setSecurityQuestion: (question: string) => mixed,
-    setSecurityAnswer: (answer: string) => mixed
+  setTitle: (title: string) => mixed,
+  setGender: (gender: string) => mixed,
+  setFirstName: (firstName: string) => mixed,
+  setLastName: (lastName: string) => mixed,
+  setUserName: (username: string) => mixed,
+  setEMail: (email: string) => mixed,
+  setPassword: (password: string) => mixed,
+  setOrganisation: (organisation: string) => mixed,
+  setAddress: (address: string) => mixed,
+  setCity: (city: string) => mixed,
+  setCountry: (country: string) => mixed,
+  setZipCode: (zipCode: number) => mixed,
+  setFieldOfActivity: (fieldOfActivity: string) => mixed,
+  setResearchInterest: (interest: Array<string>) => mixed,
+  setSecurityQuestion: (question: string) => mixed,
+  setSecurityAnswer: (answer: string) => mixed
 };

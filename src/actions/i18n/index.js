@@ -7,5 +7,5 @@ export const setI18n = (languageCode: string) => ({
 });
 
 export type i18nActionsType = {
-    setI18n: (languageCode: string) => mixed
+  setI18n: (languageCode: string) => mixed
 }

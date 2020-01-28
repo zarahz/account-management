@@ -1,4 +1,4 @@
 // @flow
 export type GlobalUiState = {
-    isLoading: boolean
+  isLoading: boolean
 }
