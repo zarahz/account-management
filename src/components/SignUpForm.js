@@ -223,7 +223,7 @@ export class SignUpForm extends React.Component {
           </div>
           <div className="FormField">
             <label className="FormField__Label" htmlFor="gender">{this.props.i18n.t.ui.GENDER}</label>
-            <Select options={this.genderCollection} values={[]} dropdownPosition={'bottom'} labelField={'name'} color={'#000'} multi={false}
+            <Select data-testid="gender" options={this.genderCollection} values={[]} dropdownPosition={'bottom'} labelField={'name'} color={'#000'} multi={false}
               style={{ width: '85%', left: '25px', marginTop: '10px' }} placeholder={this.props.i18n.t.ui.GENDER_PLACEHOLDER}
               valueField={'name'} onChange={(value) => this.setGender(value)}/>
           </div>
@@ -249,7 +249,7 @@ export class SignUpForm extends React.Component {
           </div>
           <div className="FormField">
             <label className="FormField__Label" htmlFor="securityQuestion">{this.props.i18n.t.ui.SECURITY_QUESTION} *</label>
-            <Select options={this.securityQuestionCollection}
+            <Select data-testid="securityQuestion" options={this.securityQuestionCollection}
               values={[]} dropdownPosition={'bottom'} labelField={'name'} color={'#000'} multi={false}
               style={{ width: '85%', left: '25px', marginTop: '10px' }} placeholder={this.props.i18n.t.ui.SECURITY_QUESTION_PLACEHOLDER}
               valueField={'name'} onChange={(value) => this.props.registrationActions.setSecurityQuestion(value[0].name)} required={true}/>
@@ -291,7 +291,7 @@ export class SignUpForm extends React.Component {
           </div>
           <div className="FormField">
             <label className="FormField__Label" htmlFor="name">{this.props.i18n.t.ui.RESEARCH_INTEREST} *</label>
-            <Select options={this.researchInterestCollection}
+            <Select data-testid="researchInterest" options={this.researchInterestCollection}
               values={[]} dropdownPosition={'bottom'} labelField={'name'} color={'#000'} multi={true}
               style={{ width: '85%', left: '25px', marginTop: '10px' }} placeholder={this.props.i18n.t.ui.RESEARCH_INTEREST_PLACEHOLDER}
               valueField={'name'} onChange={(value) => this.setResearchInterest(value)} required={true}/>

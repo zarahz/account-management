@@ -134,7 +134,7 @@ export class SignInForm extends React.Component {
             </p>
           </div>
           <div className="FormField">
-            <button className="FormField__Button mr-20">{this.props.i18n.t.ui.LOGIN}</button>
+            <button className="FormField__Button mr-20" id="login">{this.props.i18n.t.ui.LOGIN}</button>
           </div>
         </form>
       </div>
