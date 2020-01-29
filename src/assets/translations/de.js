@@ -78,7 +78,11 @@ const de: I18nModel = {
       REQUIRED_FIELDS_INCOMPLETE: 'Alle Felder die mit einem * gekennzeichnet sind müssen ausgefüllt sein',
       USERNAME_IN_USE: 'Dieser Username wird schon verwendet. Bitte wähle einenen anderen Username aus.',
       EMAIL_IN_USE: 'Diese Email wird schon verwendet. Bitte wähle eine andere Email aus.',
-      SUCCESSFUL_UPDATE: 'Das Profil wurde erfolgreich aktualisiert.'
+      SUCCESSFUL_UPDATE: 'Das Profil wurde erfolgreich aktualisiert.',
+      INVALID_USERNAME: 'Vielleicht fällt dir ein besserer Name für dein Profil ein.',
+      INVALID_EMAIL_FORM: 'Deine angegebene Email-Adresse hat ein ungültiges Format.',
+      INVALID_PASSWORD_FORM: 'Dein Kennwort sollte 8 bis 15 Zeichen, mindestens einen Kleinbuchstaben, einen ' +
+        'Großbuchstaben, eine numerische Ziffer und ein Sonderzeichen enthalten'
     }
   }
 };

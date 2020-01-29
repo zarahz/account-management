@@ -25,6 +25,8 @@ import type { globalUiActionsType } from '../actions/globalUi';
 import type { UserActionsType } from '../actions/user';
 import type { PasswordResetActionsType } from '../actions/passwordReset';
 
+import ServiceConstants from '../constants/ServiceConstants';
+
 export class ResetPasswordForm extends React.Component {
   userService: UserService = new UserService();
   props: {
@@ -84,22 +86,27 @@ export class ResetPasswordForm extends React.Component {
   };
 
   saveNewPassword = async () => {
+    const rePassword = ServiceConstants.REGEX_PASSWORD;
     if (this.props.newPassword !== '' && this.props.checkPassword !== '') {
-      if (this.props.newPassword === this.props.checkPassword) {
-        try {
-          const status = await this.userService.updatePassword(this.props.newPassword, this.props.userPwResetData.id);
-          if (status.error === 'no user found') {
-            await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.NO_USER_FOUND);
-          } else if (status.error === 'password update failed' || status.error === 'password encryption failed') {
+      if (rePassword.test(this.props.newPassword)) {
+        if (this.props.newPassword === this.props.checkPassword) {
+          try {
+            const status = await this.userService.updatePassword(this.props.newPassword, this.props.userPwResetData.id);
+            if (status.error === 'no user found') {
+              await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.NO_USER_FOUND);
+            } else if (status.error === 'password update failed' || status.error === 'password encryption failed') {
+              await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.SERVER_ERROR);
+            } else {
+              this.props.history.push('/');
+            }
+          } catch (e) {
             await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.SERVER_ERROR);
-          } else {
-            this.props.history.push('/');
           }
-        } catch (e) {
-          await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.SERVER_ERROR);
+        } else {
+          await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.CHECK_INPUT_PASSWORD2);
         }
       } else {
-        await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.CHECK_INPUT_PASSWORD2);
+        await this.props.snackActions.setAndShowWarning(this.props.i18n.t.ui.SNACK.INVALID_PASSWORD_FORM);
       }
     } else {
       await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.CHECK_INPUT_PASSWORD1);

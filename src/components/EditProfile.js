@@ -25,12 +25,16 @@ import type { I18nModel } from '../models/I18nModel';
 import type { globalUiActionsType } from '../actions/globalUi';
 import type { UserActionsType } from '../actions/user';
 import type { ProfileActionType } from '../actions/profile';
+import type { UserModel } from '../models/UserModel';
 
 // services
 import CollectionsService from '../services/CollectionsService';
 import UpdateUserService from '../services/UpdateUserService';
-import type { UserModel } from '../models/UserModel';
 import DecoderService from '../services/DecoderService';
+
+import ServiceConstants from '../constants/ServiceConstants';
+
+const BAD_NAMES = require('../assets/data/badNames');
 
 export class EditProfile extends React.Component {
   collectionService: CollectionsService = new CollectionsService();
@@ -89,6 +93,7 @@ export class EditProfile extends React.Component {
     try {
       const updateUserService: UpdateUserService = new UpdateUserService();
       const decoderService: DecoderService = new DecoderService();
+      const reEmail = ServiceConstants.REGEX_EMAIL;
       const user: UserModel = {
         id: this.props.id,
         title: this.props.title,
@@ -105,20 +110,28 @@ export class EditProfile extends React.Component {
         fieldOfActivity: this.props.fieldOfActivity,
         researchInterest: this.props.researchInterest
       };
-      let token = cookie.load('token');
-      token = await updateUserService.updateUser(user, token);
-      if (token.error === 'username already exists') {
-        await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.USERNAME_IN_USE);
-      } else if (token.error === 'this email is already used') {
-        await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.EMAIL_IN_USE);
-      } else if (Object.prototype.hasOwnProperty.call(token, 'token')) {
-        const data = await decoderService.decode(token.token);
-        await this.props.userActions.setActiveUser(data);
-        await this.props.globalUiActions.setLoading();
-        await this.wait(2000);
-        await this.props.globalUiActions.unsetLoading();
-        await this.props.snackActions.setAndShowInfo(this.props.i18n.t.ui.SNACK.SUCCESSFUL_UPDATE);
-        this.props.history.push('/external');
+      if (this.checkUserName()) {
+        if (reEmail.test(this.props.email)) {
+          let token = cookie.load('token');
+          token = await updateUserService.updateUser(user, token);
+          if (token.error === 'username already exists') {
+            await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.USERNAME_IN_USE);
+          } else if (token.error === 'this email is already used') {
+            await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.EMAIL_IN_USE);
+          } else if (Object.prototype.hasOwnProperty.call(token, 'token')) {
+            const data = await decoderService.decode(token.token);
+            await this.props.userActions.setActiveUser(data);
+            await this.props.globalUiActions.setLoading();
+            await this.wait(2000);
+            await this.props.globalUiActions.unsetLoading();
+            await this.props.snackActions.setAndShowInfo(this.props.i18n.t.ui.SNACK.SUCCESSFUL_UPDATE);
+            this.props.history.push('/external');
+          }
+        } else {
+          await this.props.snackActions.setAndShowWarning(this.props.i18n.t.ui.SNACK.INVALID_EMAIL_FORM);
+        }
+      } else {
+        await this.props.snackActions.setAndShowWarning(this.props.i18n.t.ui.SNACK.INVALID_USERNAME);
       }
     } catch (e) {
       await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.SERVER_ERROR);
@@ -129,6 +142,15 @@ export class EditProfile extends React.Component {
     return new Promise(resolve => {
       setTimeout(resolve, ms);
     });
+  };
+
+  checkUserName = (): boolean => {
+    for (let i = 0; i < BAD_NAMES.words.length; i++) {
+      if (this.props.username === BAD_NAMES.words[i]) {
+        return true;
+      }
+    }
+    return false;
   };
 
   handleChange = async (event: Object) => {
