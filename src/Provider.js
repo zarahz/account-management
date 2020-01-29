@@ -20,6 +20,11 @@ store.subscribe(() => {
 });
 
 class AppProvider extends Component {
+  /**
+   * The <Provider/> makes the Redux store available to any nested components that have been wrapped in
+   * the connect() function.
+   * @returns {*}
+   */
   render () {
     return (
       <Provider store={store}>
