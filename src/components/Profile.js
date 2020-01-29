@@ -48,6 +48,11 @@ export class Profile extends React.Component {
     await this.getUser();
   };
 
+  /**
+   * with this function the user token is loaded from the cookies and tries to decrypt it. if this works, the user is
+   * stored in the redux store and additionally the gender is stored and displayed in the respective browser language
+   * @returns {Promise<void>}
+   */
   getUser = async () => {
     const token = cookie.load('token');
     try {
@@ -68,6 +73,11 @@ export class Profile extends React.Component {
     }
   };
 
+  /**
+   * this function joins the contents of the research interest array into a formatted string
+   * @param researchInterest
+   * @returns {Promise<void>}
+   */
   setResearchInterest = async (researchInterest: Array) => {
     let interestString: string = '';
     if (researchInterest !== []) {
@@ -82,6 +92,14 @@ export class Profile extends React.Component {
     await this.props.profileActions.setResearchInterestString(interestString);
   };
 
+  /**
+   * the function gets a token passed. If the token object has a property error, then the user will get an error
+   * message through the showError function. Otherwise the token is decrypted by the decoderService and a user object
+   * should be present. If the user has a property error, an error is displayed like with the token object, otherwise
+   * the user is returned
+   * @param token
+   * @returns {Promise<null|void>}
+   */
   decodeToken = async (token: {token: string}) => {
     const decoderService: DecoderService = new DecoderService();
     let user = null;
@@ -97,6 +115,12 @@ export class Profile extends React.Component {
     }
   };
 
+  /**
+   * the function receives an error object, evaluates this object and sets an error message in the redux store, which
+   * is displayed to the user by the SnackBar (app.js)
+   * @param errorObject
+   * @returns {Promise<void>}
+   */
   showErrors = async (errorObject: Object) => {
     if (errorObject) {
       if (errorObject.error === 'no user found') {

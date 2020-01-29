@@ -77,6 +77,11 @@ export class SignUpForm extends React.Component {
     await this.props.globalUiActions.setLoginOrRegister();
   };
 
+  /**
+   * if no research interests or security questions have been loaded yet, they will be loaded by the api and stored in
+   * the redux store. then the data will be loaded into an array of objects to be displayed
+   * @returns {Promise<void>}
+   */
   loadAndManipulateCollections = async () => {
     if (this.props.researchInterestCollection.length === 0) {
       const researchInterest = await this.collectionService.getResearchInterests();
@@ -94,6 +99,13 @@ export class SignUpForm extends React.Component {
     }
   };
 
+  /**
+   * before the user is registered, it is checked if his username, email and password are valid. If not, error messages
+   * are displayed, otherwise the user is registered using the registrationService. If everything goes correctly a token
+   * is returned, decrypted and the user is stored in the store. Afterwards the user is redirected to the
+   * schedule management microservice
+   * @returns {Promise<void>}
+   */
   registration = async () => {
     try {
       const registrationService: RegistrationService = new RegistrationService();
@@ -127,8 +139,8 @@ export class SignUpForm extends React.Component {
             } else if (token.error === 'this email is already used') {
               await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.EMAIL_IN_USE);
             } else if (Object.prototype.hasOwnProperty.call(token, 'token')) {
-              const data = await decoderService.decode(token.token);
-              await this.props.userActions.setActiveUser(data);
+              const user = await decoderService.decode(token.token);
+              await this.props.userActions.setActiveUser(user);
               await this.props.globalUiActions.setLoading();
               await this.wait(2000);
               await this.props.globalUiActions.unsetLoading();
@@ -149,15 +161,25 @@ export class SignUpForm extends React.Component {
     }
   };
 
+  /**
+   * the chosen username is checked if this string is contained in the file badNames.json and if so false is returned,
+   * otherwise true
+   * @returns {boolean}
+   */
   checkUserName = (): boolean => {
     for (let i = 0; i < BAD_NAMES.words.length; i++) {
       if (this.props.username === BAD_NAMES.words[i]) {
-        return true;
+        return false;
       }
     }
-    return false;
+    return true;
   };
 
+  /**
+   * an asynchronous settimeout function, which gets a parameter ms(milliseconds)
+   * @param ms
+   * @returns {Promise<R>}
+   */
   wait = async (ms: number) => {
     return new Promise(resolve => {
       setTimeout(resolve, ms);
