@@ -27,5 +27,8 @@ module.exports = {
                 "numbers": true
             }
         ]
+    },
+    "env": {
+        "jest": true
     }
 };
