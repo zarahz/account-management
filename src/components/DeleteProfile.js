@@ -42,6 +42,11 @@ export class DeleteProfile extends React.Component {
     await this.props.profileActions.setPassword('');
   };
 
+  /**
+   * if the user should be deleted, the user must authenticate with email and password. If the token is correct,
+   * the user is deleted and redirected to the SignInView and if the token is faulty, the user gets an error message
+   * @returns {Promise<*>}
+   */
   loginToDeleteTheProfile = async () => {
     const loginService: LoginService = new LoginService();
     const userService: UserService = new UserService();
@@ -74,6 +79,14 @@ export class DeleteProfile extends React.Component {
     }
   };
 
+  /**
+   * the function gets a token passed. If the token object has a property error, then the user will get an error
+   * message through the showError function. Otherwise the token is decrypted by the decoderService and a user object
+   * should be present. If the user has a property error, an error is displayed like with the token object, otherwise
+   * the user is returned
+   * @param token
+   * @returns {Promise<null|void>}
+   */
   decodeToken = async (token) => {
     const decoderService: DecoderService = new DecoderService();
     let user = null;
@@ -89,6 +102,12 @@ export class DeleteProfile extends React.Component {
     }
   };
 
+  /**
+   * the function receives an error object, evaluates this object and sets an error message in the redux store, which
+   * is displayed to the user by the SnackBar (app.js)
+   * @param errorObject
+   * @returns {Promise<void>}
+   */
   showErrors = async (errorObject: Object) => {
     if (errorObject) {
       if (errorObject.error === 'no user found') {

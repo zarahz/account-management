@@ -25,6 +25,8 @@ import type { globalUiActionsType } from '../actions/globalUi';
 import type { UserActionsType } from '../actions/user';
 import type { PasswordResetActionsType } from '../actions/passwordReset';
 
+import ServiceConstants from '../constants/ServiceConstants';
+
 export class ResetPasswordForm extends React.Component {
   userService: UserService = new UserService();
   props: {
@@ -46,6 +48,11 @@ export class ResetPasswordForm extends React.Component {
     await this.props.globalUiActions.unsetLoginOrRegister();
   };
 
+  /**
+   * the email is used to try to load the selected security question and the userId of the user and if this
+   * was successful, a new view is shown to the user
+   * @returns {Promise<void>}
+   */
   getSecQuestion = async () => {
     if (this.props.email !== '') {
       try {
@@ -64,6 +71,11 @@ export class ResetPasswordForm extends React.Component {
     }
   };
 
+  /**
+   * the userId is used to check if the given answer to the security question is correct and if so the user is
+   * redirected to the next view
+   * @returns {Promise<void>}
+   */
   checkSecurityAnswer = async () => {
     if (this.props.securityAnswer !== '') {
       try {
@@ -83,23 +95,36 @@ export class ResetPasswordForm extends React.Component {
     }
   };
 
+  /**
+   * first it is checked if the new password and the second input of the new password are not empty, then it is checked
+   * with regex if the password is the same as the default password and then it is checked if the new password is the
+   * same as the second input of the new password. if all this fits, the API tries to update the password and if this
+   * works, the user is redirected to Sign In View. Otherwise an error message will be displayed for one of the
+   * occurred cases.
+   * @returns {Promise<void>}
+   */
   saveNewPassword = async () => {
+    const rePassword = ServiceConstants.REGEX_PASSWORD;
     if (this.props.newPassword !== '' && this.props.checkPassword !== '') {
-      if (this.props.newPassword === this.props.checkPassword) {
-        try {
-          const status = await this.userService.updatePassword(this.props.newPassword, this.props.userPwResetData.id);
-          if (status.error === 'no user found') {
-            await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.NO_USER_FOUND);
-          } else if (status.error === 'password update failed' || status.error === 'password encryption failed') {
+      if (rePassword.test(this.props.newPassword)) {
+        if (this.props.newPassword === this.props.checkPassword) {
+          try {
+            const status = await this.userService.updatePassword(this.props.newPassword, this.props.userPwResetData.id);
+            if (status.error === 'no user found') {
+              await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.NO_USER_FOUND);
+            } else if (status.error === 'password update failed' || status.error === 'password encryption failed') {
+              await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.SERVER_ERROR);
+            } else {
+              this.props.history.push('/');
+            }
+          } catch (e) {
             await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.SERVER_ERROR);
-          } else {
-            this.props.history.push('/');
           }
-        } catch (e) {
-          await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.SERVER_ERROR);
+        } else {
+          await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.CHECK_INPUT_PASSWORD2);
         }
       } else {
-        await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.CHECK_INPUT_PASSWORD2);
+        await this.props.snackActions.setAndShowWarning(this.props.i18n.t.ui.SNACK.INVALID_PASSWORD_FORM);
       }
     } else {
       await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.CHECK_INPUT_PASSWORD1);

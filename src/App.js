@@ -50,6 +50,11 @@ class App extends Component {
         securityQuestionCollection: Array<string>
     };
 
+  /**
+   * When starting the Microservice account management, an array of security questions and an array of research
+   * interests are loaded and stored in the redux store
+   * @returns {Promise<void>}
+   */
   componentDidMount = async () => {
     this.setLanguage();
     const researchInterestCollection = await this.collectionService.getResearchInterests();
@@ -58,6 +63,9 @@ class App extends Component {
     await this.props.collectionActions.setSecurityQuestionCollection(securityQuestionCollection);
   };
 
+  /**
+   * Here the set language of the browser is read out and the language of the micro service account management is set
+   */
   setLanguage = () => {
     const supportedLang = Object.keys(I18nMap);
     const browserLang = navigator.language.substr(0, 2);
@@ -132,6 +140,11 @@ class App extends Component {
     }
   };
 
+  /**
+   * The snack bar provides the user with information on whether his entries were successful or incorrect or whether
+   * other errors occurred
+   * @returns {*}
+   */
   renderSnackBar = () => {
     return (
       <Snackbar autoHideDuration={5000}

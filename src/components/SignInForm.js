@@ -42,6 +42,12 @@ export class SignInForm extends React.Component {
     await this.props.globalUiActions.setLoginOrRegister();
   };
 
+  /**
+   * at login it is checked if username and password are set, otherwise an error message is displayed. If this is
+   * correct, the user is logged in by the userService and a token should be returned from the API. which is passed to
+   * the decodeToken function
+   * @returns {Promise<*>}
+   */
   login = async () => {
     const loginService: LoginService = new LoginService();
     if (this.props.username !== '') {
@@ -63,6 +69,14 @@ export class SignInForm extends React.Component {
     }
   };
 
+  /**
+   * the function gets a token passed. If the token object has a property error, then the user will get an error
+   * message through the showError function. Otherwise the token is decrypted by the decoderService and a user object
+   * should be present. If the user has a property error, an error is displayed like with the token object, otherwise
+   * the user is redirected to the schedule management microservice
+   * @param token
+   * @returns {Promise<void>}
+   */
   decodeToken = async (token) => {
     const decoderService: DecoderService = new DecoderService();
     let user = null;
@@ -83,12 +97,23 @@ export class SignInForm extends React.Component {
     }
   };
 
+  /**
+   * an asynchronous settimeout function, which gets a parameter ms(milliseconds)
+   * @param ms
+   * @returns {Promise<R>}
+   */
   wait = async (ms: number) => {
     return new Promise(resolve => {
       setTimeout(resolve, ms);
     });
   };
 
+  /**
+   * the function receives an error object, evaluates this object and sets an error message in the redux store, which
+   * is displayed to the user by the SnackBar (app.js)
+   * @param errorObject
+   * @returns {Promise<void>}
+   */
   showErrors = async (errorObject: Object) => {
     if (errorObject) {
       if (errorObject.error === 'no user found') {

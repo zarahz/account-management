@@ -77,7 +77,11 @@ const en: I18nModel = {
       REQUIRED_FIELDS_INCOMPLETE: 'All Fields labeled with * need to be filled out',
       USERNAME_IN_USE: 'This username is already in use. Please choose another username.',
       EMAIL_IN_USE: 'This email is already in use. Please select another email.',
-      SUCCESSFUL_UPDATE: 'The profile has been successfully updated'
+      SUCCESSFUL_UPDATE: 'The profile has been successfully updated',
+      INVALID_USERNAME: 'Maybe you can think of a better name for your profile.',
+      INVALID_EMAIL_FORM: 'The email address you entered has an invalid format.',
+      INVALID_PASSWORD_FORM: 'Your password should contain 8 to 15 characters, at least one lower case letter,' +
+        ' one capital letter, one numeric digit and one special character'
     }
   }
 };

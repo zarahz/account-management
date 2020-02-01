@@ -25,12 +25,16 @@ import type { I18nModel } from '../models/I18nModel';
 import type { globalUiActionsType } from '../actions/globalUi';
 import type { UserActionsType } from '../actions/user';
 import type { ProfileActionType } from '../actions/profile';
+import type { UserModel } from '../models/UserModel';
 
 // services
 import CollectionsService from '../services/CollectionsService';
 import UpdateUserService from '../services/UpdateUserService';
-import type { UserModel } from '../models/UserModel';
 import DecoderService from '../services/DecoderService';
+
+import ServiceConstants from '../constants/ServiceConstants';
+
+const BAD_NAMES = require('../assets/data/badNames');
 
 export class EditProfile extends React.Component {
   collectionService: CollectionsService = new CollectionsService();
@@ -75,6 +79,11 @@ export class EditProfile extends React.Component {
     await this.loadAndManipulateCollections();
   };
 
+  /**
+   * if no research interests have been loaded yet, they will be loaded by the api and stored in the
+   * redux store. then the data will be loaded into an array of objects to be displayed
+   * @returns {Promise<void>}
+   */
   loadAndManipulateCollections = async () => {
     if (this.props.researchInterestCollection.length === 0) {
       const researchInterest = await this.collectionService.getResearchInterests();
@@ -85,10 +94,18 @@ export class EditProfile extends React.Component {
     }
   };
 
+  /**
+   * before the user is updated, it is checked if his username and email are valid. If not, error messages are
+   * displayed, otherwise the user is updated using updateUserService. If everything runs correctly, a token is
+   * returned, decrypted and the user is stored in the store. Afterwards the user is forwarded to the
+   * schedule management microservice
+   * @returns {Promise<void>}
+   */
   updateUser = async () => {
     try {
       const updateUserService: UpdateUserService = new UpdateUserService();
       const decoderService: DecoderService = new DecoderService();
+      const reEmail = ServiceConstants.REGEX_EMAIL;
       const user: UserModel = {
         id: this.props.id,
         title: this.props.title,
@@ -105,30 +122,57 @@ export class EditProfile extends React.Component {
         fieldOfActivity: this.props.fieldOfActivity,
         researchInterest: this.props.researchInterest
       };
-      let token = cookie.load('token');
-      token = await updateUserService.updateUser(user, token);
-      if (token.error === 'username already exists') {
-        await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.USERNAME_IN_USE);
-      } else if (token.error === 'this email is already used') {
-        await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.EMAIL_IN_USE);
-      } else if (Object.prototype.hasOwnProperty.call(token, 'token')) {
-        const data = await decoderService.decode(token.token);
-        await this.props.userActions.setActiveUser(data);
-        await this.props.globalUiActions.setLoading();
-        await this.wait(2000);
-        await this.props.globalUiActions.unsetLoading();
-        await this.props.snackActions.setAndShowInfo(this.props.i18n.t.ui.SNACK.SUCCESSFUL_UPDATE);
-        this.props.history.push('/external');
+      if (this.checkUserName()) {
+        if (reEmail.test(this.props.email)) {
+          let token = cookie.load('token');
+          token = await updateUserService.updateUser(user, token);
+          if (token.error === 'username already exists') {
+            await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.USERNAME_IN_USE);
+          } else if (token.error === 'this email is already used') {
+            await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.EMAIL_IN_USE);
+          } else if (Object.prototype.hasOwnProperty.call(token, 'token')) {
+            const user = await decoderService.decode(token.token);
+            await this.props.userActions.setActiveUser(user);
+            await this.props.globalUiActions.setLoading();
+            await this.wait(2000);
+            await this.props.globalUiActions.unsetLoading();
+            await this.props.snackActions.setAndShowInfo(this.props.i18n.t.ui.SNACK.SUCCESSFUL_UPDATE);
+            this.props.history.push('/external');
+          }
+        } else {
+          await this.props.snackActions.setAndShowWarning(this.props.i18n.t.ui.SNACK.INVALID_EMAIL_FORM);
+        }
+      } else {
+        await this.props.snackActions.setAndShowWarning(this.props.i18n.t.ui.SNACK.INVALID_USERNAME);
       }
     } catch (e) {
       await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.SERVER_ERROR);
     }
   };
 
+  /**
+   * an asynchronous settimeout function, which gets a parameter ms(milliseconds)
+   * @param ms
+   * @returns {Promise<R>}
+   */
   wait = async (ms: number) => {
     return new Promise(resolve => {
       setTimeout(resolve, ms);
     });
+  };
+
+  /**
+   * the chosen username is checked if this string is contained in the file badNames.json and if so false is returned,
+   * otherwise true
+   * @returns {boolean}
+   */
+  checkUserName = (): boolean => {
+    for (let i = 0; i < BAD_NAMES.words.length; i++) {
+      if (this.props.username === BAD_NAMES.words[i]) {
+        return false;
+      }
+    }
+    return true;
   };
 
   handleChange = async (event: Object) => {
@@ -200,6 +244,11 @@ export class EditProfile extends React.Component {
     this.props.history.push('/delete-user-profile');
   };
 
+  /**
+   * with this function the user token is loaded from the cookies and tries to decrypt it. if this works, the user is
+   * stored in the redux store and additionally the gender is stored and displayed in the respective browser language
+   * @returns {Promise<void>}
+   */
   getUser = async () => {
     const token: {token: string} = cookie.load('token');
     try {
@@ -226,6 +275,10 @@ export class EditProfile extends React.Component {
     }
   };
 
+  /**
+   * it packs all research interests stored by the user array of objects so that they can be displayed and edited
+   * @param researchInterest
+   */
   loadResearchInterests = (researchInterest: Array) => {
     if (researchInterest !== []) {
       for (let a = 0; a < researchInterest.length; a++) {
@@ -234,6 +287,14 @@ export class EditProfile extends React.Component {
     }
   };
 
+  /**
+   * the function gets a token passed. If the token object has a property error, then the user will get an error
+   * message through the showError function. Otherwise the token is decrypted by the decoderService and a user object
+   * should be present. If the user has a property error, an error is displayed like with the token object, otherwise
+   * the user is returned
+   * @param token
+   * @returns {Promise<null|void>}
+   */
   decodeToken = async (token: {token: string}) => {
     const decoderService: DecoderService = new DecoderService();
     let user = null;
@@ -249,6 +310,12 @@ export class EditProfile extends React.Component {
     }
   };
 
+  /**
+   * the function receives an error object, evaluates this object and sets an error message in the redux store, which
+   * is displayed to the user by the SnackBar (app.js)
+   * @param errorObject
+   * @returns {Promise<void>}
+   */
   showErrors = async (errorObject: Object) => {
     if (errorObject) {
       if (errorObject.error === 'no user found') {

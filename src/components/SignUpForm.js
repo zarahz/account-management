@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import Select from 'react-dropdown-select';
 
 // routing
 import { withRouter } from 'react-router-dom';
@@ -23,14 +24,16 @@ import type { CollectionActionType } from '../actions/collections';
 import type { I18nModel } from '../models/I18nModel';
 import type { globalUiActionsType } from '../actions/globalUi';
 import type { UserActionsType } from '../actions/user';
+import type { UserModel } from '../models/UserModel';
 
 // services
 import CollectionsService from '../services/CollectionsService';
 import RegistrationService from '../services/RegistrationService';
-import type { UserModel } from '../models/UserModel';
-
-import Select from 'react-dropdown-select';
 import DecoderService from '../services/DecoderService';
+
+import ServiceConstants from '../constants/ServiceConstants';
+
+const BAD_NAMES = require('../assets/data/badNames');
 
 export class SignUpForm extends React.Component {
   collectionService: CollectionsService = new CollectionsService();
@@ -74,6 +77,11 @@ export class SignUpForm extends React.Component {
     await this.props.globalUiActions.setLoginOrRegister();
   };
 
+  /**
+   * if no research interests or security questions have been loaded yet, they will be loaded by the api and stored in
+   * the redux store. then the data will be loaded into an array of objects to be displayed
+   * @returns {Promise<void>}
+   */
   loadAndManipulateCollections = async () => {
     if (this.props.researchInterestCollection.length === 0) {
       const researchInterest = await this.collectionService.getResearchInterests();
@@ -91,10 +99,19 @@ export class SignUpForm extends React.Component {
     }
   };
 
+  /**
+   * before the user is registered, it is checked if his username, email and password are valid. If not, error messages
+   * are displayed, otherwise the user is registered using the registrationService. If everything goes correctly a token
+   * is returned, decrypted and the user is stored in the store. Afterwards the user is redirected to the
+   * schedule management microservice
+   * @returns {Promise<void>}
+   */
   registration = async () => {
     try {
       const registrationService: RegistrationService = new RegistrationService();
       const decoderService: DecoderService = new DecoderService();
+      const reEmail = ServiceConstants.REGEX_EMAIL;
+      const rePassword = ServiceConstants.REGEX_PASSWORD;
       const user: UserModel = {
         title: this.props.title,
         gender: this.props.gender,
@@ -113,25 +130,56 @@ export class SignUpForm extends React.Component {
         securityQuestion: this.props.securityQuestion,
         securityAnswer: this.props.securityAnswer
       };
-      const token = await registrationService.register(user);
-      if (token.error === 'username already exists') {
-        await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.USERNAME_IN_USE);
-      } else if (token.error === 'this email is already used') {
-        await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.EMAIL_IN_USE);
-      } else if (Object.prototype.hasOwnProperty.call(token, 'token')) {
-        const data = await decoderService.decode(token.token);
-        await this.props.userActions.setActiveUser(data);
-        await this.props.globalUiActions.setLoading();
-        await this.wait(2000);
-        await this.props.globalUiActions.unsetLoading();
-        await this.props.snackActions.setAndShowInfo(this.props.i18n.t.ui.SNACK.LOGIN_COMPLETED);
-        this.props.history.push('/external');
+      if (this.checkUserName()) {
+        if (reEmail.test(this.props.email)) {
+          if (rePassword.test(this.props.password)) {
+            const token = await registrationService.register(user);
+            if (token.error === 'username already exists') {
+              await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.USERNAME_IN_USE);
+            } else if (token.error === 'this email is already used') {
+              await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.EMAIL_IN_USE);
+            } else if (Object.prototype.hasOwnProperty.call(token, 'token')) {
+              const user = await decoderService.decode(token.token);
+              await this.props.userActions.setActiveUser(user);
+              await this.props.globalUiActions.setLoading();
+              await this.wait(2000);
+              await this.props.globalUiActions.unsetLoading();
+              await this.props.snackActions.setAndShowInfo(this.props.i18n.t.ui.SNACK.LOGIN_COMPLETED);
+              this.props.history.push('/external');
+            }
+          } else {
+            await this.props.snackActions.setAndShowWarning(this.props.i18n.t.ui.SNACK.INVALID_PASSWORD_FORM);
+          }
+        } else {
+          await this.props.snackActions.setAndShowWarning(this.props.i18n.t.ui.SNACK.INVALID_EMAIL_FORM);
+        }
+      } else {
+        await this.props.snackActions.setAndShowWarning(this.props.i18n.t.ui.SNACK.INVALID_USERNAME);
       }
     } catch (e) {
       await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.SERVER_ERROR);
     }
   };
 
+  /**
+   * the chosen username is checked if this string is contained in the file badNames.json and if so false is returned,
+   * otherwise true
+   * @returns {boolean}
+   */
+  checkUserName = (): boolean => {
+    for (let i = 0; i < BAD_NAMES.words.length; i++) {
+      if (this.props.username === BAD_NAMES.words[i]) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  /**
+   * an asynchronous settimeout function, which gets a parameter ms(milliseconds)
+   * @param ms
+   * @returns {Promise<R>}
+   */
   wait = async (ms: number) => {
     return new Promise(resolve => {
       setTimeout(resolve, ms);
