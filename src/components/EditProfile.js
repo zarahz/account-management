@@ -404,7 +404,7 @@ export class EditProfile extends React.Component {
           <p>{this.props.i18n.t.ui.FIELD_DESCRIPTION}</p>
           <br/>
           <div className="FormField">
-            <button className="FormField__Button mr-20">{this.props.i18n.t.ui.SAVE}</button>
+            <button data-testid="save" className="FormField__Button mr-20">{this.props.i18n.t.ui.SAVE}</button>
           </div>
         </form>
         <form onSubmit={this.handleDeleteSubmit} className="FormFields">
