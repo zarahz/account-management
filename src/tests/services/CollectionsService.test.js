@@ -1,4 +1,4 @@
-import CollectionsService from '../CollectionsService.js';
+import CollectionsService from '../../services/CollectionsService.js';
 
 test('Should return all german security questions', async () => {
   const collectionsService = new CollectionsService();
