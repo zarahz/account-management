@@ -56,88 +56,88 @@ class App extends Component {
    * @returns {Promise<void>}
    */
   componentDidMount = async () => {
-    this.setLanguage();
-    const researchInterestCollection = await this.collectionService.getResearchInterests();
-    const securityQuestionCollection = await this.collectionService.getSecurityQuestions(this.props.i18n.code);
-    await this.props.collectionActions.setResearchInterestCollection(researchInterestCollection);
-    await this.props.collectionActions.setSecurityQuestionCollection(securityQuestionCollection);
+      this.setLanguage();
+      const researchInterestCollection = await this.collectionService.getResearchInterests();
+      const securityQuestionCollection = await this.collectionService.getSecurityQuestions(this.props.i18n.code);
+      await this.props.collectionActions.setResearchInterestCollection(researchInterestCollection);
+      await this.props.collectionActions.setSecurityQuestionCollection(securityQuestionCollection);
   };
 
   /**
    * Here the set language of the browser is read out and the language of the micro service account management is set
    */
   setLanguage = () => {
-    const supportedLang = Object.keys(I18nMap);
-    const browserLang = navigator.language.substr(0, 2);
-    if (supportedLang.includes(browserLang)) {
-      this.props.i18nActions.setI18n(browserLang);
-    } else {
-      this.props.i18nActions.setI18n('en');
-    }
+      const supportedLang = Object.keys(I18nMap);
+      const browserLang = navigator.language.substr(0, 2);
+      if (supportedLang.includes(browserLang)) {
+          this.props.i18nActions.setI18n(browserLang);
+      } else {
+          this.props.i18nActions.setI18n('en');
+      }
   };
 
   renderLoadingOverlay = () => {
-    if (this.props.isLoading) {
-      return (
-        <div className="LoadingContainer">
-          <CircularProgress style={{ color: '#ffffff', marginBottom: 15 }}/>
-          <Typography variant='body1' style={{ color: '#ffffff' }}>
-            {
-              this.props.i18n.t.ui.LOADING
-            }
-          </Typography>
-        </div>
-      );
-    }
+      if (this.props.isLoading) {
+          return (
+              <div className="LoadingContainer">
+                  <CircularProgress style={{ color: '#ffffff', marginBottom: 15 }}/>
+                  <Typography variant='body1' style={{ color: '#ffffff' }}>
+                      {
+                          this.props.i18n.t.ui.LOADING
+                      }
+                  </Typography>
+              </div>
+          );
+      }
   };
 
   renderSnackBarContent = () => {
-    if (this.props.snack.type === 'error') {
-      return (
-        <SnackbarContent style={{ backgroundColor: '#d32f2f' }}
-          action={[
-            <IconButton
-              key='close'
-              aria-label='Close'
-              color='inherit'
-              onClick={this.props.snackActions.clearSnack}>
-              <CloseIcon/>
-            </IconButton>
-          ]}
-          message={this.props.snack.message}
-        />
-      );
-    } else if (this.props.snack.type === 'warning') {
-      return (
-        <SnackbarContent style={{ backgroundColor: '#ffa000' }}
-          action={[
-            <IconButton
-              key='close'
-              aria-label='Close'
-              color='inherit'
-              onClick={this.props.snackActions.clearSnack}>
-              <CloseIcon/>
-            </IconButton>
-          ]}
-          message={this.props.snack.message}
-        />
-      );
-    } else {
-      return (
-        <SnackbarContent style={{ backgroundColor: '#52e322' }}
-          action={[
-            <IconButton
-              key='close'
-              aria-label='Close'
-              color='inherit'
-              onClick={this.props.snackActions.clearSnack}>
-              <CloseIcon/>
-            </IconButton>
-          ]}
-          message={this.props.snack.message}
-        />
-      );
-    }
+      if (this.props.snack.type === 'error') {
+          return (
+              <SnackbarContent style={{ backgroundColor: '#d32f2f' }}
+                  action={[
+                      <IconButton
+                          key='close'
+                          aria-label='Close'
+                          color='inherit'
+                          onClick={this.props.snackActions.clearSnack}>
+                          <CloseIcon/>
+                      </IconButton>
+                  ]}
+                  message={this.props.snack.message}
+              />
+          );
+      } else if (this.props.snack.type === 'warning') {
+          return (
+              <SnackbarContent style={{ backgroundColor: '#ffa000' }}
+                  action={[
+                      <IconButton
+                          key='close'
+                          aria-label='Close'
+                          color='inherit'
+                          onClick={this.props.snackActions.clearSnack}>
+                          <CloseIcon/>
+                      </IconButton>
+                  ]}
+                  message={this.props.snack.message}
+              />
+          );
+      } else {
+          return (
+              <SnackbarContent style={{ backgroundColor: '#52e322' }}
+                  action={[
+                      <IconButton
+                          key='close'
+                          aria-label='Close'
+                          color='inherit'
+                          onClick={this.props.snackActions.clearSnack}>
+                          <CloseIcon/>
+                      </IconButton>
+                  ]}
+                  message={this.props.snack.message}
+              />
+          );
+      }
   };
 
   /**
@@ -146,52 +146,52 @@ class App extends Component {
    * @returns {*}
    */
   renderSnackBar = () => {
-    return (
-      <Snackbar autoHideDuration={5000}
-        onClose={ this.props.snackActions.clearSnack }
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        open={this.props.snack.show}>
-        {
-          this.renderSnackBarContent()
-        }
-      </Snackbar>
-    );
+      return (
+          <Snackbar autoHideDuration={5000}
+              onClose={ this.props.snackActions.clearSnack }
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+              open={this.props.snack.show}>
+              {
+                  this.renderSnackBarContent()
+              }
+          </Snackbar>
+      );
   };
 
   render () {
-    return (
-      <div className="App">
-        <StartScreen/>
-        {
-          this.renderSnackBar()
-        }
-        {
-          this.renderLoadingOverlay()
-        }
-      </div>
-    );
+      return (
+          <div className="App">
+              <StartScreen/>
+              {
+                  this.renderSnackBar()
+              }
+              {
+                  this.renderLoadingOverlay()
+              }
+          </div>
+      );
   }
 }
 
 // maps redux store data to props
 const mapStateToProps = (state) => {
-  return {
-    isLoading: state.globalUi.isLoading,
-    i18n: state.i18n,
-    snack: state.snack,
-    researchInterestCollection: state.collection.researchInterestCollection,
-    securityQuestionCollection: state.collection.securityQuestionCollection
-  };
+    return {
+        isLoading: state.globalUi.isLoading,
+        i18n: state.i18n,
+        snack: state.snack,
+        researchInterestCollection: state.collection.researchInterestCollection,
+        securityQuestionCollection: state.collection.securityQuestionCollection
+    };
 };
 
 // maps props to redux store
 const mapDispatchToProps = dispatch => {
-  return {
-    globalUiActions: bindActionCreators(globalUiActions, dispatch),
-    i18nActions: bindActionCreators(i18nActions, dispatch),
-    snackActions: bindActionCreators(snackActions, dispatch),
-    collectionActions: bindActionCreators(collectionActions, dispatch)
-  };
+    return {
+        globalUiActions: bindActionCreators(globalUiActions, dispatch),
+        i18nActions: bindActionCreators(i18nActions, dispatch),
+        snackActions: bindActionCreators(snackActions, dispatch),
+        collectionActions: bindActionCreators(collectionActions, dispatch)
+    };
 };
 
 export default (connect(mapStateToProps, mapDispatchToProps)(App));

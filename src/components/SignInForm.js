@@ -39,7 +39,7 @@ export class SignInForm extends React.Component {
   };
 
   componentDidMount = async () => {
-    await this.props.globalUiActions.setLoginOrRegister();
+      await this.props.globalUiActions.setLoginOrRegister();
   };
 
   /**
@@ -49,24 +49,24 @@ export class SignInForm extends React.Component {
    * @returns {Promise<*>}
    */
   login = async () => {
-    const loginService: LoginService = new LoginService();
-    if (this.props.username !== '') {
-      if (this.props.password !== '') {
-        try {
-          const token: {token: string} = await loginService.login(this.props.username, this.props.password);
-          if (!token) {
-            return await this.props.snackActions.setAndShowWarning(this.props.i18n.t.ui.SNACK.DEFAULT_ERROR);
+      const loginService: LoginService = new LoginService();
+      if (this.props.username !== '') {
+          if (this.props.password !== '') {
+              try {
+                  const token: {token: string} = await loginService.login(this.props.username, this.props.password);
+                  if (!token) {
+                      return await this.props.snackActions.setAndShowWarning(this.props.i18n.t.ui.SNACK.DEFAULT_ERROR);
+                  }
+                  this.decodeToken(token);
+              } catch (e) {
+                  await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.SERVER_ERROR);
+              }
+          } else {
+              await this.props.snackActions.setAndShowWarning(this.props.i18n.t.ui.SNACK.CHECK_INPUT);
           }
-          this.decodeToken(token);
-        } catch (e) {
-          await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.SERVER_ERROR);
-        }
       } else {
-        await this.props.snackActions.setAndShowWarning(this.props.i18n.t.ui.SNACK.CHECK_INPUT);
+          await this.props.snackActions.setAndShowWarning(this.props.i18n.t.ui.SNACK.CHECK_INPUT);
       }
-    } else {
-      await this.props.snackActions.setAndShowWarning(this.props.i18n.t.ui.SNACK.CHECK_INPUT);
-    }
   };
 
   /**
@@ -78,23 +78,23 @@ export class SignInForm extends React.Component {
    * @returns {Promise<void>}
    */
   decodeToken = async (token) => {
-    const decoderService: DecoderService = new DecoderService();
-    let user = null;
-    if (!Object.prototype.hasOwnProperty.call(token, 'error')) {
-      user = await decoderService.decode(token.token);
-    } else {
-      await this.showErrors(token);
-    }
-    if (user && Object.prototype.hasOwnProperty.call(user, 'error')) {
-      return this.showErrors(user);
-    } else if (user) {
-      await this.props.globalUiActions.setLoading();
-      await this.wait(2000);
-      await this.props.globalUiActions.unsetLoading();
-      await this.props.userActions.setActiveUser(user);
-      await this.props.snackActions.setAndShowInfo(this.props.i18n.t.ui.SNACK.LOGIN_COMPLETED);
-      this.props.history.push('/external');
-    }
+      const decoderService: DecoderService = new DecoderService();
+      let user = null;
+      if (!Object.prototype.hasOwnProperty.call(token, 'error')) {
+          user = await decoderService.decode(token.token);
+      } else {
+          await this.showErrors(token);
+      }
+      if (user && Object.prototype.hasOwnProperty.call(user, 'error')) {
+          return this.showErrors(user);
+      } else if (user) {
+          await this.props.globalUiActions.setLoading();
+          await this.wait(2000);
+          await this.props.globalUiActions.unsetLoading();
+          await this.props.userActions.setActiveUser(user);
+          await this.props.snackActions.setAndShowInfo(this.props.i18n.t.ui.SNACK.LOGIN_COMPLETED);
+          this.props.history.push('/external');
+      }
   };
 
   /**
@@ -103,9 +103,9 @@ export class SignInForm extends React.Component {
    * @returns {Promise<R>}
    */
   wait = async (ms: number) => {
-    return new Promise(resolve => {
-      setTimeout(resolve, ms);
-    });
+      return new Promise(resolve => {
+          setTimeout(resolve, ms);
+      });
   };
 
   /**
@@ -115,75 +115,75 @@ export class SignInForm extends React.Component {
    * @returns {Promise<void>}
    */
   showErrors = async (errorObject: Object) => {
-    if (errorObject) {
-      if (errorObject.error === 'no user found') {
-        await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.NO_USER_FOUND);
-      } else if (errorObject.error === 'Unauthorized!' || errorObject.error === 'Failed to authenticate token.') {
-        await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.UNAUTHORIZED);
+      if (errorObject) {
+          if (errorObject.error === 'no user found') {
+              await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.NO_USER_FOUND);
+          } else if (errorObject.error === 'Unauthorized!' || errorObject.error === 'Failed to authenticate token.') {
+              await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.UNAUTHORIZED);
+          }
+      } else {
+          await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.DEFAULT_ERROR);
       }
-    } else {
-      await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.DEFAULT_ERROR);
-    }
   };
 
   handleUserChange = async (event: Object) => {
-    await this.props.loginActions.setUserName(event.target.value);
+      await this.props.loginActions.setUserName(event.target.value);
   };
 
   handlePasswordChange = async (event: Object) => {
-    await this.props.loginActions.setPassword(event.target.value);
+      await this.props.loginActions.setPassword(event.target.value);
   };
 
   handleSubmit = async (event: Object) => {
-    event.preventDefault();
-    await this.login();
+      event.preventDefault();
+      await this.login();
   };
 
   render () {
-    return (
-      <div className="FormCenter">
-        <form onSubmit={this.handleSubmit} className="FormFields">
-          <div className="FormField">
-            <label className="FormField__Label" htmlFor="email">{this.props.i18n.t.ui.USERNAME}</label>
-            <input type="text" id="username" className="FormField__Input" placeholder={this.props.i18n.t.ui.USERNAME_PLACEHOLDER}
-              name="username" value={this.props.username} onChange={this.handleUserChange} />
+      return (
+          <div className="FormCenter">
+              <form onSubmit={this.handleSubmit} className="FormFields">
+                  <div className="FormField">
+                      <label className="FormField__Label" htmlFor="email">{this.props.i18n.t.ui.USERNAME}</label>
+                      <input type="text" id="username" className="FormField__Input" placeholder={this.props.i18n.t.ui.USERNAME_PLACEHOLDER}
+                          name="username" value={this.props.username} onChange={this.handleUserChange} />
+                  </div>
+                  <div className="FormField">
+                      <label className="FormField__Label" htmlFor="password">{this.props.i18n.t.ui.PASSWORD}</label>
+                      <input type="password" id="password" className="FormField__Input" placeholder={this.props.i18n.t.ui.PASSWORD_PLACEHOLDER}
+                          name="password" value={this.props.password} onChange={this.handlePasswordChange} />
+                  </div>
+                  <div className="LinkFormField">
+                      <p className="LinkText"><a href={'#/password-reset'}
+                          className="LinkTextLink">{this.props.i18n.t.ui.FORGOT_PASSWORD}</a>
+                      </p>
+                  </div>
+                  <div className="FormField">
+                      <button className="FormField__Button mr-20" id="login">{this.props.i18n.t.ui.LOGIN}</button>
+                  </div>
+              </form>
           </div>
-          <div className="FormField">
-            <label className="FormField__Label" htmlFor="password">{this.props.i18n.t.ui.PASSWORD}</label>
-            <input type="password" id="password" className="FormField__Input" placeholder={this.props.i18n.t.ui.PASSWORD_PLACEHOLDER}
-              name="password" value={this.props.password} onChange={this.handlePasswordChange} />
-          </div>
-          <div className="LinkFormField">
-            <p className="LinkText"><a href={'#/password-reset'}
-              className="LinkTextLink">{this.props.i18n.t.ui.FORGOT_PASSWORD}</a>
-            </p>
-          </div>
-          <div className="FormField">
-            <button className="FormField__Button mr-20" id="login">{this.props.i18n.t.ui.LOGIN}</button>
-          </div>
-        </form>
-      </div>
-    );
+      );
   }
 }
 
 // maps redux store data to props
 const mapStateToProps = (state: Object) => {
-  return {
-    username: state.login.username,
-    password: state.login.password,
-    i18n: state.i18n
-  };
+    return {
+        username: state.login.username,
+        password: state.login.password,
+        i18n: state.i18n
+    };
 };
 
 // maps props to redux store
 const mapDispatchToProps = dispatch => {
-  return {
-    globalUiActions: bindActionCreators(globalUiActions, dispatch),
-    loginActions: bindActionCreators(loginActions, dispatch),
-    snackActions: bindActionCreators(snackActions, dispatch),
-    userActions: bindActionCreators(userActions, dispatch)
-  };
+    return {
+        globalUiActions: bindActionCreators(globalUiActions, dispatch),
+        loginActions: bindActionCreators(loginActions, dispatch),
+        snackActions: bindActionCreators(snackActions, dispatch),
+        userActions: bindActionCreators(userActions, dispatch)
+    };
 };
 
 export default withRouter((connect(mapStateToProps, mapDispatchToProps)(SignInForm)));

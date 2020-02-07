@@ -9,20 +9,20 @@ export default class UserService {
    * @returns {Promise<*>}
    */
   getSecurityQuestion = async (email: string) => {
-    const url = ServiceConstants.API_URL + 'securityQuestion';
-    let response = {};
-    try {
-      response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email })
-      });
-      return response.json();
-    } catch (e) {
-      throw new Error(500);
-    }
+      const url = ServiceConstants.API_URL + 'securityQuestion';
+      let response = {};
+      try {
+          response = await fetch(url, {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ email })
+          });
+          return response.json();
+      } catch (e) {
+          throw new Error(500);
+      }
   };
 
   /**
@@ -33,24 +33,24 @@ export default class UserService {
    * @returns {Promise<*|boolean>}
    */
   checkSecurityAnswer = async (id: string, securityAnswer: string) => {
-    const url = ServiceConstants.API_URL + 'checkSecurityAnswer';
-    let response = {};
-    try {
-      response = await fetch(url, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ id, securityAnswer })
-      });
-      if (response.status !== 200) {
-        return response.json();
+      const url = ServiceConstants.API_URL + 'checkSecurityAnswer';
+      let response = {};
+      try {
+          response = await fetch(url, {
+              method: 'POST',
+              credentials: 'include',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ id, securityAnswer })
+          });
+          if (response.status !== 200) {
+              return response.json();
+          }
+          return true;
+      } catch (e) {
+          throw new Error(500);
       }
-      return true;
-    } catch (e) {
-      throw new Error(500);
-    }
   };
 
   /**
@@ -61,23 +61,23 @@ export default class UserService {
    * @returns {Promise<*|boolean>}
    */
   updatePassword = async (newPassword: string, userId: string) => {
-    const url = ServiceConstants.API_URL + 'updatePassword/' + userId + '?token=' + cookie.load('token');
-    let response = {};
-    try {
-      response = await fetch(url, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ newPassword })
-      });
-      if (response.status !== 200) {
-        return response.json();
+      const url = ServiceConstants.API_URL + 'updatePassword/' + userId + '?token=' + cookie.load('token');
+      let response = {};
+      try {
+          response = await fetch(url, {
+              method: 'PATCH',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ newPassword })
+          });
+          if (response.status !== 200) {
+              return response.json();
+          }
+          return true;
+      } catch (e) {
+          throw new Error(500);
       }
-      return true;
-    } catch (e) {
-      throw new Error(500);
-    }
   };
 
   /**
@@ -88,22 +88,22 @@ export default class UserService {
    * @returns {Promise<*|boolean>}
    */
   deleteUser = async (username: string, password: string) => {
-    const url = ServiceConstants.API_URL + 'deleteUser?token=' + cookie.load('token');
-    let response = {};
-    try {
-      response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ username, password })
-      });
-      if (response.status !== 200) {
-        return response.json();
+      const url = ServiceConstants.API_URL + 'deleteUser?token=' + cookie.load('token');
+      let response = {};
+      try {
+          response = await fetch(url, {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ username, password })
+          });
+          if (response.status !== 200) {
+              return response.json();
+          }
+          return true;
+      } catch (e) {
+          throw new Error(500);
       }
-      return true;
-    } catch (e) {
-      throw new Error(500);
-    }
   }
 };

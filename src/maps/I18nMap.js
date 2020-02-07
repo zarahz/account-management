@@ -7,8 +7,8 @@ const I18nMap: {
   de: I18nModel,
   en: I18nModel
 } = {
-  de: de,
-  en: en
+    de: de,
+    en: en
 };
 
 export default I18nMap;

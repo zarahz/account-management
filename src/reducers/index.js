@@ -11,13 +11,13 @@ import snack from './snack';
 import user from './user';
 
 export default combineReducers({
-  collection,
-  globalUi,
-  i18n,
-  login,
-  registration,
-  passwordReset,
-  profile,
-  snack,
-  user
+    collection,
+    globalUi,
+    i18n,
+    login,
+    registration,
+    passwordReset,
+    profile,
+    snack,
+    user
 });

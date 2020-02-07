@@ -10,19 +10,19 @@ export default class RegistrationService {
    * @returns {Promise<*>}
    */
   register = async (user: UserModel) => {
-    const url = ServiceConstants.API_URL + 'register';
-    let response = {};
-    try {
-      response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(user)
-      });
-      return response.json();
-    } catch (e) {
-      throw new Error(500);
-    }
+      const url = ServiceConstants.API_URL + 'register';
+      let response = {};
+      try {
+          response = await fetch(url, {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(user)
+          });
+          return response.json();
+      } catch (e) {
+          throw new Error(500);
+      }
   }
 };

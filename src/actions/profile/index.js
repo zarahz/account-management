@@ -2,88 +2,88 @@
 import * as types from '../ActionTypes';
 
 export const setUserProfile = (userProfile: Object) => ({
-  type: types.SET_USER_PROFILE,
-  userProfile: userProfile
+    type: types.SET_USER_PROFILE,
+    userProfile: userProfile
 });
 
 export const setTitle = (title: string) => ({
-  type: types.SET_TITLE,
-  title: title
+    type: types.SET_TITLE,
+    title: title
 });
 
 export const setGender = (gender: string) => ({
-  type: types.SET_GENDER,
-  gender: gender
+    type: types.SET_GENDER,
+    gender: gender
 });
 
 export const setFirstName = (firstName: string) => ({
-  type: types.SET_FIRST_NAME,
-  firstName: firstName
+    type: types.SET_FIRST_NAME,
+    firstName: firstName
 });
 
 export const setLastName = (lastName: string) => ({
-  type: types.SET_LAST_NAME,
-  lastName: lastName
+    type: types.SET_LAST_NAME,
+    lastName: lastName
 });
 
 export const setUserName = (username: string) => ({
-  type: types.SET_USER_NAME,
-  username: username
+    type: types.SET_USER_NAME,
+    username: username
 });
 
 export const setEMail = (email: string) => ({
-  type: types.SET_EMAIL,
-  email: email
+    type: types.SET_EMAIL,
+    email: email
 });
 
 export const setPassword = (password: string) => ({
-  type: types.SET_PASSWORD,
-  password: password
+    type: types.SET_PASSWORD,
+    password: password
 });
 
 export const setOrganisation = (organisation: string) => ({
-  type: types.SET_ORGANISATION,
-  organisation: organisation
+    type: types.SET_ORGANISATION,
+    organisation: organisation
 });
 
 export const setAddress = (address: string) => ({
-  type: types.SET_ADDRESS,
-  address: address
+    type: types.SET_ADDRESS,
+    address: address
 });
 
 export const setCity = (city: string) => ({
-  type: types.SET_CITY,
-  city: city
+    type: types.SET_CITY,
+    city: city
 });
 
 export const setCountry = (country: string) => ({
-  type: types.SET_COUNTY,
-  country: country
+    type: types.SET_COUNTY,
+    country: country
 });
 
 export const setZipCode = (zipCode: number) => ({
-  type: types.SET_ZIP_CODE,
-  zipCode: zipCode
+    type: types.SET_ZIP_CODE,
+    zipCode: zipCode
 });
 
 export const setFieldOfActivity = (fieldOfActivity: string) => ({
-  type: types.SET_FIELD_OF_ACTIVITY,
-  fieldOfActivity: fieldOfActivity
+    type: types.SET_FIELD_OF_ACTIVITY,
+    fieldOfActivity: fieldOfActivity
 });
 
 export const setResearchInterest = (interest: Array<string>) => ({
-  type: types.SET_RESEARCH_INTERESTS,
-  researchInterest: interest
+    type: types.SET_RESEARCH_INTERESTS,
+    researchInterest: interest
 });
 
 export const setResearchInterestString = (interest: string) => ({
-  type: types.SET_RESEARCH_INTEREST_STRING,
-  interestString: interest
+    type: types.SET_RESEARCH_INTEREST_STRING,
+    interestString: interest
 });
 
 export const setID = (id: string) => ({
-  type: types.SET_ID,
-  id: id
+    type: types.SET_ID,
+    id: id
 });
 
 export type ProfileActionType = {

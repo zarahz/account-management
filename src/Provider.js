@@ -16,22 +16,22 @@ const persistedState = localStorageService.loadState();
 
 const store = createStore(accountManagementReducers, persistedState, applyMiddleware(thunk));
 store.subscribe(() => {
-  localStorageService.saveState(store.getState());
+    localStorageService.saveState(store.getState());
 });
 
 class AppProvider extends Component {
-  /**
+    /**
    * The <Provider/> makes the Redux store available to any nested components that have been wrapped in
    * the connect() function.
    * @returns {*}
    */
-  render () {
-    return (
-      <Provider store={store}>
-        <App/>
-      </Provider>
-    );
-  }
+    render () {
+        return (
+            <Provider store={store}>
+                <App/>
+            </Provider>
+        );
+    }
 }
 
 export default AppProvider;

@@ -8,19 +8,19 @@ export default class CollectionsService {
    * @returns {Promise<*>}
    */
   getSecurityQuestions = async (languageCode: string) => {
-    const url = ServiceConstants.API_URL + 'securityQuestions?languageCode=' + languageCode;
-    let response = {};
-    try {
-      response = await fetch(url, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      return response.json();
-    } catch (e) {
-      throw new Error(500);
-    }
+      const url = ServiceConstants.API_URL + 'securityQuestions?languageCode=' + languageCode;
+      let response = {};
+      try {
+          response = await fetch(url, {
+              method: 'GET',
+              headers: {
+                  'Content-Type': 'application/json'
+              }
+          });
+          return response.json();
+      } catch (e) {
+          throw new Error(500);
+      }
   };
 
   /**
@@ -28,18 +28,18 @@ export default class CollectionsService {
    * @returns {Promise<*>}
    */
   getResearchInterests = async () => {
-    const url = ServiceConstants.API_URL + 'researchInterests';
-    let response = {};
-    try {
-      response = await fetch(url, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      return response.json();
-    } catch (e) {
-      throw new Error(500);
-    }
+      const url = ServiceConstants.API_URL + 'researchInterests';
+      let response = {};
+      try {
+          response = await fetch(url, {
+              method: 'GET',
+              headers: {
+                  'Content-Type': 'application/json'
+              }
+          });
+          return response.json();
+      } catch (e) {
+          throw new Error(500);
+      }
   };
 };
