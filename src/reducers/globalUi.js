@@ -2,13 +2,13 @@
 import * as types from '../actions/ActionTypes';
 
 const globalUi = (state: {
-  isLoading: boolean, isLoginOrRegister: boolean, pageType: string, isEditProfile: boolean
+    isLoading: boolean, isLoginOrRegister: boolean, pageType: string, isEditProfile: boolean
 } = {
     isLoading: false, isLoginOrRegister: true, pageType: 'getSecQuestion', isEditProfile: false
 }, action: {
-  type: string, isLoading: boolean, isLoginOrRegister: boolean, pageType: string, isEditProfile: boolean
+    type: string, isLoading: boolean, isLoginOrRegister: boolean, pageType: string, isEditProfile: boolean
 }): {
-  isLoading: boolean, isLoginOrRegister: boolean, pageType: string, isEditProfile: boolean
+    isLoading: boolean, isLoginOrRegister: boolean, pageType: string, isEditProfile: boolean
 } => {
     const newState = JSON.parse(JSON.stringify(state));
     switch (action.type) {

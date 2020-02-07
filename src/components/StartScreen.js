@@ -26,78 +26,78 @@ import EditProfile from './EditProfile';
 import DeleteProfile from './DeleteProfile';
 
 export class StartScreen extends React.Component {
-  props: {
-    classes: Object,
-    isLoginOrRegister: boolean,
-    isEditProfile: boolean,
-    i18n: {code: string, t: I18nModel},
-    globalUiActions: globalUiActionsType,
-  };
+      props: {
+          classes: Object,
+          isLoginOrRegister: boolean,
+          isEditProfile: boolean,
+          i18n: {code: string, t: I18nModel},
+          globalUiActions: globalUiActionsType,
+      };
 
-  renderPageSwitcher = () => {
-      if (this.props.isLoginOrRegister) {
-          return (
-              <div>
-                  <div className="PageSwitcher">
-                      <NavLink exact to="/" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">
-                          {this.props.i18n.t.ui.LOGIN}</NavLink>
-                      <NavLink to="/sign-up" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">
-                          {this.props.i18n.t.ui.REGISTER}</NavLink>
-                  </div>
-                  <div className="FormTitle">
-                      <NavLink exact to="/" activeClassName="FormTitle__Link--Active"
-                          className="FormTitle__Link">{this.props.i18n.t.ui.LOGIN}
-                      </NavLink>{this.props.i18n.t.ui.OR}<NavLink to="/sign-up" activeClassName="FormTitle__Link--Active"
-                          className="FormTitle__Link">{this.props.i18n.t.ui.REGISTER}</NavLink>
-                  </div>
-              </div>
-          );
-      }
-  };
+    renderPageSwitcher = () => {
+        if (this.props.isLoginOrRegister) {
+            return (
+                <div>
+                    <div className="PageSwitcher">
+                        <NavLink exact to="/" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">
+                            {this.props.i18n.t.ui.LOGIN}</NavLink>
+                        <NavLink to="/sign-up" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">
+                            {this.props.i18n.t.ui.REGISTER}</NavLink>
+                    </div>
+                    <div className="FormTitle">
+                        <NavLink exact to="/" activeClassName="FormTitle__Link--Active"
+                            className="FormTitle__Link">{this.props.i18n.t.ui.LOGIN}
+                        </NavLink>{this.props.i18n.t.ui.OR}<NavLink to="/sign-up" activeClassName="FormTitle__Link--Active"
+                            className="FormTitle__Link">{this.props.i18n.t.ui.REGISTER}</NavLink>
+                    </div>
+                </div>
+            );
+        }
+    };
 
-  renderStartScreenAside = () => {
-      if (this.props.isEditProfile) {
-          return (
-              <h1>PWP Conference Tool <br/> {this.props.i18n.t.ui.PROFILE_OVERVIEW}</h1>
-          );
-      } else {
-          return (
-              <h1>PWP Conference Tool</h1>
-          );
-      }
-  };
+    renderStartScreenAside = () => {
+        if (this.props.isEditProfile) {
+            return (
+                <h1>PWP Conference Tool <br/> {this.props.i18n.t.ui.PROFILE_OVERVIEW}</h1>
+            );
+        } else {
+            return (
+                <h1>PWP Conference Tool</h1>
+            );
+        }
+    };
 
-  render () {
-      return (
-          <Router basename="/">
-              <div className="Startscreen">
-                  <div className="Startscreen__Aside">
-                      {
-                          this.renderStartScreenAside()
-                      }
-                  </div>
-                  <div className="Startscreen__Form">
-                      {
-                          this.renderPageSwitcher()
-                      }
-                      <Route exact path="/" component={SignInForm}>
-                      </Route>
-                      <Route path="/sign-up" component={SignUpForm}>
-                      </Route>
-                      <Route path="/password-reset" component={ResetPasswordForm}>
-                      </Route>
-                      <Route path="/profile" component={Profile}>
-                      </Route>
-                      <Route path="/edit-profile" component={EditProfile}>
-                      </Route>
-                      <Route path="/delete-user-profile" component={DeleteProfile}>
-                      </Route>
-                      <Route path='/external' component={() => { window.location = 'https://pwp.um.ifi.lmu.de/g11'; return null; } }/>
-                  </div>
-              </div>
-          </Router>
-      );
-  }
+    render () {
+        return (
+            <Router basename="/">
+                <div className="Startscreen">
+                    <div className="Startscreen__Aside">
+                        {
+                            this.renderStartScreenAside()
+                        }
+                    </div>
+                    <div className="Startscreen__Form">
+                        {
+                            this.renderPageSwitcher()
+                        }
+                        <Route exact path="/" component={SignInForm}>
+                        </Route>
+                        <Route path="/sign-up" component={SignUpForm}>
+                        </Route>
+                        <Route path="/password-reset" component={ResetPasswordForm}>
+                        </Route>
+                        <Route path="/profile" component={Profile}>
+                        </Route>
+                        <Route path="/edit-profile" component={EditProfile}>
+                        </Route>
+                        <Route path="/delete-user-profile" component={DeleteProfile}>
+                        </Route>
+                        <Route path='/external' component={() => { window.location = 'https://pwp.um.ifi.lmu.de/g11'; return null; } }/>
+                    </div>
+                </div>
+            </Router>
+        );
+    }
 }
 
 // maps redux store data to props

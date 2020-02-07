@@ -30,69 +30,69 @@ import type { ProfileActionType } from '../actions/profile';
 import DecoderService from '../services/DecoderService';
 
 export class Profile extends React.Component {
-  props: {
-    profileActions: ProfileActionType,
-    snackActions: SnackActionType,
-    collectionActions: CollectionActionType,
-    i18n: {code: string, t: I18nModel},
-    globalUiActions: globalUiActionsType,
-    userActions: UserActionsType,
-    userProfile: UserModel,
-    interestString: string,
-    gender: string
-  };
+    props: {
+        profileActions: ProfileActionType,
+        snackActions: SnackActionType,
+        collectionActions: CollectionActionType,
+        i18n: {code: string, t: I18nModel},
+        globalUiActions: globalUiActionsType,
+        userActions: UserActionsType,
+        userProfile: UserModel,
+        interestString: string,
+        gender: string
+    };
 
-  componentDidMount = async () => {
-      await this.props.globalUiActions.unsetLoginOrRegister();
-      await this.props.globalUiActions.setProfileEdit();
-      await this.getUser();
-  };
+    componentDidMount = async () => {
+        await this.props.globalUiActions.unsetLoginOrRegister();
+        await this.props.globalUiActions.setProfileEdit();
+        await this.getUser();
+    };
 
-  /**
+    /**
    * with this function the user token is loaded from the cookies and tries to decrypt it. if this works, the user is
    * stored in the redux store and additionally the gender is stored and displayed in the respective browser language
    * @returns {Promise<void>}
    */
-  getUser = async () => {
-      const token = cookie.load('token');
-      try {
-          const user = await this.decodeToken(token);
-          if (user) {
-              await this.props.profileActions.setUserProfile(user);
-              await this.setResearchInterest(user.researchInterest);
-              if (user.gender === 'Mann' || user.gender === 'Man') {
-                  this.props.profileActions.setGender(this.props.i18n.t.ui.MAN);
-              } else if (user.gender === 'Frau' || user.gender === 'Female') {
-                  this.props.profileActions.setGender(this.props.i18n.t.ui.FEMALE);
-              } else {
-                  this.props.profileActions.setGender(this.props.i18n.t.ui.DIVERS);
-              }
-          }
-      } catch (e) {
-          await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.SERVER_ERROR);
-      }
-  };
+    getUser = async () => {
+        const token = cookie.load('token');
+        try {
+            const user = await this.decodeToken(token);
+            if (user) {
+                await this.props.profileActions.setUserProfile(user);
+                await this.setResearchInterest(user.researchInterest);
+                if (user.gender === 'Mann' || user.gender === 'Man') {
+                    this.props.profileActions.setGender(this.props.i18n.t.ui.MAN);
+                } else if (user.gender === 'Frau' || user.gender === 'Female') {
+                    this.props.profileActions.setGender(this.props.i18n.t.ui.FEMALE);
+                } else {
+                    this.props.profileActions.setGender(this.props.i18n.t.ui.DIVERS);
+                }
+            }
+        } catch (e) {
+            await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.SERVER_ERROR);
+        }
+    };
 
-  /**
+    /**
    * this function joins the contents of the research interest array into a formatted string
    * @param researchInterest
    * @returns {Promise<void>}
    */
-  setResearchInterest = async (researchInterest: Array) => {
-      let interestString: string = '';
-      if (researchInterest !== []) {
-          for (let a = 0; a < researchInterest.length; a++) {
-              if (interestString === '') {
-                  interestString = researchInterest[a];
-              } else {
-                  interestString = interestString + ', ' + researchInterest[a];
-              }
-          }
-      }
-      await this.props.profileActions.setResearchInterestString(interestString);
-  };
+    setResearchInterest = async (researchInterest: Array) => {
+        let interestString: string = '';
+        if (researchInterest !== []) {
+            for (let a = 0; a < researchInterest.length; a++) {
+                if (interestString === '') {
+                    interestString = researchInterest[a];
+                } else {
+                    interestString = interestString + ', ' + researchInterest[a];
+                }
+            }
+        }
+        await this.props.profileActions.setResearchInterestString(interestString);
+    };
 
-  /**
+    /**
    * the function gets a token passed. If the token object has a property error, then the user will get an error
    * message through the showError function. Otherwise the token is decrypted by the decoderService and a user object
    * should be present. If the user has a property error, an error is displayed like with the token object, otherwise
@@ -100,107 +100,107 @@ export class Profile extends React.Component {
    * @param token
    * @returns {Promise<null|void>}
    */
-  decodeToken = async (token: {token: string}) => {
-      const decoderService: DecoderService = new DecoderService();
-      let user = null;
-      if (!Object.prototype.hasOwnProperty.call(token, 'error')) {
-          user = await decoderService.decode(token);
-      } else {
-          await this.showErrors(token);
-      }
-      if (user && Object.prototype.hasOwnProperty.call(user, 'error')) {
-          return this.showErrors(user);
-      } else if (user) {
-          return user;
-      }
-  };
+    decodeToken = async (token: {token: string}) => {
+        const decoderService: DecoderService = new DecoderService();
+        let user = null;
+        if (!Object.prototype.hasOwnProperty.call(token, 'error')) {
+            user = await decoderService.decode(token);
+        } else {
+            await this.showErrors(token);
+        }
+        if (user && Object.prototype.hasOwnProperty.call(user, 'error')) {
+            return this.showErrors(user);
+        } else if (user) {
+            return user;
+        }
+    };
 
-  /**
+    /**
    * the function receives an error object, evaluates this object and sets an error message in the redux store, which
    * is displayed to the user by the SnackBar (app.js)
    * @param errorObject
    * @returns {Promise<void>}
    */
-  showErrors = async (errorObject: Object) => {
-      if (errorObject) {
-          if (errorObject.error === 'no user found') {
-              await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.NO_USER_FOUND);
-          } else if (errorObject.error === 'Unauthorized!' || errorObject.error === 'Failed to authenticate token.') {
-              await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.UNAUTHORIZED);
-          }
-      } else {
-          await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.DEFAULT_ERROR);
-      }
-  };
+    showErrors = async (errorObject: Object) => {
+        if (errorObject) {
+            if (errorObject.error === 'no user found') {
+                await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.NO_USER_FOUND);
+            } else if (errorObject.error === 'Unauthorized!' || errorObject.error === 'Failed to authenticate token.') {
+                await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.UNAUTHORIZED);
+            }
+        } else {
+            await this.props.snackActions.setAndShowError(this.props.i18n.t.ui.SNACK.DEFAULT_ERROR);
+        }
+    };
 
-  render () {
-      return (
-          <div className="FormCenter">
-              <h1>{this.props.i18n.t.ui.PROFILE_OVERVIEW_HEADING}</h1>
-              <br/>
-              <form className="FormFields">
-                  <div className="FormField">
-                      <label className="FormField__Label_Overview" htmlFor="username">{this.props.i18n.t.ui.USERNAME}</label>
-                      <p>{this.props.userProfile.username}</p>
-                  </div>
-                  <div className="FormField">
-                      <label className="FormField__Label_Overview" htmlFor="title">{this.props.i18n.t.ui.TITLE}</label>
-                      <p>{this.props.userProfile.title}</p>
-                  </div>
-                  <div className="FormField">
-                      <label className="FormField__Label_Overview" htmlFor="gender">{this.props.i18n.t.ui.GENDER}</label>
-                      <p>{this.props.gender}</p>
-                  </div>
-                  <div className="FormField">
-                      <label className="FormField__Label_Overview" htmlFor="name">{this.props.i18n.t.ui.FIRST_NAME}</label>
-                      <p>{this.props.userProfile.firstname}</p>
-                  </div>
-                  <div className="FormField">
-                      <label className="FormField__Label_Overview" htmlFor="name">{this.props.i18n.t.ui.LAST_NAME}</label>
-                      <p>{this.props.userProfile.lastname}</p>
-                  </div>
-                  <div className="FormField">
-                      <label className="FormField__Label_Overview" htmlFor="email">{this.props.i18n.t.ui.EMAIL}</label>
-                      <p>{this.props.userProfile.email}</p>
-                  </div>
-                  <div className="FormField">
-                      <label className="FormField__Label_Overview" htmlFor="name">{this.props.i18n.t.ui.STREET}</label>
-                      <p>{this.props.userProfile.address}</p>
-                  </div>
-                  <div className="FormField">
-                      <label className="FormField__Label_Overview" htmlFor="name">{this.props.i18n.t.ui.ZIP_CODE}</label>
-                      <p>{this.props.userProfile.zipCode}</p>
-                  </div>
-                  <div className="FormField">
-                      <label className="FormField__Label_Overview" htmlFor="name">{this.props.i18n.t.ui.CITY}</label>
-                      <p>{this.props.userProfile.city}</p>
-                  </div>
-                  <div className="FormField">
-                      <label className="FormField__Label_Overview" htmlFor="name">{this.props.i18n.t.ui.COUNTRY}</label>
-                      <p>{this.props.userProfile.country}</p>
-                  </div>
-                  <div className="FormField">
-                      <label className="FormField__Label_Overview" htmlFor="name">{this.props.i18n.t.ui.ORGANISATION}</label>
-                      <p>{this.props.userProfile.organisation}</p>
-                  </div>
-                  <div className="FormField">
-                      <label className="FormField__Label_Overview" htmlFor="name">{this.props.i18n.t.ui.FIELD_OF_ACTIVITY}</label>
-                      <p>{this.props.userProfile.fieldOfActivity}</p>
-                  </div>
-                  <div className="FormField">
-                      <label className="FormField__Label_Overview" htmlFor="name">{this.props.i18n.t.ui.RESEARCH_INTEREST}</label>
-                      <p>{this.props.interestString}</p>
-                  </div>
-                  <br/>
-                  <div className="FormField">
-                      <NavLink exact to="/edit-profile">
-                          <button className="FormField__Button mr-20">{this.props.i18n.t.ui.EDIT_PROFILE}</button>
-                      </NavLink>
-                  </div>
-              </form>
-          </div>
-      );
-  }
+    render () {
+        return (
+            <div className="FormCenter">
+                <h1>{this.props.i18n.t.ui.PROFILE_OVERVIEW_HEADING}</h1>
+                <br/>
+                <form className="FormFields">
+                    <div className="FormField">
+                        <label className="FormField__Label_Overview" htmlFor="username">{this.props.i18n.t.ui.USERNAME}</label>
+                        <p>{this.props.userProfile.username}</p>
+                    </div>
+                    <div className="FormField">
+                        <label className="FormField__Label_Overview" htmlFor="title">{this.props.i18n.t.ui.TITLE}</label>
+                        <p>{this.props.userProfile.title}</p>
+                    </div>
+                    <div className="FormField">
+                        <label className="FormField__Label_Overview" htmlFor="gender">{this.props.i18n.t.ui.GENDER}</label>
+                        <p>{this.props.gender}</p>
+                    </div>
+                    <div className="FormField">
+                        <label className="FormField__Label_Overview" htmlFor="name">{this.props.i18n.t.ui.FIRST_NAME}</label>
+                        <p>{this.props.userProfile.firstname}</p>
+                    </div>
+                    <div className="FormField">
+                        <label className="FormField__Label_Overview" htmlFor="name">{this.props.i18n.t.ui.LAST_NAME}</label>
+                        <p>{this.props.userProfile.lastname}</p>
+                    </div>
+                    <div className="FormField">
+                        <label className="FormField__Label_Overview" htmlFor="email">{this.props.i18n.t.ui.EMAIL}</label>
+                        <p>{this.props.userProfile.email}</p>
+                    </div>
+                    <div className="FormField">
+                        <label className="FormField__Label_Overview" htmlFor="name">{this.props.i18n.t.ui.STREET}</label>
+                        <p>{this.props.userProfile.address}</p>
+                    </div>
+                    <div className="FormField">
+                        <label className="FormField__Label_Overview" htmlFor="name">{this.props.i18n.t.ui.ZIP_CODE}</label>
+                        <p>{this.props.userProfile.zipCode}</p>
+                    </div>
+                    <div className="FormField">
+                        <label className="FormField__Label_Overview" htmlFor="name">{this.props.i18n.t.ui.CITY}</label>
+                        <p>{this.props.userProfile.city}</p>
+                    </div>
+                    <div className="FormField">
+                        <label className="FormField__Label_Overview" htmlFor="name">{this.props.i18n.t.ui.COUNTRY}</label>
+                        <p>{this.props.userProfile.country}</p>
+                    </div>
+                    <div className="FormField">
+                        <label className="FormField__Label_Overview" htmlFor="name">{this.props.i18n.t.ui.ORGANISATION}</label>
+                        <p>{this.props.userProfile.organisation}</p>
+                    </div>
+                    <div className="FormField">
+                        <label className="FormField__Label_Overview" htmlFor="name">{this.props.i18n.t.ui.FIELD_OF_ACTIVITY}</label>
+                        <p>{this.props.userProfile.fieldOfActivity}</p>
+                    </div>
+                    <div className="FormField">
+                        <label className="FormField__Label_Overview" htmlFor="name">{this.props.i18n.t.ui.RESEARCH_INTEREST}</label>
+                        <p>{this.props.interestString}</p>
+                    </div>
+                    <br/>
+                    <div className="FormField">
+                        <NavLink exact to="/edit-profile">
+                            <button className="FormField__Button mr-20">{this.props.i18n.t.ui.EDIT_PROFILE}</button>
+                        </NavLink>
+                    </div>
+                </form>
+            </div>
+        );
+    }
 }
 
 // maps redux store data to props

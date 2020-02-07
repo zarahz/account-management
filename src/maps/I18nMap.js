@@ -4,8 +4,8 @@ import de from '../assets/translations/de';
 import en from '../assets/translations/en';
 
 const I18nMap: {
-  de: I18nModel,
-  en: I18nModel
+    de: I18nModel,
+    en: I18nModel
 } = {
     de: de,
     en: en
