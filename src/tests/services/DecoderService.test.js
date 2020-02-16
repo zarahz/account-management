@@ -6,6 +6,7 @@ test('Should return the user', async () => {
     const user = await decoderService.decode(token);
     expect(user).toMatchObject({
         id: '5e46f9406dec2150ea755701',
+        title: 'sir',
         role: 'user',
         firstname: 'john',
         lastname: 'doe',
