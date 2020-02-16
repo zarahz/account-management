@@ -62,6 +62,7 @@ export default class UserService {
    */
     updatePassword = async (newPassword: string, userId: string) => {
         const url = ServiceConstants.API_URL + 'updatePassword/' + userId + '?token=' + cookie.load('token');
+        // const url = ServiceConstants.API_URL + 'updatePassword/' + userId + '?token=eyJhbGciOiJIUzI1NiJ9.IjVlNDZmOTQwNmRlYzIxNTBlYTc1NTcwMSI.8JoWul2Oi7Qx00JoXcoP4yWs4GtxollwbF8pMipj3KU';
         let response = {};
         try {
             response = await fetch(url, {
@@ -89,6 +90,7 @@ export default class UserService {
    */
     deleteUser = async (username: string, password: string) => {
         const url = ServiceConstants.API_URL + 'deleteUser?token=' + cookie.load('token');
+        // const url = ServiceConstants.API_URL + 'deleteUser?token=eyJhbGciOiJIUzI1NiJ9.IjVlNDZmOTQwNmRlYzIxNTBlYTc1NTcwMSI.8JoWul2Oi7Qx00JoXcoP4yWs4GtxollwbF8pMipj3KU';
         let response = {};
         try {
             response = await fetch(url, {

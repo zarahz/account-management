@@ -13,6 +13,6 @@ test('Should return a token if the user is updated correctly', async () => {
         fieldOfActivity: 'computer science',
         researchInterest: ['AR']
     };
-    const token = await updateUserService.updateUser(userModel, 'eyJhbGciOiJIUzI1NiJ9.IjVlMzE4M2RmNTMwZDZhYTVhODkyMGRlZSI.dc9DYAvJn6bd5Tom4bZIxGYWGvnKcmvtH8qwMlhFIcw');
-    expect(token).toMatchObject({ token: 'eyJhbGciOiJIUzI1NiJ9.IjVlMzE4M2RmNTMwZDZhYTVhODkyMGRlZSI.dc9DYAvJn6bd5Tom4bZIxGYWGvnKcmvtH8qwMlhFIcw' });
+    const token = await updateUserService.updateUser(userModel, 'eyJhbGciOiJIUzI1NiJ9.IjVlNDZmOTQwNmRlYzIxNTBlYTc1NTcwMSI.8JoWul2Oi7Qx00JoXcoP4yWs4GtxollwbF8pMipj3KU');
+    expect(token).toMatchObject({ token: 'eyJhbGciOiJIUzI1NiJ9.IjVlNDZmOTQwNmRlYzIxNTBlYTc1NTcwMSI.8JoWul2Oi7Qx00JoXcoP4yWs4GtxollwbF8pMipj3KU' });
 });

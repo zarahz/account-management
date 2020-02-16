@@ -2,11 +2,10 @@ import DecoderService from '../../services/DecoderService.js';
 
 test('Should return the user', async () => {
     const decoderService = new DecoderService();
-    const token = 'eyJhbGciOiJIUzI1NiJ9.IjVlMzE4M2RmNTMwZDZhYTVhODkyMGRlZSI.dc9DYAvJn6bd5Tom4bZIxGYWGvnKcmvtH8qwMlhFIcw';
+    const token = 'eyJhbGciOiJIUzI1NiJ9.IjVlNDZmOTQwNmRlYzIxNTBlYTc1NTcwMSI.8JoWul2Oi7Qx00JoXcoP4yWs4GtxollwbF8pMipj3KU';
     const user = await decoderService.decode(token);
     expect(user).toMatchObject({
-        id: '5e3183df530d6aa5a8920dee',
-        title: 'sir',
+        id: '5e46f9406dec2150ea755701',
         role: 'user',
         firstname: 'john',
         lastname: 'doe',
